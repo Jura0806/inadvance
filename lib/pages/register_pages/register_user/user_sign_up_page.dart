@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inadvance/pages/register_pages/register_user/user_sign_in_page.dart';
 import 'package:inadvance/utils/colors.dart';
 
 class UserSignUp extends StatefulWidget {
@@ -78,7 +79,7 @@ class _UserSignUpState extends State<UserSignUp> {
               onTap: () {
                 if (true) {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => UserSignUp()));
+                      builder: (BuildContext context) => UserSignIn()));
                 } else {}
               },
               child: Container(

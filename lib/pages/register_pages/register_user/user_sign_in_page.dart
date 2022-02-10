@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inadvance/pages/simple_user_screens/user_navigation_bar.dart';
 import 'package:inadvance/utils/colors.dart';
 
 class UserSignIn extends StatefulWidget {
@@ -71,8 +72,7 @@ class _UserSignInState extends State<UserSignIn> {
             InkWell(
               onTap: () {
                 if (true) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => UserSignIn()));
+                Navigator.pushNamedAndRemoveUntil(context, UserNavigationBar.id, (route) => false);
                 } else {}
               },
               child: Container(
