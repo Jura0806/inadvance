@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:inadvance/models/categories_restaurant.dart';
 import 'package:inadvance/models/restaurants_model.dart';
-import 'package:inadvance/pages/about_app_page.dart';
+import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 
 class UserHomeScreen extends StatefulWidget {
@@ -41,21 +41,22 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         restaurantFeedback: 4.9,
         restaurantsFoodType: "National Food"),
   ];
-  List<String> categories = [
-    "Favourites",
-    "New",
-    "Popular",
-    "Cafe",
-    "Chayxana"
+  List<CategoriesRest> categories = [
+    CategoriesRest(category: "Favourites"),
+    CategoriesRest(category: "New"),
+    CategoriesRest(category: "Popular"),
+    CategoriesRest(category: "Cafe"),
+    CategoriesRest(category: "Chayxana"),
   ];
 
   List<Color> colors = [
-    Colors.greenAccent.shade50,
-    Colors.pinkAccent.shade50,
-    Colors.deepPurpleAccent.shade50,
-    Colors.lightGreenAccent.shade50,
-    Colors.limeAccent.shade50,
-    Colors.blueAccent.shade50,
+    // Colors.greenAccent.withOpacity(50),
+    // Colors.pinkAccent.withOpacity(50),
+    // Colors.deepPurpleAccent.withOpacity(50),
+    // Colors.lightGreenAccent.withOpacity(50),
+    // Colors.limeAccent.withOpacity(50),
+    // Colors.blueAccent.withOpacity(50),
+    MainColors.dimRedColor,
   ];
 
   Color colorRandom() {
@@ -66,129 +67,125 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      body: SafeArea(
-          child: ListView(
-        children: [
+      appBar: AppBar(
+        centerTitle: false,
+        title: Container(
+          height: 35,
+          width: SizeConfig.screenWidth! / 1.3,
+          padding: EdgeInsets.only(left: 10),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.location_on),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                "Chilonzor",
+                style: TextStyle(color: Colors.grey.shade700),
+              ),
+            ],
+          ),
+        ),
+        actions: [
           Padding(
-            padding: const EdgeInsets.only(
-              left: 20,
-              right: 20,
-              top: 10,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 35,
-                      width: SizeConfig.screenWidth! / 1.3,
-                      padding: EdgeInsets.only(left: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.location_on),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Chilonzor",
-                            style: TextStyle(color: Colors.grey.shade700),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Icon(Icons.notifications),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Recomment",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    // Container(
-                    //   height: SizeConfig.screenHeight! / 4.5,
-                    //   child: ListView.builder(
-                    //     scrollDirection: Axis.horizontal,
-                    //     itemCount: restaurants.length,
-                    //     itemBuilder: (ctx, i) {
-                    //       return Card(
-                    //         child: Container(
-                    //           width: SizeConfig.screenWidth! / 1.75,
-                    //           height: SizeConfig.screenHeight! / 4.5,
-                    //           decoration: BoxDecoration(
-                    //               borderRadius: BorderRadius.circular(8)),
-                    //           child: topRestaurants(restaurants[i]),
-                    //         ),
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      "All Categories",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    // Container(
-                    //   height: SizeConfig.screenWidth! / 12,
-                    //   child: ListView.separated(
-                    //     scrollDirection: Axis.horizontal,
-                    //     itemCount: categories.length,
-                    //     separatorBuilder: (BuildContext context, int index) =>
-                    //         SizedBox(
-                    //       width: 10,
-                    //     ),
-                    //     itemBuilder: (ctx, i) {
-                    //       return category(categories[i]);
-                    //     },
-                    //   ),
-                    // ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    // Container(
-                    //   width: double.infinity,
-                    //   child: ListView.separated(
-                    //     physics: NeverScrollableScrollPhysics(),
-                    //     itemCount: restaurants.length,
-                    //     itemBuilder: (ctx, i){
-                    //       return Card(
-                    //         child: Container(
-                    //           height: SizeConfig.screenWidth,
-                    //             width: double.infinity,
-                    //             child: allRestaurants(restaurants[i])),
-                    //       );
-                    //     },
-                    //     separatorBuilder: (BuildContext context, index) => SizedBox(height: 10,) ,
-                    //   ),
-                    // )
-                  ],
-                ),
-              ],
-            ),
+            padding: const EdgeInsets.only(right: 10),
+            child: Icon(Icons.notifications),
           ),
         ],
+      ),
+      body:  SafeArea(
+          child: Padding(
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 10,
+        ),
+        child: ListView(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              "Recomment",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            // << Top Restaurants List Horizontall>>
+            Container(
+              height: SizeConfig.screenHeight! / 4.5,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: restaurants.length,
+                itemBuilder: (ctx, i) {
+                  return Card(
+                    child: Container(
+                      width: SizeConfig.screenWidth! / 1.75,
+                      height: SizeConfig.screenHeight! / 4.5,
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                      child: topRestaurants(restaurants[i]),
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              "All Categories",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              height: 40,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: categories.length,
+                itemBuilder: (ctx, i) {
+                  return Container(
+                    height: 40,
+                    margin: EdgeInsets.only(right: 15),
+                    width: categories[i].category.length * 17.5,
+                    decoration: BoxDecoration(
+                      color: colorRandom(),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: category(categories[i]),
+                  );
+                },
+                // separatorBuilder: (BuildContext context, index) => SizedBox(width: 10,),
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Container(
+                width: double.infinity,
+                child: Column(
+                  children: restaurants.map((restoran) => Card(
+                          child: Container(
+                              height: SizeConfig.screenWidth! / 1.65,
+                              //width: double.infinity,
+                              child: allRestaurants(restoran)),
+                        ),
+                      ).toList(),
+                )),
+          ],
+        ),
       )),
     );
   }
@@ -264,81 +261,71 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     );
   }
 
-  Widget category(String category) {
-    return Container(
-      decoration: BoxDecoration(
-        color: colorRandom(),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      height: SizeConfig.screenWidth! / 12,
-      width: category.length * 15,
-      child: Center(
-        child: Text(category),
-      ),
+  Widget category(CategoriesRest categoriesRest) {
+    return Center(
+      child: Text(categoriesRest.category, style: TextStyle(fontWeight: FontWeight.bold),),
     );
   }
 
   Widget allRestaurants(Restaurants restaurants) {
-    return AspectRatio(
-        aspectRatio: 9 / 6,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: SizeConfig.screenWidth! / 2.2,
-              width: double.infinity,
-              child: ClipRRect(
-                child: Image.network(
-                  restaurants.restaurantImage,
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(8), topLeft: Radius.circular(8)),
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: SizeConfig.screenWidth! / 2.2,
+          width: double.infinity,
+          child: ClipRRect(
+            child: Image.network(
+              restaurants.restaurantImage,
+              fit: BoxFit.cover,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, top: 10, right: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(8), topLeft: Radius.circular(8)),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 10, top: 10, right: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        restaurants.restaurantName,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        restaurants.restaurantsFoodType,
-                        style: TextStyle(color: Colors.grey.shade800),
-                      ),
-                    ],
+                  Text(
+                    restaurants.restaurantName,
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.star,
-                        size: 15,
-                        color: Colors.amber,
-                      ),
-                      const SizedBox(
-                        width: 3,
-                      ),
-                      Text(
-                        "${restaurants.restaurantFeedback}",
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  )
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    restaurants.restaurantsFoodType,
+                    style: TextStyle(color: Colors.grey.shade800),
+                  ),
                 ],
               ),
-            )
-          ],
-        ));
+              Row(
+                children: [
+                  Icon(
+                    Icons.star,
+                    size: 15,
+                    color: Colors.amber,
+                  ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    "${restaurants.restaurantFeedback}",
+                    style: TextStyle(
+                        fontSize: 12, fontWeight: FontWeight.bold),
+                  )
+                ],
+              )
+            ],
+          ),
+        )
+      ],
+    );
   }
 }

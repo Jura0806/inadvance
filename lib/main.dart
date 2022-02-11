@@ -6,8 +6,8 @@ import 'package:inadvance/pages/register_pages/register_restaurant_owner/restaur
 import 'package:inadvance/pages/register_pages/register_user/user_sign_up_page.dart';
 import 'package:inadvance/pages/register_pages/who_are_you_register_page.dart';
 import 'package:inadvance/pages/simple_user_screens/user_navigation_bar.dart';
+import 'package:inadvance/pages/simple_user_screens/user_setting_screen.dart';
 import 'package:inadvance/pages/splash_page.dart';
-import 'package:inadvance/utils/colors.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.white,
           elevation: 0,
         ),
-       // backgroundColor: Colors.white
       ),
       home: SplashPage(),
       routes: {
@@ -38,6 +37,7 @@ class MyApp extends StatelessWidget {
         OwnerSignUp.id: (context) => OwnerSignUp(),
         OwnerSignIn.id: (ccontext) => OwnerSignIn(),
         UserNavigationBar.id: (context) => UserNavigationBar(),
+        UserSettingScreen.id: (context) => UserSettingScreen()
       },
     );
   }

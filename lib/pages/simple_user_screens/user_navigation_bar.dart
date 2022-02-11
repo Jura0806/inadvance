@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/simple_user_screens/user_home_screen.dart';
 import 'package:inadvance/pages/simple_user_screens/user_order_screen.dart';
-import 'package:inadvance/pages/simple_user_screens/user_profile_screen.dart';
+import 'package:inadvance/pages/simple_user_screens/user_setting_screen.dart';
 import 'package:inadvance/pages/simple_user_screens/user_search_screen.dart';
 import 'package:inadvance/pages/simple_user_screens/user_shop_screen.dart';
 import 'package:inadvance/utils/colors.dart';
@@ -21,7 +21,7 @@ class _UserNavigationBarState extends State<UserNavigationBar> {
     UserSearchScreen(),
     UserShopScreen(),
     UserOrderScreen(),
-    UserProfileScreen(),
+    UserSettingScreen(),
   ];
 
   @override
@@ -34,6 +34,7 @@ class _UserNavigationBarState extends State<UserNavigationBar> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 10,
+        enableFeedback: true,
         currentIndex: currentIndex,
         onTap: (index) => setState(() => currentIndex = index),
         unselectedItemColor: MainColors.blackColor,
@@ -58,7 +59,7 @@ class _UserNavigationBarState extends State<UserNavigationBar> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            label: "Profil",
+            label: "Sozlamalar",
           ),
         ],
       ),
