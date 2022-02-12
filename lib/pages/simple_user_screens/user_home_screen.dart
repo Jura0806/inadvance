@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:inadvance/models/categories_restaurant.dart';
 import 'package:inadvance/models/restaurants_model.dart';
+import 'package:inadvance/pages/simple_user_screens/restaurant_infos_page.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 
@@ -50,12 +51,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   ];
 
   List<Color> colors = [
-    // Colors.greenAccent.withOpacity(50),
-    // Colors.pinkAccent.withOpacity(50),
-    // Colors.deepPurpleAccent.withOpacity(50),
-    // Colors.lightGreenAccent.withOpacity(50),
-    // Colors.limeAccent.withOpacity(50),
-    // Colors.blueAccent.withOpacity(50),
+    Colors.greenAccent,
+    Colors.pinkAccent,
+    Colors.deepPurpleAccent,
+    Colors.lightGreenAccent,
+    Colors.limeAccent,
+    Colors.blueAccent,
     MainColors.dimRedColor,
   ];
 
@@ -97,7 +98,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           ),
         ],
       ),
-      body:  SafeArea(
+      body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.only(
           left: 20,
@@ -176,13 +177,16 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             Container(
                 width: double.infinity,
                 child: Column(
-                  children: restaurants.map((restoran) => Card(
+                  children: restaurants
+                      .map(
+                        (restoran) => Card(
                           child: Container(
                               height: SizeConfig.screenWidth! / 1.65,
                               //width: double.infinity,
                               child: allRestaurants(restoran)),
                         ),
-                      ).toList(),
+                      )
+                      .toList(),
                 )),
           ],
         ),
@@ -193,16 +197,22 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   Widget topRestaurants(Restaurants restaurants) {
     return Column(
       children: [
-        Container(
-          padding: EdgeInsets.only(bottom: 10),
-          height: SizeConfig.screenHeight! / 6,
-          width: double.infinity,
-          child: ClipRRect(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-            child: Image.network(
-              restaurants.restaurantImage,
-              fit: BoxFit.cover,
+        InkWell(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => RestaurantInfosPage()));
+          },
+          child: Container(
+            padding: EdgeInsets.only(bottom: 10),
+            height: SizeConfig.screenHeight! / 6,
+            width: double.infinity,
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+              child: Image.network(
+                restaurants.restaurantImage,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
@@ -263,7 +273,10 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
 
   Widget category(CategoriesRest categoriesRest) {
     return Center(
-      child: Text(categoriesRest.category, style: TextStyle(fontWeight: FontWeight.bold),),
+      child: Text(
+        categoriesRest.category,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
     );
   }
 
@@ -271,16 +284,22 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          height: SizeConfig.screenWidth! / 2.2,
-          width: double.infinity,
-          child: ClipRRect(
-            child: Image.network(
-              restaurants.restaurantImage,
-              fit: BoxFit.cover,
+        InkWell(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => RestaurantInfosPage()));
+          },
+          child: Container(
+            height: SizeConfig.screenWidth! / 2.2,
+            width: double.infinity,
+            child: ClipRRect(
+              child: Image.network(
+                restaurants.restaurantImage,
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(8), topLeft: Radius.circular(8)),
             ),
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(8), topLeft: Radius.circular(8)),
           ),
         ),
         Padding(
@@ -317,8 +336,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   ),
                   Text(
                     "${restaurants.restaurantFeedback}",
-                    style: TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                   )
                 ],
               )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inadvance/pages/about_app_page.dart';
 import 'package:inadvance/pages/simple_user_screens/user_profile_page.dart';
 import 'package:inadvance/utils/colors.dart';
 
@@ -79,7 +80,11 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                 builder: (BuildContext context) => UserProfilePage()));
           },),
           settingInfos(nameInfo: "To'lov tarixi"),
-          settingInfos(nameInfo: "Ilova haqida"),
+          InkWell(child: settingInfos(nameInfo: "Ilova haqida"),
+            onTap:(){
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => AboutAppPage()));
+            },),
           settingInfos(nameInfo: "Contact"),
           settingInfos(nameInfo: "Languages"),
           settingInfos(nameInfo: "Log Out"),
