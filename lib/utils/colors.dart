@@ -9,4 +9,11 @@ class MainColors{
   static Color textFieldColor = Colors.deepPurple;
   static Color dimRedColor = Color.fromARGB(255,239,195,196);
 
+ static Color  categoryGreen = Colors.greenAccent.withOpacity(.3);
+ static Color  categoryPink = Colors.pinkAccent.withOpacity(.3);
+ static Color  categoryPurple = Colors.deepPurpleAccent.withOpacity(.3);
+ static Color  categoryLightGreen = Colors.lightGreenAccent.withOpacity(.3);
+ static Color  categoryLime = Colors.limeAccent.withOpacity(.3);
+ static Color  categoryBlue = Colors.blueAccent.withOpacity(.3);
+
 }

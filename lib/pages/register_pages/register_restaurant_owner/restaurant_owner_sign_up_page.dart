@@ -44,11 +44,11 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
             const Spacer(
               flex: 3,
             ),
-            textField(labelText: "To'liq ismingiz"),
+            textField(labelText: "Restoran  nomi"),
             const SizedBox(
               height: 20,
             ),
-            textField(labelText: "Telefon raqamingiz"),
+            textField(labelText: "Admin telefon raqami"),
             const SizedBox(
               height: 20,
             ),

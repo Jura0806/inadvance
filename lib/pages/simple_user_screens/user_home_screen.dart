@@ -51,12 +51,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   ];
 
   List<Color> colors = [
-    Colors.greenAccent,
-    Colors.pinkAccent,
-    Colors.deepPurpleAccent,
-    Colors.lightGreenAccent,
-    Colors.limeAccent,
-    Colors.blueAccent,
+    MainColors.categoryBlue,
+    MainColors.categoryGreen,
+    MainColors.categoryLightGreen,
+    MainColors.categoryPurple,
+    MainColors.categoryLime,
+    MainColors.categoryPink,
     MainColors.dimRedColor,
   ];
 

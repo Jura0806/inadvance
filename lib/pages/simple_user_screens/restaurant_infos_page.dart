@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/models/rest_foods.dart';
+import 'package:inadvance/pages/simple_user_screens/user_savatcha_screen.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 
@@ -18,6 +19,8 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
     "Souslar",
     "Taomlar",
   ];
+
+   String foodDescription = "A persistent bottom sheet shows information that supplements the primary content of the app.";
 
   List<RestaurantFood> foods = [
     RestaurantFood(
@@ -58,178 +61,228 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
   bool isSearching = false;
   double width = 80;
   int foodCount = 1;
-
+  bool isAddedFood = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            elevation: 0,
-            floating: false,
-            pinned: true,
-            snap: false,
-            backgroundColor: MainColors.whiteColor,
-            expandedHeight: SizeConfig.screenWidth!,
-            // title: Align(
-            //   alignment: Alignment.topRight,
-            //   child: InkWell(
-            //     onTap: (){
-            //       setState(() {
-            //         isSearching = !isSearching;
-            //       });
-            //     },
-            //     child: AnimatedContainer(
-            //       height: 40,
-            //       width: isSearching? width : SizeConfig.screenWidth! / 1.65,
-            //       decoration: BoxDecoration(
-            //         color: Colors.grey.shade200,
-            //         borderRadius: BorderRadius.circular(8),
-            //       ),
-            //       duration: Duration(milliseconds: 400),
-            //       child: isSearching? searching():  Center(child: Icon(Icons.search_sharp)),
-            //     ),
-            //   ),
-            // ),
-            actions: [
-              Center(child: Icon(Icons.search_sharp)),
-              SizedBox(
-                width: 20,
-              )
-            ],
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text("Rayhon"),
-              centerTitle: false,
-              // titlePadding: EdgeInsets.only(left: 20,),
-              background: Container(
-                height: 200,
-                width: SizeConfig.screenWidth,
-                padding: EdgeInsets.only(top: 25),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                      "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+      body: Stack(
+        alignment: AlignmentDirectional.bottomStart,
+        children: [
+          CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                elevation: 0,
+                floating: false,
+                pinned: true,
+                snap: false,
+                backgroundColor: MainColors.whiteColor,
+                expandedHeight: SizeConfig.screenWidth!,
+                // title: Align(
+                //   alignment: Alignment.topRight,
+                //   child: InkWell(
+                //     onTap: (){
+                //       setState(() {
+                //         isSearching = !isSearching;
+                //       });
+                //     },
+                //     child: AnimatedContainer(
+                //       height: 40,
+                //       width: isSearching? width : SizeConfig.screenWidth! / 1.65,
+                //       decoration: BoxDecoration(
+                //         color: Colors.grey.shade200,
+                //         borderRadius: BorderRadius.circular(8),
+                //       ),
+                //       duration: Duration(milliseconds: 400),
+                //       child: isSearching? searching():  Center(child: Icon(Icons.search_sharp)),
+                //     ),
+                //   ),
+                // ),
+                actions: [
+                  Center(child: Icon(Icons.search_sharp)),
+                  SizedBox(
+                    width: 20,
+                  )
+                ],
+                flexibleSpace: FlexibleSpaceBar(
+                  title: Text("Rayhon"),
+                  centerTitle: false,
+                  // titlePadding: EdgeInsets.only(left: 20,),
+                  background: Container(
+                    height: 200,
+                    width: SizeConfig.screenWidth,
+                    padding: EdgeInsets.only(top: 25),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                          "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              SliverToBoxAdapter(
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "National food",
+                          style: TextStyle(color: Colors.grey[700], fontSize: 17),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: MainColors.greenColor.withOpacity(.2)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.orangeAccent,
+                                    size: 20,
+                                  ),
+                                  Text(" ${4.9}"),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.watch_later,
+                                    color: MainColors.greenColor,
+                                    size: 20,
+                                  ),
+                                  Text(" 9:00 - 22:00"),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.phone,
+                                    color: MainColors.greenColor,
+                                    size: 20,
+                                  ),
+                                  Text(" +998 99 850 75 04"),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Hozir bu restoran yopiq!",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              categoryName("Menu", 25),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 40,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: menuCategories.length,
+                    itemBuilder: (ctx, category) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isCategory = category;
+                          });
+                        },
+                        child: Container(
+                          height: 45,
+                          width: menuCategories[category].length * 15,
+                          margin: EdgeInsets.only(left: 15),
+                          decoration: BoxDecoration(
+                              color: isCategory == category
+                                  ? MainColors.greenColor.withOpacity(.2)
+                                  : Colors.grey[300],
+                              borderRadius: BorderRadius.circular(8)),
+                          child: foodCategories(menuCategories[category]),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              categoryName("Salatlar", 20),
+              SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                sliver: SliverGrid(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return Card(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            alignment: Alignment.center,
+                            child: foodInfos(),
+                          ),
+                        );
+                      },
+                      childCount: foods.length,
+                    ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 7.5,
+                      crossAxisSpacing: 7.5,
+                      childAspectRatio: 3 / 4,
+                    )),
+              ),
+            ],
           ),
-          SliverToBoxAdapter(
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "National food",
-                      style: TextStyle(color: Colors.grey[700], fontSize: 17),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: MainColors.greenColor.withOpacity(.2)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+         isAddedFood? Positioned(
+            bottom: 30,
+            left: 15,
+            child: InkWell(
+              onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => UserShopScreen() ));
+              },
+              child: Container(
+                height: 40,
+                width: SizeConfig.screenWidth! - 30,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: MainColors.greenColor
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
                         children: [
-                          Icon(
-                            Icons.star,
-                            color: Colors.orangeAccent,
-                            size: 20,
-                          ),
-                          Text(" ${4.9}"),
-                          Icon(
-                            Icons.watch_later,
-                            color: MainColors.greenColor,
-                            size: 20,
-                          ),
-                          Text(" 9:00 - 22:00"),
-                          Icon(
-                            Icons.phone,
-                            color: MainColors.greenColor,
-                            size: 20,
-                          ),
-                          Text(" +998 99 850 75 04"),
+                          Icon(Icons.shopping_cart_rounded, color: MainColors.whiteColor,),
+                          SizedBox(width: 5,),
+                          Text("Savatcha $foodCount", style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),),
                         ],
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Hozir bu restoran yopiq!",
-                      style: TextStyle(color: Colors.red),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                  ],
+                     Text("25000 UZS", style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),)
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          categoryName("Menu", 25),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 40,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: menuCategories.length,
-                itemBuilder: (ctx, category) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isCategory = category;
-                      });
-                    },
-                    child: Container(
-                      height: 45,
-                      width: menuCategories[category].length * 15,
-                      margin: EdgeInsets.only(left: 15),
-                      decoration: BoxDecoration(
-                          color: isCategory == category
-                              ? MainColors.greenColor.withOpacity(.2)
-                              : Colors.grey[300],
-                          borderRadius: BorderRadius.circular(8)),
-                      child: foodCategories(menuCategories[category]),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          categoryName("Salatlar", 20),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            sliver: SliverGrid(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return Card(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        alignment: Alignment.center,
-                        child: foodInfos(),
-                      ),
-                    );
-                  },
-                  childCount: foods.length,
-                ),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 7.5,
-                  crossAxisSpacing: 7.5,
-                  childAspectRatio: 3 / 4,
-                )),
-          ),
+          ) :  const SizedBox.shrink(),
         ],
       ),
     );
@@ -241,7 +294,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
       children: [
         InkWell(
           onTap: () => showModalBottomSheet(
-              context: context, builder: (context) => addToSavatcha()),
+              context: context, builder: (context) => bottomSheetAdd()),
           child: Container(
             height: SizeConfig.screenWidth! / 2.2,
             width: double.infinity,
@@ -306,50 +359,62 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
     );
   }
 
-  Widget addToSavatcha() {
+  Widget bottomSheetAdd() {
     return Container(
-      height: 250,
+      height: 160 + foodDescription.length/1.5,
       child: Padding(
         padding: EdgeInsets.all(20),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
               children: [
-                Text(
-                  "Grechiski salat",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Grechiski salat",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    Text(
+                      "23 000 so'm",
+                      style: TextStyle(color: MainColors.greenColor, fontSize: 17),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Text(
-                  "23 000 so'm",
-                  style: TextStyle(color: MainColors.greenColor, fontSize: 17),
-                )
+                  foodDescription,
+                  style: TextStyle(fontSize: 15),
+                ),
               ],
             ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "A persistent bottom sheet shows information that supplements the primary content of the app.",
-              style: TextStyle(fontSize: 15),
-            ),
-            SizedBox(height: 30,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  height: 45,
-                  width: SizeConfig.screenWidth! / 2.8,
-                  decoration: BoxDecoration(
-                    color: MainColors.greenColor,
-                    borderRadius: BorderRadius.circular(8),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pop();
+                    setState(() {
+                      isAddedFood = true;
+                    });
+                  },
+                  child: Container(
+                    height: 45,
+                    width: SizeConfig.screenWidth! / 2.8,
+                    decoration: BoxDecoration(
+                      color: MainColors.greenColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                        child: Text(
+                      "Qo'shish",
+                      style:
+                          TextStyle(color: MainColors.whiteColor, fontSize: 17),
+                    )),
                   ),
-                  child: Center(
-                      child: Text(
-                    "Qo'shish",
-                    style:
-                        TextStyle(color: MainColors.whiteColor, fontSize: 17),
-                  )),
                 ),
                 Container(
                   height: 45,
@@ -361,7 +426,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      InkWell(
+                      GestureDetector(
                         onTap: () {
                           if(foodCount > 1) {
                             setState(() {
@@ -390,7 +455,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                      InkWell(
+                      GestureDetector(
                         onTap: (){
                           setState(() {
                             foodCount++;
@@ -415,7 +480,8 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                   ),
                 )
               ],
-            )
+            ),
+            SizedBox(height: 5,),
           ],
         ),
       ),

@@ -3,7 +3,7 @@ import 'package:inadvance/pages/simple_user_screens/user_home_screen.dart';
 import 'package:inadvance/pages/simple_user_screens/user_order_screen.dart';
 import 'package:inadvance/pages/simple_user_screens/user_setting_screen.dart';
 import 'package:inadvance/pages/simple_user_screens/user_search_screen.dart';
-import 'package:inadvance/pages/simple_user_screens/user_shop_screen.dart';
+import 'package:inadvance/pages/simple_user_screens/user_savatcha_screen.dart';
 import 'package:inadvance/utils/colors.dart';
 
 class UserNavigationBar extends StatefulWidget {

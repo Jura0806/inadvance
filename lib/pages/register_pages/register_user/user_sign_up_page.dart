@@ -11,6 +11,12 @@ class UserSignUp extends StatefulWidget {
 }
 
 class _UserSignUpState extends State<UserSignUp> {
+
+  var fullNameController = TextEditingController();
+  var phoneNumberController = TextEditingController();
+  var loginNameController = TextEditingController();
+  var confirmLoginController = TextEditingController();
+
   bool isHiddenPassword = true;
 
   @override
@@ -43,16 +49,17 @@ class _UserSignUpState extends State<UserSignUp> {
             const Spacer(
               flex: 3,
             ),
-            textField(labelText: "To'liq ismingiz"),
+            textField(labelText: "To'liq ismingiz",controller: fullNameController),
             const SizedBox(
               height: 20,
             ),
-            textField(labelText: "Telefon raqamingiz"),
+            textField(labelText: "Telefon raqamingiz", controller: phoneNumberController),
             const SizedBox(
               height: 20,
             ),
             textField(
                 labelText: "Ilova uchun parol",
+                controller: loginNameController,
                 icon: InkWell(
                     onTap: (){
                   setState(() {
@@ -65,6 +72,7 @@ class _UserSignUpState extends State<UserSignUp> {
             ),
             textField(
                 labelText: "Parolni qaytadan yozish",
+                controller: confirmLoginController,
                 icon: InkWell(
                   onTap: (){
                     setState(() {
@@ -105,8 +113,14 @@ class _UserSignUpState extends State<UserSignUp> {
     );
   }
 
-  Widget textField({required String labelText, InkWell? icon}) {
+  Widget textField({required String labelText, InkWell? icon,required var controller }) {
     return TextFormField(
+      controller: controller,
+        validator: (value){
+        if(value!.isEmpty){
+          return "Iltimos ma'lumotlarni to'ldiring";
+        }
+        },
         obscureText: isHiddenPassword ,
         decoration: InputDecoration(
             labelText: labelText,

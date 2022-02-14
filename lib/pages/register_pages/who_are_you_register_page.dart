@@ -61,7 +61,7 @@ class _FirstRegisterState extends State<FirstRegister> {
             ),
             GestureDetector(
               onTap: () {
-                if (isLogged) {
+                if (isChoose == 2) {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => UserSignUp()));
                 } else {

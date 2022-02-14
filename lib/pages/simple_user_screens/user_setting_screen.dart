@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/about_app_page.dart';
+import 'package:inadvance/pages/choose_language_page.dart';
 import 'package:inadvance/pages/simple_user_screens/user_profile_page.dart';
 import 'package:inadvance/utils/colors.dart';
-
+import 'dart:io' show Platform;
 class UserSettingScreen extends StatefulWidget {
   const UserSettingScreen({Key? key}) : super(key: key);
   static final String id = "user_setting_screen";
@@ -12,12 +14,59 @@ class UserSettingScreen extends StatefulWidget {
 }
 
 class _UserSettingScreenState extends State<UserSettingScreen> {
+
+  void _iosDialog(){
+    showDialog(context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text('Logout'),
+            content: Text('Are you sure you want to logout?'),
+            actions: [
+              CupertinoDialogAction(
+                  isDefaultAction: true,
+                  onPressed: () {},
+                  child: Text('Cancel',style: TextStyle(color: MainColors.greenColor))),
+              CupertinoDialogAction(
+                  isDefaultAction: true,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Confirm',style: TextStyle(color: Colors.redAccent),)),
+            ],
+          );
+        }
+    );
+  }
+  void _androidDialog(){
+    showDialog(context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text('Logout'),
+            content: Text('Are you sure you want to Logout!'),
+            actions: [
+              TextButton(
+                child: Text('Cancel'),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('Confirm'),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-        title: Text("Profile"),
+        title: Text("Sozlamalar"),
       ),
       body: Column(
         children: [
@@ -74,20 +123,32 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
           const Spacer(
             flex: 15,
           ),
-          InkWell(child: settingInfos(nameInfo: "Profile"),
-          onTap:(){
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => UserProfilePage()));
-          },),
+          InkWell(
+            child: settingInfos(nameInfo: "Profile"),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => UserProfilePage()));
+            },
+          ),
           settingInfos(nameInfo: "To'lov tarixi"),
-          InkWell(child: settingInfos(nameInfo: "Ilova haqida"),
-            onTap:(){
+          InkWell(
+            child: settingInfos(nameInfo: "Ilova haqida"),
+            onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => AboutAppPage()));
-            },),
+            },
+          ),
           settingInfos(nameInfo: "Contact"),
-          settingInfos(nameInfo: "Languages"),
-          settingInfos(nameInfo: "Log Out"),
+          InkWell(child: settingInfos(nameInfo: "Languages"), onTap: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ChooseLanguage()));
+          },),
+          InkWell(onTap: () {
+            if(Platform.isAndroid){
+              _androidDialog();
+            }else if(Platform.isIOS){
+              _iosDialog();
+            }
+          }, child: settingInfos(nameInfo: "Log Out")),
           Spacer(
             flex: 50,
           ),
