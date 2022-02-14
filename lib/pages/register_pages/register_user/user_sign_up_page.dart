@@ -12,10 +12,17 @@ class UserSignUp extends StatefulWidget {
 
 class _UserSignUpState extends State<UserSignUp> {
 
+  //final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+
   var fullNameController = TextEditingController();
   var phoneNumberController = TextEditingController();
   var loginNameController = TextEditingController();
   var confirmLoginController = TextEditingController();
+
+  late String fulname = fullNameController.text.toString();
+  late String phoneNumber = fullNameController.text.toString();
+  late String loginNumber = fullNameController.text.toString();
+  late String confirmLogin = fullNameController.text.toString();
 
   bool isHiddenPassword = true;
 
@@ -49,46 +56,58 @@ class _UserSignUpState extends State<UserSignUp> {
             const Spacer(
               flex: 3,
             ),
-            textField(labelText: "To'liq ismingiz",controller: fullNameController),
-            const SizedBox(
-              height: 20,
-            ),
-            textField(labelText: "Telefon raqamingiz", controller: phoneNumberController),
+            textField(
+                labelText: "To'liq ismingiz", controller: fullNameController),
             const SizedBox(
               height: 20,
             ),
             textField(
-                labelText: "Ilova uchun parol",
-                controller: loginNameController,
-                icon: InkWell(
-                    onTap: (){
-                  setState(() {
-                    isHiddenPassword = !isHiddenPassword;
-                  });
-                },
-                    child: Icon(isHiddenPassword? Icons.visibility : Icons.visibility_off)),),
+                labelText: "Telefon raqamingiz",
+                controller: phoneNumberController),
             const SizedBox(
               height: 20,
             ),
             textField(
-                labelText: "Parolni qaytadan yozish",
-                controller: confirmLoginController,
-                icon: InkWell(
-                  onTap: (){
+              labelText: "Ilova uchun parol",
+              controller: loginNameController,
+              icon: InkWell(
+                  onTap: () {
                     setState(() {
                       isHiddenPassword = !isHiddenPassword;
                     });
                   },
-                  child: Icon(isHiddenPassword? Icons.visibility : Icons.visibility_off),),),
+                  child: Icon(isHiddenPassword
+                      ? Icons.visibility
+                      : Icons.visibility_off)),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            textField(
+              labelText: "Parolni qaytadan yozish",
+              controller: confirmLoginController,
+              icon: InkWell(
+                onTap: () {
+                  setState(() {
+                    isHiddenPassword = !isHiddenPassword;
+                  });
+                },
+                child: Icon(
+                    isHiddenPassword ? Icons.visibility : Icons.visibility_off),
+              ),
+            ),
             const Spacer(
               flex: 14,
             ),
             InkWell(
               onTap: () {
+                // if(!_globalKey.currentState!.validate()){
+                //   return;
+                // }
                 if (true) {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => UserSignIn()));
-                } else {}
+                }
               },
               child: Container(
                 height: 55,
@@ -113,32 +132,36 @@ class _UserSignUpState extends State<UserSignUp> {
     );
   }
 
-  Widget textField({required String labelText, InkWell? icon,required var controller }) {
-    return TextFormField(
-      controller: controller,
-        validator: (value){
-        if(value!.isEmpty){
-          return "Iltimos ma'lumotlarni to'ldiring";
-        }
-        },
-        obscureText: isHiddenPassword ,
-        decoration: InputDecoration(
-            labelText: labelText,
-            suffixIcon: icon,
-            // labelStyle: TextStyle(color: MainColors.greenColor),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                  color: MainColors.greenColor,
-                  width: 1,
-                  style: BorderStyle.solid),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                  color: MainColors.textFieldColor,
-                  width: 1,
-                  style: BorderStyle.solid),
-            )));
+  Widget textField(
+      {required String labelText, InkWell? icon, required var controller}) {
+    return Form(
+     // key: _globalKey,
+      child: TextFormField(
+          controller: controller,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return "Iltimos ma'lumotlarni to'ldiring";
+            }
+          },
+          obscureText: isHiddenPassword,
+          decoration: InputDecoration(
+              labelText: labelText,
+              suffixIcon: icon,
+              // labelStyle: TextStyle(color: MainColors.greenColor),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                    color: MainColors.greenColor,
+                    width: 1,
+                    style: BorderStyle.solid),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                    color: MainColors.textFieldColor,
+                    width: 1,
+                    style: BorderStyle.solid),
+              ))),
+    );
   }
 }

@@ -26,8 +26,8 @@ flutter:
 
   assets:
      - assets/images/
-
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+#     - assets/fonts
+#  fonts:
+#     - family: Gilroy
+#       fonts:
+#         - asset: fonts/Gilroy-Regular.ttf

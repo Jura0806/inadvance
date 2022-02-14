@@ -62,6 +62,8 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
   double width = 80;
   int foodCount = 1;
   bool isAddedFood = false;
+
+  late ScrollController controller ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +72,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
         alignment: AlignmentDirectional.bottomStart,
         children: [
           CustomScrollView(
+          //  controller: controller,
             slivers: [
               SliverAppBar(
                 elevation: 0,
@@ -77,27 +80,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                 pinned: true,
                 snap: false,
                 backgroundColor: MainColors.whiteColor,
-                expandedHeight: SizeConfig.screenWidth!,
-                // title: Align(
-                //   alignment: Alignment.topRight,
-                //   child: InkWell(
-                //     onTap: (){
-                //       setState(() {
-                //         isSearching = !isSearching;
-                //       });
-                //     },
-                //     child: AnimatedContainer(
-                //       height: 40,
-                //       width: isSearching? width : SizeConfig.screenWidth! / 1.65,
-                //       decoration: BoxDecoration(
-                //         color: Colors.grey.shade200,
-                //         borderRadius: BorderRadius.circular(8),
-                //       ),
-                //       duration: Duration(milliseconds: 400),
-                //       child: isSearching? searching():  Center(child: Icon(Icons.search_sharp)),
-                //     ),
-                //   ),
-                // ),
+                expandedHeight: SizeConfig.screenWidth!/1.15,
                 actions: [
                   Center(child: Icon(Icons.search_sharp)),
                   SizedBox(
@@ -107,7 +90,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                 flexibleSpace: FlexibleSpaceBar(
                   title: Text("Rayhon"),
                   centerTitle: false,
-                  // titlePadding: EdgeInsets.only(left: 20,),
+                   titlePadding: EdgeInsets.only(left: 15,bottom: 15),
                   background: Container(
                     height: 200,
                     width: SizeConfig.screenWidth,

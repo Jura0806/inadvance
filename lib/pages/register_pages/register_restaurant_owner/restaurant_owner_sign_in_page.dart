@@ -75,7 +75,7 @@ class _OwnerSignInState extends State<OwnerSignIn> {
                 if (true) {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => OwnerSignIn()));
-                } else {}
+                }
               },
               child: Container(
                 height: 55,

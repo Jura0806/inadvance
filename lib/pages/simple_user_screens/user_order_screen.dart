@@ -45,7 +45,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
       body: SafeArea(
         child: ListView(
           children: [
-            isNowOrder == 1? NowOrder(): StoryOrder(),
+            isNowOrder == 1? nowOrder(): storyOrder(),
           ],
         ),
       ),
@@ -80,7 +80,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
     );
   }
 
-  Widget NowOrder() {
+  Widget nowOrder() {
     return Column(
       children: [
         data == null ? Padding(
@@ -139,7 +139,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
     );
   }
 
-  Widget StoryOrder() {
+  Widget storyOrder() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Card(

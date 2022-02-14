@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:inadvance/pages/about_app_page.dart';
 import 'package:inadvance/pages/choose_language_page.dart';
 import 'package:inadvance/utils/colors.dart';
 

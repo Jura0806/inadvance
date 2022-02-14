@@ -63,9 +63,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
           const Spacer(
             flex: 5,
           ),
-          UserInfos(infos: "FirstName"),
-          UserInfos(infos: "LastName"),
-          UserInfos(infos: "Phone Number"),
+          userInfos(infos: "FirstName"),
+          userInfos(infos: "LastName"),
+          userInfos(infos: "Phone Number"),
           Spacer(
             flex: 20,
           ),
@@ -105,7 +105,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     );
   }
 
-  Widget UserInfos({required String infos}) {
+  Widget userInfos({required String infos}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(

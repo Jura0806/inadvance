@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/register_pages/register_restaurant_owner/restaurant_owner_sign_in_page.dart';
-import 'package:inadvance/pages/register_pages/register_user/user_sign_up_page.dart';
 import 'package:inadvance/utils/colors.dart';
 
 class OwnerSignUp extends StatefulWidget {
@@ -81,7 +80,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                 if (true) {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => OwnerSignIn()));
-                } else {}
+                }
               },
               child:  Container(
                 height: 55,

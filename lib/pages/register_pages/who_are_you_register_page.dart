@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inadvance/pages/register_pages/register_restaurant_owner/restaurant_owner_sign_up_page.dart';
-import 'package:inadvance/pages/register_pages/register_user/user_sign_in_page.dart';
 import 'package:inadvance/pages/register_pages/register_user/user_sign_up_page.dart';
 import 'package:inadvance/utils/colors.dart';
 
@@ -64,7 +62,7 @@ class _FirstRegisterState extends State<FirstRegister> {
                 if (isChoose == 2) {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => UserSignUp()));
-                } else {
+                } else if(isChoose == 1) {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => OwnerSignUp()));
                 }

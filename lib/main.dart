@@ -22,6 +22,9 @@ class MyApp extends StatelessWidget {
       title: 'inAdvance',
       theme: ThemeData(
        primarySwatch: Colors.grey,
+        textTheme: TextTheme(
+          headline1: TextStyle(fontFamily: "Gilroy")
+        ),
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
           elevation: 0,

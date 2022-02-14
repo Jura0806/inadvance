@@ -73,7 +73,7 @@ class _UserSignInState extends State<UserSignIn> {
               onTap: () {
                 if (true) {
                 Navigator.pushNamedAndRemoveUntil(context, UserNavigationBar.id, (route) => false);
-                } else {}
+                }
               },
               child: Container(
                 height: 55,

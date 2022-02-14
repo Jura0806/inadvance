@@ -40,6 +40,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               "Please choose which language you want. You can change later in the profile!",
               style: TextStyle(
                 fontSize: 18,
+
               ),
             ),
             Spacer(
