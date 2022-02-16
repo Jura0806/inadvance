@@ -62,6 +62,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
   double width = 80;
   int foodCount = 1;
   bool isAddedFood = false;
+  int foodCost = 23000;
 
   late ScrollController controller ;
   @override
@@ -89,7 +90,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                 ],
                 flexibleSpace: FlexibleSpaceBar(
                   title: Text("Rayhon"),
-                  centerTitle: false,
+                  centerTitle: true,
                    titlePadding: EdgeInsets.only(left: 15,bottom: 15),
                   background: Container(
                     height: 200,
@@ -155,7 +156,9 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                                     color: MainColors.greenColor,
                                     size: 20,
                                   ),
-                                  Text(" +998 99 850 75 04"),
+                                  SelectableText( " +998998507504", onTap: (){
+
+                                  },),
                                 ],
                               ),
                             ],
@@ -259,7 +262,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                           Text("Savatcha $foodCount", style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),),
                         ],
                       ),
-                     Text("25000 UZS", style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),)
+                     Text("${foodCost * foodCount} UZS", style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),)
                     ],
                   ),
                 ),
@@ -307,7 +310,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                 height: 5,
               ),
               Text(
-                "${23000} UZS",
+                "$foodCost UZS",
                 style: TextStyle(fontSize: 15),
               )
             ],
@@ -343,131 +346,135 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
   }
 
   Widget bottomSheetAdd() {
-    return Container(
-      height: 160 + foodDescription.length/1.5,
-      child: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter myState){
+        return Container(
+          height: 160 + foodDescription.length/1.5,
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Grechiski salat",
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        Text(
+                          "23 000 so'm",
+                          style: TextStyle(color: MainColors.greenColor, fontSize: 17),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      foodDescription,
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Grechiski salat",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).pop();
+                        setState(() {
+                          isAddedFood = true;
+                        });
+                      },
+                      child: Container(
+                        height: 45,
+                        width: SizeConfig.screenWidth! / 2.8,
+                        decoration: BoxDecoration(
+                          color: MainColors.greenColor,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Center(
+                            child: Text(
+                              "Qo'shish",
+                              style:
+                              TextStyle(color: MainColors.whiteColor, fontSize: 17),
+                            )),
+                      ),
                     ),
-                    Text(
-                      "23 000 so'm",
-                      style: TextStyle(color: MainColors.greenColor, fontSize: 17),
+                    Container(
+                      height: 45,
+                      width: SizeConfig.screenWidth! / 2,
+                      decoration: BoxDecoration(
+                        color: MainColors.greenColor.withOpacity(.2),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              if(foodCount > 1) {
+                                myState(() {
+                                  foodCount--;
+                                });
+                              }
+
+                            },
+                            child: Container(
+                              height: 35,
+                              width: 35,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Text(
+                                    "-",
+                                    style: TextStyle(fontSize: 30),
+                                  )),
+                            ),
+                          ),
+                          Text(
+                            "$foodCount",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          GestureDetector(
+                            onTap: (){
+                             myState((){
+                               foodCount++;
+                             });
+                            },
+                            child: Container(
+                              height: 35,
+                              width: 35,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Text(
+                                    "+",
+                                    style: TextStyle(fontSize: 25),
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  foodDescription,
-                  style: TextStyle(fontSize: 15),
-                ),
+                SizedBox(height: 5,),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).pop();
-                    setState(() {
-                      isAddedFood = true;
-                    });
-                  },
-                  child: Container(
-                    height: 45,
-                    width: SizeConfig.screenWidth! / 2.8,
-                    decoration: BoxDecoration(
-                      color: MainColors.greenColor,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                        child: Text(
-                      "Qo'shish",
-                      style:
-                          TextStyle(color: MainColors.whiteColor, fontSize: 17),
-                    )),
-                  ),
-                ),
-                Container(
-                  height: 45,
-                  width: SizeConfig.screenWidth! / 2,
-                  decoration: BoxDecoration(
-                    color: MainColors.greenColor.withOpacity(.2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          if(foodCount > 1) {
-                            setState(() {
-                              foodCount--;
-                            });
-                          }
-
-                        },
-                        child: Container(
-                          height: 35,
-                          width: 35,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Align(
-                              alignment: Alignment.topCenter,
-                              child: Text(
-                                "-",
-                                style: TextStyle(fontSize: 30),
-                              )),
-                        ),
-                      ),
-                      Text(
-                        "$foodCount",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            foodCount++;
-                          });
-                        },
-                        child: Container(
-                          height: 35,
-                          width: 35,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Align(
-                              alignment: Alignment.topCenter,
-                              child: Text(
-                                "+",
-                                style: TextStyle(fontSize: 25),
-                              )),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            SizedBox(height: 5,),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

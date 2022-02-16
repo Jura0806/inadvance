@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:inadvance/pages/simple_user_screens/user_home_screen.dart';
-import 'package:inadvance/pages/simple_user_screens/user_order_screen.dart';
-import 'package:inadvance/pages/simple_user_screens/user_setting_screen.dart';
-import 'package:inadvance/pages/simple_user_screens/user_search_screen.dart';
-import 'package:inadvance/pages/simple_user_screens/user_savatcha_screen.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:inadvance/utils/colors.dart';
-import 'package:inadvance/utils/user_navigation_bar_icons.dart';
+import 'package:inadvance/utils/owner_navigation_bar_icons.dart';
 
-class UserNavigationBar extends StatefulWidget {
-  const UserNavigationBar({Key? key}) : super(key: key);
-  static final String id = "user_navigate_screen";
+import 'owner_home_screen.dart';
+import 'owner_menu_screen.dart';
+import 'owner_order_screen.dart';
+import 'owner_setting_screen.dart';
+import 'owner_table_screen.dart';
+
+class OwnerNavigationBar extends StatefulWidget {
+  const OwnerNavigationBar({Key? key}) : super(key: key);
+  static final String id = "owner_navigation_bar";
 
   @override
-  _UserNavigationBarState createState() => _UserNavigationBarState();
+  _OwnerNavigationBarState createState() => _OwnerNavigationBarState();
 }
 
-class _UserNavigationBarState extends State<UserNavigationBar> {
+class _OwnerNavigationBarState extends State<OwnerNavigationBar> {
+
   int currentIndex = 0;
   final screens = [
-    UserHomeScreen(),
-    UserSearchScreen(),
-    UserShopScreen(),
-    UserOrderScreen(),
-    UserSettingScreen(),
+    OwnerHomeScreen(),
+    OwnerMenuScreen(),
+    OwnerTableScreen(),
+    OwnerOrderScreen(),
+    OwnerSettingScreen(),
   ];
 
   @override
@@ -50,11 +52,11 @@ class _UserNavigationBarState extends State<UserNavigationBar> {
           ),
           BottomNavigationBarItem(
             icon: bottomBarIcon(1),
-            label: "Qidiruv",
+            label: "Menyu",
           ),
           BottomNavigationBarItem(
             icon: bottomBarIcon(2),
-            label: "Savatcha",
+            label: "Stollar",
           ),
           BottomNavigationBarItem(
             icon: bottomBarIcon(3),
@@ -71,9 +73,11 @@ class _UserNavigationBarState extends State<UserNavigationBar> {
 
   Widget bottomBarIcon(int iconNumber) {
     return SvgPicture.asset(
-      userBottomBarIcons[iconNumber]["active"].toString(),
+      ownerBottomBarIcons[iconNumber]["active"].toString(),
       color: currentIndex == iconNumber? MainColors.greenColor : MainColors.blackColor,
       height:  currentIndex == iconNumber? 25 : 20,
     );
   }
+
+
 }

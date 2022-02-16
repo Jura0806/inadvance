@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:inadvance/pages/restaurant_owner_screens/owner_navigation_bar.dart';
 import 'package:inadvance/utils/colors.dart';
 
 class OwnerSignIn extends StatefulWidget {
@@ -73,8 +74,7 @@ class _OwnerSignInState extends State<OwnerSignIn> {
             InkWell(
               onTap: () {
                 if (true) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => OwnerSignIn()));
+                  Navigator.pushNamedAndRemoveUntil(context, OwnerNavigationBar.id, (route) => false);
                 }
               },
               child: Container(

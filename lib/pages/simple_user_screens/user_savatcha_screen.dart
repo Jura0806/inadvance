@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inadvance/pages/simple_user_screens/user_payment_page.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 
@@ -12,7 +13,7 @@ class UserShopScreen extends StatefulWidget {
 
 class _UserShopScreenState extends State<UserShopScreen> {
   int foodCount = 1;
-  final int i =1;
+  final int i = 1;
 
   List? data = [];
 
@@ -31,50 +32,68 @@ class _UserShopScreenState extends State<UserShopScreen> {
           ),
         ],
       ),
-      body: data == null ? Center(child: Text("Savatcha bo'sh",style: TextStyle(fontSize: 20),),): Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: ListView(
-          children: [
-            Text(
-              "Rayhon",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            foods(),
-            foods(),
-
-            SizedBox(height: SizeConfig.screenWidth!*1.1 * i),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: data == null
+          ? Center(
+              child: Text(
+                "Savatcha bo'sh",
+                style: TextStyle(fontSize: 20),
+              ),
+            )
+          : ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               children: [
-              Text("Jami summa", style: TextStyle(fontSize: 20),),
-                Text("94 000 UZS", style: TextStyle(fontSize: 20, color: MainColors.greenColor),)
-              ],
-            ),
-            SizedBox(height: 20,),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                height: 55,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: MainColors.greenColor,
-                  borderRadius: BorderRadius.circular(8),
+                Text(
+                  "Rayhon",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                 ),
-                child: Center(
-                  child: Text(
-                    "Davom etish",
-                    style:
-                        TextStyle(color: MainColors.whiteColor, fontSize: 20),
+                const SizedBox(
+                  height: 25,
+                ),
+                foods(),
+                foods(),
+                foods(),
+                foods(),
+                SizedBox(height: SizeConfig.screenWidth! * 1.1 - 3 * 95),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Jami summa",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      "94 000 UZS",
+                      style:
+                          TextStyle(fontSize: 20, color: MainColors.greenColor),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => UserPaymentPage()));
+                  },
+                  child: Container(
+                    height: 55,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: MainColors.greenColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Davom etish",
+                        style: TextStyle(
+                            color: MainColors.whiteColor, fontSize: 20),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
     );
   }
 
