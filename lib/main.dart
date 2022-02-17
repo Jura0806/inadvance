@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: SplashPage(),
+      home: OwnerNavigationBar(),
       routes: {
         SplashPage.id: (context) => SplashPage(),
         AboutAppPage.id: (context) => AboutAppPage(),
