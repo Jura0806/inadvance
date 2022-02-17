@@ -174,7 +174,6 @@ class _RestProfilePageState extends State<RestProfilePage> {
               ))),
     );
   }
-
   Widget timeInput({required String isOpen, required String time}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
