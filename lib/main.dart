@@ -15,7 +15,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
         FirstRegister.id: (context) => FirstRegister(),
         UserSignUp.id: (context) => UserSignUp(),
         OwnerSignUp.id: (context) => OwnerSignUp(),
-        OwnerSignIn.id: (ccontext) => OwnerSignIn(),
+        OwnerSignIn.id: (context) => OwnerSignIn(),
         UserNavigationBar.id: (context) => UserNavigationBar(),
         UserSettingScreen.id: (context) => UserSettingScreen(),
         OwnerNavigationBar.id: (context) => OwnerNavigationBar()

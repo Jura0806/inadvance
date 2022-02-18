@@ -8,6 +8,7 @@ class MainColors{
   static Color blackColor = Color.fromARGB(255, 26, 26, 26);
   static Color textFieldColor = Colors.deepPurple;
   static Color dimRedColor = Color.fromARGB(255,239,195,196);
+  static Color redColor = Color.fromARGB(255, 235, 0, 0);
 
  static Color  categoryGreen = Colors.greenAccent.withOpacity(.3);
  static Color  categoryPink = Colors.pinkAccent.withOpacity(.3);

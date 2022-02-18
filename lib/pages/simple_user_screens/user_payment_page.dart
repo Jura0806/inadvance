@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/simple_user_screens/user_payment_confirm.dart';
 import 'package:inadvance/utils/colors.dart';
-import 'package:inadvance/utils/responsive_size.dart';
 
 class UserPaymentPage extends StatefulWidget {
   const UserPaymentPage({Key? key}) : super(key: key);

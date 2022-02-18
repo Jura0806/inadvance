@@ -47,11 +47,13 @@ class _RestProfilePageState extends State<RestProfilePage> {
                             "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/1200px-Barbieri_-_ViaSophia25668.jpg"))),
                 child: Container(
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
                     gradient: LinearGradient(colors: [
                       Colors.black.withOpacity(.4),
                       Colors.black.withOpacity(.4),
                       Colors.black.withOpacity(.4),
-                    ]),
+                    ],
+                    ),
                   ),
                 ),
               ),
