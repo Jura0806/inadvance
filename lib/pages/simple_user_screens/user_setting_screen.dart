@@ -5,6 +5,7 @@ import 'package:inadvance/pages/choose_language_page.dart';
 import 'package:inadvance/pages/simple_user_screens/user_profile_page.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'dart:io' show Platform;
+
 class UserSettingScreen extends StatefulWidget {
   const UserSettingScreen({Key? key}) : super(key: key);
   static final String id = "user_setting_screen";
