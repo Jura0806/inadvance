@@ -89,7 +89,7 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    categoryOrders(categoryName: "Hozirgi", x: 1),
+                    categoryOrders(categoryName: "Bugungi", x: 1),
                     categoryOrders(categoryName: "Tarix", x: 2),
                   ],
                 ),

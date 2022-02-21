@@ -1,20 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:inadvance/pages/about_app_page.dart';
 import 'package:inadvance/pages/choose_language_page.dart';
 import 'package:inadvance/pages/register_pages/register_restaurant_owner/restaurant_owner_sign_in_page.dart';
 import 'package:inadvance/pages/register_pages/register_restaurant_owner/restaurant_owner_sign_up_page.dart';
 import 'package:inadvance/pages/register_pages/register_user/user_sign_up_page.dart';
 import 'package:inadvance/pages/register_pages/who_are_you_register_page.dart';
+import 'package:inadvance/pages/restaurant_owner_screens/owner_home_screen.dart';
 import 'package:inadvance/pages/restaurant_owner_screens/owner_navigation_bar.dart';
 import 'package:inadvance/pages/simple_user_screens/user_navigation_bar.dart';
 import 'package:inadvance/pages/simple_user_screens/user_setting_screen.dart';
 import 'package:inadvance/pages/splash_page.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox("OwnerSignUp");
+  await Hive.openBox("OwnerSignIn");
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
+  _startPage(){
+    if(Hive.box("OwnerSignUp").isEmpty){
+      return  OwnerSignUp();
+    }else{
+      return OwnerHomeScreen();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,14 +37,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
        primarySwatch: Colors.grey,
         textTheme: TextTheme(
-          headline1: TextStyle(fontFamily: "Gilroy")
+          headline1: TextStyle(fontFamily: "Gilroy"),
         ),
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
           elevation: 0,
         ),
       ),
-      home: OwnerNavigationBar(),
+      home: _startPage(),
       routes: {
         SplashPage.id: (context) => SplashPage(),
         AboutAppPage.id: (context) => AboutAppPage(),

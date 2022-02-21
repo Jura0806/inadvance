@@ -149,7 +149,7 @@ class _ClientStoryPageState extends State<ClientStoryPage> {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -174,7 +174,7 @@ class _ClientStoryPageState extends State<ClientStoryPage> {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(orderFoods["images"]),
-                      )
+                      ),
                   ),
                 ),
                 title:  Text(orderFoods["title"],style: TextStyle(fontWeight: FontWeight.bold),),
