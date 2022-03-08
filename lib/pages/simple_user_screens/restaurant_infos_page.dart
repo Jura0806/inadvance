@@ -95,15 +95,12 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                   background: Container(
                     height: 200,
                     width: SizeConfig.screenWidth,
-                    padding: EdgeInsets.only(top: 25),
+                    margin: EdgeInsets.only(top: 40),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
-                          "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
-                    ),
+                    child: Image.network(
+                      "https://media-cdn.tripadvisor.com/media/photo-s/1a/18/3a/cb/restaurant-le-47.jpg"),
                   ),
                 ),
               ),

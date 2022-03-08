@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:inadvance/models/restaurant_profile_model.dart';
+import 'package:inadvance/pages/restaurant_owner_screens/owner_setting_screen.dart';
+import 'package:inadvance/services/hive_db_owner_service.dart';
+import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
+import 'dart:io';
 
 class RestProfilePage extends StatefulWidget {
   const RestProfilePage({Key? key}) : super(key: key);
@@ -11,6 +19,80 @@ class RestProfilePage extends StatefulWidget {
 }
 
 class _RestProfilePageState extends State<RestProfilePage> {
+  late final _formKey = GlobalKey<FormState>();
+  File? _imageRest;
+  bool isLoading = false;
+
+  var nameController = TextEditingController();
+  var phoneController = TextEditingController();
+  var locationController = TextEditingController();
+  var bankNumberController = TextEditingController();
+  var openTimeController = TextEditingController();
+  var closeTimeController = TextEditingController();
+  var mapInController = TextEditingController();
+  var mapItController = TextEditingController();
+
+  void _createProfile() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      var profile = RestaurantProfileModel(
+          name: nameController.text,
+          image_path: _imageRest!,
+          bank_number: bankNumberController.text,
+          phone: phoneController.text,
+          open_time: openTimeController.text,
+          close_time: closeTimeController.text,
+          map_In: mapInController.text,
+          map_It: mapItController.text);
+      setState(() {
+        isLoading = true;
+      });
+      var response = await OwnerNetwork.ownerProfile(
+          OwnerNetwork.Api_Restaurant_Profile,
+          Hive.box("OwnerProfile").isEmpty?
+          OwnerNetwork.paramsOwnerProfile(profile): OwnerNetwork.paramsOwnerProfilePut(profile));
+      setState(() {
+        if(response != null ){
+          _doSaveHive();
+        }
+        isLoading = false;
+      });
+      print("New User Restaurant => $response");
+    }
+  }
+
+  void _doSaveHive(){
+    var profile = RestaurantProfileModel(
+        name: nameController.text,
+        image_path: _imageRest!,
+        bank_number: bankNumberController.text,
+        phone: phoneController.text,
+        open_time: openTimeController.text,
+        close_time: closeTimeController.text,
+        map_In: mapInController.text,
+        map_It: mapItController.text);
+
+    OwnerProfile().storeProfile(profile);
+    var profileLocal = OwnerProfile().loadProfile();
+    setState(() {
+      _imageRest = profileLocal.image_path;
+    });
+    Navigator.pushNamedAndRemoveUntil(
+        context, OwnerSettingScreen.id, (route) => false);
+  }
+
+  Future getImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      final imageTemporary = File(image.path);
+      setState(() => this._imageRest = imageTemporary);
+    } on PlatformException catch (e) {
+      print("Failed to pick image: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -19,142 +101,184 @@ class _RestProfilePageState extends State<RestProfilePage> {
         title: Text("Profile"),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _createProfile();
+            },
             icon: SvgPicture.asset(
               "assets/images/vector_ok.svg",
               height: 22.5,
             ),
           ),
-          // SizedBox(
-          //   width: 10,
-          // ),
         ],
       ),
-      body: Column(
-        children: [
-          Stack(
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
             children: [
-              Container(
-                height: 200,
-                margin: EdgeInsets.only(bottom: 50),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(8),
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(
-                            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/1200px-Barbieri_-_ViaSophia25668.jpg"))),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    gradient: LinearGradient(colors: [
-                      Colors.black.withOpacity(.4),
-                      Colors.black.withOpacity(.4),
-                      Colors.black.withOpacity(.4),
-                    ],
+              Stack(
+                children: [
+                  Container(
+                    height: 200,
+                    margin: EdgeInsets.only(
+                      bottom: 50,
+                    ),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: _imageRest == null
+                                ? Image.asset(
+                                    "assets/images/default_image.png",
+                                    fit: BoxFit.fill,
+                                    width: double.infinity,
+                                  )
+                                : Image.file(
+                                    _imageRest!,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                  )),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.black.withOpacity(.2),
+                                Colors.black.withOpacity(.2),
+                                Colors.black.withOpacity(.2),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ),
-              Positioned(
-                left: SizeConfig.screenWidth! / 2.5,
-                top: 150,
-                child: Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: MainColors.dimRedColor,
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              "https://scontent.ftas2-2.fna.fbcdn.net/v/t1.6435-1/147758135_2883057468590967_3283438224948433812_n.jpg?stp=dst-jpg_p720x720&_nc_cat=105&ccb=1-5&_nc_sid=1eb0c7&_nc_ohc=GzSj92nGIEAAX-EF1pd&_nc_ht=scontent.ftas2-2.fna&oh=00_AT_v--ZR3tfNgI1omykU60HmU2ULGmGL9NRF7z9fFT6jXQ&oe=6232FF9A")),
-                      border:
-                          Border.all(width: 3, color: MainColors.greenColor)),
-                ),
-              ),
-              Positioned(
-                top: 150,
-                left: SizeConfig.screenWidth! / 1.15,
-                child: Container(
-                  height: 45,
-                  width: 45,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(colors: [
-                      Colors.white.withOpacity(.3),
-                      Colors.white.withOpacity(.3),
-                      Colors.white.withOpacity(.3)
-                    ]),
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.camera_alt_outlined,
-                      color: Colors.white,
+                  Positioned(
+                    left: SizeConfig.screenWidth! / 2.5,
+                    top: 150,
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: MainColors.dimRedColor,
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                  "https://scontent.ftas2-2.fna.fbcdn.net/v/t1.6435-1/147758135_2883057468590967_3283438224948433812_n.jpg?stp=dst-jpg_p720x720&_nc_cat=105&ccb=1-5&_nc_sid=1eb0c7&_nc_ohc=GzSj92nGIEAAX-EF1pd&_nc_ht=scontent.ftas2-2.fna&oh=00_AT_v--ZR3tfNgI1omykU60HmU2ULGmGL9NRF7z9fFT6jXQ&oe=6232FF9A")),
+                          border: Border.all(
+                              width: 3, color: MainColors.greenColor)),
                     ),
                   ),
-                ),
-              ),
-              Positioned(
-                top: 150,
-                left: SizeConfig.screenWidth! / 1.8,
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: MainColors.whiteColor,
-                      border: Border.all(
-                        width: 3,
-                        color: MainColors.greenColor,
-                      )),
-                  child: Center(
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.camera_alt_outlined,
-                        color: MainColors.greenColor,
-                        size: 20,
+                  Positioned(
+                    top: 150,
+                    left: SizeConfig.screenWidth! / 1.15,
+                    child: GestureDetector(
+                      onTap: () => getImage(),
+                      child: Container(
+                        height: 45,
+                        width: 45,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(colors: [
+                            Colors.white.withOpacity(.3),
+                            Colors.white.withOpacity(.3),
+                            Colors.white.withOpacity(.3)
+                          ]),
+                        ),
+                        child: Icon(
+                          Icons.camera_alt_outlined,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  Positioned(
+                    top: 150,
+                    left: SizeConfig.screenWidth! / 1.8,
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: MainColors.whiteColor,
+                          border: Border.all(
+                            width: 3,
+                            color: MainColors.greenColor,
+                          )),
+                      child: Center(
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.camera_alt_outlined,
+                            color: MainColors.greenColor,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              SizedBox(
+                height: 15,
+              ),
+              textField(labelText: "Restoran nomi", controller: nameController),
+              textField(labelText: "Admin raqami", controller: phoneController),
+              textField(
+                  labelText: "Shahar va lokatsiya",
+                  icon: Icons.location_on,
+                  controller: locationController),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  timeInput(
+                      isOpen: "Ochiladi",
+                      time: "8:00",
+                      controller: openTimeController),
+                  timeInput(
+                      isOpen: "Yopiladi",
+                      time: "21:00",
+                      controller: closeTimeController),
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              textField(
+                  labelText: "Restoran hisob raqami",
+                  controller: bankNumberController)
             ],
           ),
-          SizedBox(
-            height: 15,
-          ),
-          textfield(labelText: "Restoran nomi"),
-          textfield(labelText: "Admin raqami"),
-          textfield(labelText: "Shahar va lokatsiya", icon: Icons.location_on),
-          SizedBox(
-            height: 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              timeInput(isOpen: "Ochiladi", time: "6:00"),
-              timeInput(isOpen: "Yopiladi", time: "21:00"),
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          textfield(labelText: "Restoran hisob raqami")
-        ],
+        ),
       ),
     );
   }
 
-  Widget textfield({required String labelText, IconData? icon}) {
+  Widget textField(
+      {required String labelText,
+      IconData? icon,
+      required TextEditingController controller}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: TextFormField(
+          validator: (input) {
+            if (input!.isEmpty) {
+              return "Iltimos ma'lumotlarni to'liq kiriting!";
+            }
+          },
+          controller: controller,
           decoration: InputDecoration(
               labelText: labelText,
+              //floatingLabelBehavior: Hive.box("OwnerProfile").isEmpty?  FloatingLabelBehavior.always: FloatingLabelBehavior.never,
+              alignLabelWithHint: true,
               suffixIcon: Icon(
                 icon,
                 color: MainColors.greenColor,
@@ -176,7 +300,11 @@ class _RestProfilePageState extends State<RestProfilePage> {
               ))),
     );
   }
-  Widget timeInput({required String isOpen, required String time}) {
+
+  Widget timeInput(
+      {required String isOpen,
+      required String time,
+      required TextEditingController controller}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -192,7 +320,14 @@ class _RestProfilePageState extends State<RestProfilePage> {
             borderRadius: BorderRadius.circular(8),
             color: MainColors.greenColor.withOpacity(.3),
           ),
-          child: TextField(
+          child: TextFormField(
+
+            validator: (input) {
+              if (input!.isEmpty) {
+                return "Iltimos ma'lumotlarni to'liq kiriting!";
+              }
+            },
+            controller: controller,
             decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: time,

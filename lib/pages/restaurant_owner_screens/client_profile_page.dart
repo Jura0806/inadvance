@@ -3,7 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inadvance/utils/colors.dart';
 
 class ClientProfilePage extends StatefulWidget {
-  const ClientProfilePage({Key? key}) : super(key: key);
+  int item ;
+  ClientProfilePage({Key? key, required this.item}) : super(key: key);
 
   @override
   _ClientProfilePageState createState() => _ClientProfilePageState();
@@ -67,16 +68,22 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border:
-                                Border.all(width: 3, color: MainColors.greenColor),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0aZ_qZ41uKX9HA5EQsxP6tdrUUZBA1auZQ&usqp=CAU"))),
+                      Center(
+                        child: Hero(
+                          transitionOnUserGestures: true,
+                          tag: widget.item,
+                          child: Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border:
+                                    Border.all(width: 3, color: MainColors.greenColor),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0aZ_qZ41uKX9HA5EQsxP6tdrUUZBA1auZQ&usqp=CAU"))),
+                          ),
+                        ),
                       ),
                       SizedBox(width: 30,),
                       Column(

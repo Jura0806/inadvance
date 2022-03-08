@@ -14,7 +14,6 @@ class FirstRegister extends StatefulWidget {
 class _FirstRegisterState extends State<FirstRegister> {
   int isChoose = 4;
   int x = 0;
-  var isLogged = true;
 
   @override
   Widget build(BuildContext context) {

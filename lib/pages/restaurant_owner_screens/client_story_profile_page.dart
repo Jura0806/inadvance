@@ -3,7 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:inadvance/utils/colors.dart';
 
 class ClientStoryPage extends StatefulWidget {
-  const ClientStoryPage({Key? key}) : super(key: key);
+  int item;
+  ClientStoryPage({Key? key, required this.item}) : super(key: key);
 
   @override
   _ClientStoryPageState createState() => _ClientStoryPageState();
@@ -66,16 +67,20 @@ class _ClientStoryPageState extends State<ClientStoryPage> {
               children: [
                 Row(
                   children: [
-                    Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border:
-                          Border.all(width: 3, color: MainColors.redColor),
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  "https://1.bp.blogspot.com/-34OVFeumu1A/YUgU7sm4yLI/AAAAAAAAN8M/lk6xkZKO7CYUMYKBFCz9FL3o05eOu7ydwCLcBGAsYHQ/s720/DP%2BFor%2BGirls%2B%252813%2529.jpg"))),
+                    Hero(
+                      transitionOnUserGestures: true,
+                      tag: widget.item,
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border:
+                            Border.all(width: 3, color: MainColors.redColor),
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    "https://1.bp.blogspot.com/-34OVFeumu1A/YUgU7sm4yLI/AAAAAAAAN8M/lk6xkZKO7CYUMYKBFCz9FL3o05eOu7ydwCLcBGAsYHQ/s720/DP%2BFor%2BGirls%2B%252813%2529.jpg"))),
+                      ),
                     ),
                     SizedBox(width: 30,),
                     Column(

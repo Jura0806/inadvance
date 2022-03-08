@@ -1,17 +1,15 @@
-
-class OwnerLogin{
-
+class OwnerSignIn {
   late String login;
   late String password;
 
-  OwnerLogin({required this.login, required this.password});
+  OwnerSignIn({required this.login, required this.password});
 
-  OwnerLogin.formJson(Map<String, dynamic> json)
-      :login = json["login"],
-       password = json["password"];
+  OwnerSignIn.formJson(Map<String, dynamic> json)
+      : login = json["login"],
+        password = json["password"];
 
   Map<String, dynamic> toJson() => {
-    "login" :login,
-    "password" : password,
-  };
+        "login": login,
+        "password": password,
+      };
 }

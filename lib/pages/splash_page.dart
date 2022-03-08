@@ -2,7 +2,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:inadvance/pages/choose_language_page.dart';
+import 'package:inadvance/pages/restaurant_owner_screens/owner_navigation_bar.dart';
 import 'package:inadvance/utils/colors.dart';
 
 class SplashPage extends StatefulWidget {
@@ -17,13 +19,18 @@ class _SplashPageState extends State<SplashPage> {
 
     bool isLoggedIn = false;
 
-  _initTimer(){
-    Timer(Duration(seconds: 3), (){
-      if(isLoggedIn){
-       // Navigator.pushReplacementNamed(context, HomePage.id);
+    _startPage(){
+      if(Hive.box("OwnerSignUp").isEmpty && Hive.box("OwnerSignIn").isEmpty){
+        return  Navigator.pushReplacementNamed(context, ChooseLanguage.id);
       }else{
-        Navigator.pushReplacementNamed(context, ChooseLanguage.id);
+        return  Navigator.pushNamedAndRemoveUntil(
+            context, OwnerNavigationBar.id, (route) => false);
       }
+    }
+
+  _initTimer(){
+    Timer(Duration(seconds: 2), (){
+     _startPage();
     });
   }
   @override

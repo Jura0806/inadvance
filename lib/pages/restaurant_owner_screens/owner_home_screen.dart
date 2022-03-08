@@ -174,7 +174,8 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                 onPressed: (){
                   HiveOwnerSignUp().removeOwner();
                 },
-                child: Text("Remove_Owner's_Register_Data"))
+                child: Text("Remove_Owner's_Register_Data")),
+
           ],
         ),
       ),

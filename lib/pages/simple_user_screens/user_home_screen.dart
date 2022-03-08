@@ -293,9 +293,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             height: SizeConfig.screenWidth! / 2.2,
             width: double.infinity,
             child: ClipRRect(
-              child: Image.network(
-                restaurants.restaurantImage,
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: "1",
+                child: Image.network(
+                  restaurants.restaurantImage,
+                  fit: BoxFit.cover,
+                ),
               ),
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(8), topLeft: Radius.circular(8)),

@@ -118,7 +118,7 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                       itemBuilder: (context, i) => GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) => ClientProfilePage()));
+                              builder: (BuildContext context) => ClientProfilePage(item: i,)));
                         },
                         child: Card(
                           elevation: 4,
@@ -129,19 +129,23 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                             width: double.infinity,
                             child: Center(
                               child: ListTile(
-                                leading: Container(
-                                  height: 55,
-                                  width: 55,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        width: 2,
-                                        color: MainColors.greenColor,
-                                      ),
-                                      image: DecorationImage(
-                                        image:
-                                            NetworkImage(clients[i]["image"]),
-                                      )),
+                                leading: Hero(
+                                  transitionOnUserGestures: true,
+                                  tag: i,
+                                  child: Container(
+                                    height: 55,
+                                    width: 55,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          width: 2,
+                                          color: MainColors.greenColor,
+                                        ),
+                                        image: DecorationImage(
+                                          image:
+                                              NetworkImage(clients[i]["image"]),
+                                        )),
+                                  ),
                                 ),
                                 title: Text(
                                   clients[i]['fullName'],
@@ -177,7 +181,7 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                       itemCount: storyClients.length,
                       itemBuilder: (context, i) => GestureDetector(
                         onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ClientStoryPage()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ClientStoryPage(item: i,)));
                         },
                         child: Card(
                           elevation: 4,
@@ -188,19 +192,23 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                             width: double.infinity,
                             child: Center(
                               child: ListTile(
-                                leading: Container(
-                                  height: 55,
-                                  width: 55,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        width: 2,
-                                        color: MainColors.redColor,
-                                      ),
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                            storyClients[i]["image"]),
-                                      )),
+                                leading: Hero(
+                                  transitionOnUserGestures: true,
+                                  tag: i,
+                                  child: Container(
+                                    height: 55,
+                                    width: 55,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          width: 2,
+                                          color: MainColors.redColor,
+                                        ),
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              storyClients[i]["image"]),
+                                        )),
+                                  ),
                                 ),
                                 title: Text(
                                   storyClients[i]['fullName'],

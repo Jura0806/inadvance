@@ -1,6 +1,5 @@
 class OwnerAccount {
   late int role_id;
-
   late String full_name;
   late int phone;
   late String login;

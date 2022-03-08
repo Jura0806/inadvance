@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:inadvance/models/rest_owner_register.dart';
 import 'package:inadvance/pages/register_pages/register_restaurant_owner/restaurant_owner_sign_in_page.dart';
+import 'package:inadvance/pages/restaurant_owner_screens/owner_navigation_bar.dart';
 import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
@@ -20,7 +23,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
   AutovalidateMode _autoValidate = AutovalidateMode.disabled;
   bool isHiddenPassword1 = true;
   bool isHiddenPassword2 = true;
-  bool isLoading = false ;
+  bool isLoading = false;
 
   var restaurantNameController = TextEditingController();
   var adminPhoneController = TextEditingController();
@@ -28,61 +31,60 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
 
-  late String password = passwordController.text.toString().trim();
-
+  late String password = passwordController.text.toString();
   late String restName = restaurantNameController.text.toString();
   late String adminNumber = adminPhoneController.text.toString();
   late String login = logInController.text.toString();
   late String confirmPassword =
-      confirmPasswordController.text.toString().trim();
+      confirmPasswordController.text.toString();
 
   void _createAccount() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      var ownerAccount = OwnerAccount(
+          full_name: restName,
+          phone: int.parse(adminNumber),
+          login: login,
+          password: password,
+          verify_password: confirmPassword,
+          role_id: 2);
+      setState(() {
+        isLoading = true;
+      });
+      var response = await OwnerNetwork.ownerRegister(
+          OwnerNetwork.Api_Register, OwnerNetwork.paramsCreate(ownerAccount));
+      setState(() {
+        if (response != null) {
+          OwnerToken().storeToken(jsonDecode(response)["data"]["token"]);
+          doSignUp();
+        }
+        isLoading = false;
+      });
+      print("New User Restaurant => $response");
+    } else {
+      setState(() => _autoValidate = AutovalidateMode.always);
+    }
+  }
+
+  void doSignUp() {
     var ownerAccount = OwnerAccount(
         full_name: restName,
         phone: int.parse(adminNumber),
         login: login,
         password: password,
         verify_password: confirmPassword,
-    role_id: 3);
-    setState(() {
-      isLoading = true;
-    });
-    var response = await OwnerNetwork.postSignUp(
-        OwnerNetwork.Api_Register, OwnerNetwork.paramsCreate(ownerAccount));
-    setState(() {
-      if(response != null){
+        role_id: 2);
 
-      }
-      isLoading = false;
-    });
-    print("New User Restaurant => $response");
-  }
+    HiveOwnerSignUp().storeOwner(ownerAccount);
+    var account2 = HiveOwnerSignUp().loadOwner();
 
-  void doSignUp() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      _createAccount();
-      var ownerAccount = OwnerAccount(
-          full_name: restName,
-          phone: int.parse(adminNumber),
-          login: login,
-          password: password,
-          verify_password: confirmPassword, role_id: 3);
-
-      HiveOwnerSignUp().storeOwner(ownerAccount);
-      var account2 = HiveOwnerSignUp().loadOwner();
-
-      print(account2.full_name);
-      print(account2.phone);
-      print(account2.login);
-      print(account2.password);
-      print(account2.verify_password);
-
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (BuildContext context) => OwnerSignIn()));
-    } else {
-      setState(() => _autoValidate = AutovalidateMode.always);
-    }
+    print(account2.full_name);
+    print(account2.phone);
+    print(account2.login);
+    print(account2.password);
+    print(account2.verify_password);
+    Navigator.pushNamedAndRemoveUntil(
+        context, OwnerNavigationBar.id, (route) => false);
   }
 
   @override
@@ -94,158 +96,191 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
         elevation: 0,
       ),
       resizeToAvoidBottomInset: false,
-      body: Container(
-        height: SizeConfig.screenHeight,
-        child: Form(
-          key: _formKey,
-          autovalidateMode: _autoValidate,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
-            child: Column(
-              children: [
-                Center(
-                  child: Image.asset(
-                    "assets/images/user_signup_vector.jpg",
-                    width: SizeConfig.screenWidth! / 2,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              height: SizeConfig.screenHeight,
+              child: Form(
+                key: _formKey,
+                autovalidateMode: _autoValidate,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20,
                   ),
-                ),
-                const Text(
-                  "Ro'yxatdan o'tish",
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                ),
-                const Spacer(
-                  flex: 2,
-                ),
-                TextFormField(
-                  controller: restaurantNameController,
-                  validator: (input) {
-                    if (input!.isEmpty) {
-                      return "Iltimos Restoran nomini kiriting";
-                    }
-                  },
-                  onSaved: (input) => restName = input!,
-                  decoration: buildDecorate(
-                    labelText: "Restoran  nomi",
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  controller: adminPhoneController,
-                  keyboardType: TextInputType.number,
-                  validator: (input) {
-                    if (input!.isEmpty) {
-                      return "Iltimos telefon raqam kiriting!";
-                    } else if (input.length != 9) {
-                      return "Xato nomer kiritildi";
-                    } else {
-                      return null;
-                    }
-                  },
-                  decoration: buildDecorate(
-                    labelText: "Admin telefon raqami",
-                    hintText: "991234567",
-                    prefixText: "+998 ",
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  validator: (input) {
-                    if (input!.isEmpty) {
-                      return "Iltimos LOgIn kiriting!";
-                    } else if (input.length < 3 || input.length > 20) {
-                      return "Bu LogIn tavsiya etilmaydi!";
-                    } else {
-                      return null;
-                    }
-                  },
-                  onSaved: (input) => login = input!,
-                  decoration: buildDecorate(
-                    labelText: "Ilovaga kirish uchun login",
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  controller: passwordController,
-                  validator: (input) {
-                    password = input!;
-                    if (input.isEmpty) {
-                      return "Iltimos LogIn uchun parol kiriting";
-                    }
-                  },
-                  onSaved: (input) => password = input!,
-                  obscureText: isHiddenPassword1,
-                  decoration: buildDecorate(
-                    labelText: "Ilova uchun parol",
-                    suffixIcon: InkWell(
-                        onTap: () {
-                          setState(() {
-                            isHiddenPassword1 = !isHiddenPassword1;
-                          });
-                        },
-                        child: Icon(isHiddenPassword1
-                            ? Icons.visibility
-                            : Icons.visibility_off)),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  controller: confirmPasswordController,
-                  validator: (input) => (input!.isEmpty || input != password)
-                      ? "Parol to'g'ri kirtilmadi"
-                      : null,
-                  onSaved: (input) => confirmPassword = input!,
-                  obscureText: isHiddenPassword2,
-                  decoration: buildDecorate(
-                    labelText: "Parolni qaytadan yozish",
-                    suffixIcon: InkWell(
-                        onTap: () {
-                          setState(() {
-                            isHiddenPassword2 = !isHiddenPassword2;
-                          });
-                        },
-                        child: Icon(isHiddenPassword2
-                            ? Icons.visibility
-                            : Icons.visibility_off)),
-                  ),
-                ),
-                const Spacer(
-                  flex: 14,
-                ),
-                InkWell(
-                  onTap: () {
-                  doSignUp();
-                  },
-                  child: Container(
-                    height: 55,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: MainColors.greenColor,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Davom etish",
-                        style: TextStyle(
-                            color: MainColors.whiteColor, fontSize: 20),
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Image.asset(
+                          "assets/images/user_signup_vector.jpg",
+                          width: SizeConfig.screenWidth! / 2,
+                        ),
                       ),
-                    ),
+                      const Text(
+                        "Ro'yxatdan o'tish",
+                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                      const Spacer(
+                        flex: 2,
+                      ),
+                      TextFormField(
+                        controller: restaurantNameController,
+                        validator: (input) {
+                          if (input!.isEmpty) {
+                            return "Iltimos Restoran nomini kiriting";
+                          }
+                        },
+                        onSaved: (input) => restName = input!,
+                        decoration: buildDecorate(
+                          labelText: "Restoran  nomi",
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: adminPhoneController,
+                        keyboardType: TextInputType.number,
+                        validator: (input) {
+                          if (input!.isEmpty) {
+                            return "Iltimos telefon raqam kiriting!";
+                          } else if (input.length != 9) {
+                            return "Xato nomer kiritildi";
+                          } else {
+                            return null;
+                          }
+                        },
+                        decoration: buildDecorate(
+                          labelText: "Admin telefon raqami",
+                          hintText: "991234567",
+                          prefixText: "+998 ",
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        validator: (input) {
+                          if (input!.isEmpty) {
+                            return "Iltimos LOgIn kiriting!";
+                          } else if (input.length < 6 || input.length > 20) {
+                            return "Bu LogIn tavsiya etilmaydi!";
+                          } else {
+                            return null;
+                          }
+                        },
+                        onSaved: (input) => login = input!,
+                        decoration: buildDecorate(
+                          labelText: "Ilovaga kirish uchun login",
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: passwordController,
+                        validator: (input) {
+                          password = input!;
+                          if (input.isEmpty) {
+                            return "Iltimos LogIn uchun parol kiriting";
+                          }
+                        },
+                        onSaved: (input) => password = input!,
+                        obscureText: isHiddenPassword1,
+                        decoration: buildDecorate(
+                          labelText: "Ilova uchun parol",
+                          suffixIcon: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isHiddenPassword1 = !isHiddenPassword1;
+                                });
+                              },
+                              child: Icon(isHiddenPassword1
+                                  ? Icons.visibility
+                                  : Icons.visibility_off)),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: confirmPasswordController,
+                        validator: (input) => (input!.isEmpty || input != password)
+                            ? "Parol to'g'ri kirtilmadi"
+                            : null,
+                        onSaved: (input) => confirmPassword = input!,
+                        obscureText: isHiddenPassword2,
+                        decoration: buildDecorate(
+                          labelText: "Parolni qaytadan yozish",
+                          suffixIcon: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isHiddenPassword2 = !isHiddenPassword2;
+                                });
+                              },
+                              child: Icon(isHiddenPassword2
+                                  ? Icons.visibility
+                                  : Icons.visibility_off)),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Agar Akkauntingiz mavjud bo'lsa  => ",
+                            style: TextStyle(color: Colors.grey[700]),
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        OwnerSignInPage()));
+                              },
+                              child: Text(
+                                "LogIn",
+                                style: TextStyle(
+                                    color: MainColors.greenColor,
+                                    fontWeight: FontWeight.bold),
+                              ))
+                        ],
+                      ),
+                      const Spacer(
+                        flex: 14,
+                      ),
+                      const SizedBox(height: 40),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 40),
-              ],
+              ),
             ),
           ),
-        ),
+          Positioned(
+            bottom: 40,
+            height: 55,
+            width: SizeConfig.screenWidth,
+            child: InkWell(
+              onTap: () {
+                _createAccount();
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: MainColors.greenColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Davom etish",
+                      style: TextStyle(
+                          color: MainColors.whiteColor, fontSize: 20),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

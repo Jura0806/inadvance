@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/restaurant_owner_screens/restaurant_profile_page.dart';
+import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'dart:io' show Platform;
 
@@ -9,6 +10,7 @@ import '../choose_language_page.dart';
 
 class OwnerSettingScreen extends StatefulWidget {
   const OwnerSettingScreen({Key? key}) : super(key: key);
+  static  final String id  = "owner_setting";
 
   @override
   _OwnerSettingScreenState createState() => _OwnerSettingScreenState();
@@ -150,9 +152,20 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
               _iosDialog();
             }
           }, child: settingInfos(nameInfo: "Log Out")),
+          TextButton(
+              onPressed: (){
+                HiveOwnerSignIn().removeOwner();
+              },
+              child: Text("Remove_Owner's_SignIn_Data")),
+          TextButton(
+              onPressed: (){
+                print(OwnerToken().loadToken());
+              },
+              child: Text("Print_Owner_Token")),
           Spacer(
             flex: 50,
           ),
+
         ],
       ),
     );
