@@ -239,8 +239,7 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
         height: 40,
         width: SizeConfig.screenWidth! / 2 - 30,
         decoration: BoxDecoration(
-            color:
-                isNowOrder == x ? MainColors.greenColor : Colors.grey.shade200,
+            color:isNowOrder == x ? MainColors.greenColor : Colors.grey.shade200,
             borderRadius: BorderRadius.circular(8)),
         child: Center(
           child: Text(

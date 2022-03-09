@@ -4,7 +4,7 @@ import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/owner_navigation_bar_icons.dart';
 
 import 'owner_home_screen.dart';
-import 'owner_menu_screen.dart';
+import 'owner_menu_screen/owner_menu_screen.dart';
 import 'owner_order_screen.dart';
 import 'owner_setting_screen.dart';
 import 'owner_table_screen.dart';
