@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:inadvance/models/rest_owner_login.dart';
@@ -13,13 +14,13 @@ class OwnerNetwork {
   };
   static Map<String, String> headersWithToken = {
     'Content-Type': 'application/json; charset=UTF-8',
-    'Authorization': '${OwnerToken().loadToken()}'
+    'Authorization': 'Bearer ${OwnerToken().loadToken()}'
   };
 
   //<< http APIs >>//
   static String Api_Register = "/api/register";
   static String Api_LogIn = "/api/login";
-  static String Api_Restaurant_Profile = "api/owner/restaurant/";
+  static String Api_Restaurant_Profile = "api/owner/restaurant";
 
   //<< http requests >>//
   static Future<String?> ownerRegister(
@@ -49,6 +50,17 @@ class OwnerNetwork {
       return "BUG Network => $e";
     }
   }
+
+  // static Future<String?> ownerProfile1(
+  //     String api, Map<String, dynamic> params) async {
+  //   try {
+  //     var uri = Uri.https(BASE, api);
+  //     var requests = http.MultiPartRequest("POST", uri)
+  //   } catch (e) {
+  //     return "BUG Network => $e";
+  //   }
+  // }
+
 
   //<< http params >>//
   static Map<String, String> paramsCreate(OwnerAccount ownerAccount) {

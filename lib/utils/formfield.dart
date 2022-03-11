@@ -76,7 +76,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
               color: Colors.red,
             ),
           ),
-          label: Text(widget.hint),
+          labelText: widget.hint,
           floatingLabelBehavior: FloatingLabelBehavior.auto,
           hintStyle: TextStyle(
             fontSize: getProportionateScreenWidth(16.0),

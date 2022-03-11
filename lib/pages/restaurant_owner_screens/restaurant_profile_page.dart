@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inadvance/models/restaurant_profile_model.dart';
+import 'package:inadvance/pages/restaurant_owner_screens/owner_navigation_bar.dart';
 import 'package:inadvance/pages/restaurant_owner_screens/owner_setting_screen.dart';
 import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:inadvance/services/network_owner_http.dart';
@@ -78,7 +79,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
       _imageRest = profileLocal.image_path;
     });
     Navigator.pushNamedAndRemoveUntil(
-        context, OwnerSettingScreen.id, (route) => false);
+        context, OwnerNavigationBar.id, (route) => false);
   }
 
   Future getImage() async {
