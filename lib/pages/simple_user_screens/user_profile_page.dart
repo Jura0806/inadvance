@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inadvance/utils/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -25,8 +26,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
             child: Stack(
               children: [
                 Container(
-                  height: 115,
-                  width: 115,
+                  height: 105.h,
+                  width: 105.w,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(
@@ -39,15 +40,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   ),
                 ),
                 Positioned(
-                  left: 75,
+                  left: 70.w,
                   child: Container(
-                    height: 35,
-                    width: 35,
+                    height: 30.h,
+                    width: 30.w,
                     child: Center(
                       child: Icon(
                         Icons.camera_alt_outlined,
                         color: MainColors.greenColor,
-                        size: 20,
+                        size: 17.sp,
                       ),
                     ),
                     decoration: BoxDecoration(
@@ -66,7 +67,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           userInfos(infos: "FirstName"),
           userInfos(infos: "LastName"),
           userInfos(infos: "Phone Number"),
-          Spacer(
+          const Spacer(
             flex: 20,
           ),
           Padding(
@@ -81,7 +82,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     backgroundColor: MaterialStateProperty.all(MainColors.dimRedColor),
                   ),
                   child: Center(
-                    child: Text("Rad etish", style: TextStyle(color: Colors.red.shade900,fontSize: 17),),
+                    child: Text("Rad etish", style: TextStyle(color: Colors.red.shade900,fontSize: 15.sp),),
                   ),
                 ),
                 Spacer(),
@@ -93,13 +94,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     backgroundColor: MaterialStateProperty.all(MainColors.greenColor, ),
                   ),
                   child: Center(
-                    child: Text("Saqlash", style: TextStyle(color: MainColors.whiteColor, fontSize: 17),),
+                    child: Text("Saqlash", style: TextStyle(color: MainColors.whiteColor, fontSize: 15.sp),),
                   ),
                 ),
               ],
             ),
           ),
-          Spacer(flex: 5,)
+         const  Spacer(flex: 5,)
         ],
       ),
     );
@@ -107,7 +108,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   Widget userInfos({required String infos}) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           TextFormField(
@@ -128,7 +129,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         width: 1,
                         style: BorderStyle.solid),
                   ))),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
         ],

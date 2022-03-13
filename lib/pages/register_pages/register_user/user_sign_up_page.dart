@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/register_pages/register_user/user_sign_in_page.dart';
 import 'package:inadvance/utils/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserSignUp extends StatefulWidget {
   const UserSignUp({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _UserSignUpState extends State<UserSignUp> {
         elevation: 0,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 20,
         ),
         child: Column(
@@ -49,9 +50,9 @@ class _UserSignUpState extends State<UserSignUp> {
                 width: phoneWidth / 2,
               ),
             ),
-            const Text(
+             Text(
               "Ro'yxatdan o'tish",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
             ),
             const Spacer(
               flex: 3,
@@ -110,7 +111,7 @@ class _UserSignUpState extends State<UserSignUp> {
                 }
               },
               child: Container(
-                height: 55,
+                height: 45.h,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: MainColors.greenColor,
@@ -120,12 +121,12 @@ class _UserSignUpState extends State<UserSignUp> {
                   child: Text(
                     "Davom etish",
                     style:
-                        TextStyle(color: MainColors.whiteColor, fontSize: 20),
+                        TextStyle(color: MainColors.whiteColor, fontSize: 17.sp),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 40.h),
           ],
         ),
       ),

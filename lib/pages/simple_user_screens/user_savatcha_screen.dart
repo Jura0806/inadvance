@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/simple_user_screens/user_payment_page.dart';
 import 'package:inadvance/utils/colors.dart';
-import 'package:inadvance/utils/responsive_size.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserShopScreen extends StatefulWidget {
   const UserShopScreen({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _UserShopScreenState extends State<UserShopScreen> {
             Icons.delete,
             color: Colors.redAccent,
           ),
-          SizedBox(
+         const SizedBox(
             width: 10,
           ),
         ],
@@ -36,7 +36,7 @@ class _UserShopScreenState extends State<UserShopScreen> {
           ? Center(
               child: Text(
                 "Savatcha bo'sh",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 17.sp),
               ),
             )
           : ListView(
@@ -44,7 +44,7 @@ class _UserShopScreenState extends State<UserShopScreen> {
               children: [
                 Text(
                   "Rayhon",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20.sp),
                 ),
                 const SizedBox(
                   height: 25,
@@ -53,18 +53,18 @@ class _UserShopScreenState extends State<UserShopScreen> {
                 foods(),
                 foods(),
                 foods(),
-                SizedBox(height: SizeConfig.screenWidth! * 1.1 - 3 * 95),
+                SizedBox(height: 200.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "Jami summa",
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 17.sp),
                     ),
                     Text(
                       "94 000 UZS",
                       style:
-                          TextStyle(fontSize: 20, color: MainColors.greenColor),
+                          TextStyle(fontSize: 17.sp, color: MainColors.greenColor),
                     )
                   ],
                 ),
@@ -77,7 +77,7 @@ class _UserShopScreenState extends State<UserShopScreen> {
                         builder: (BuildContext context) => UserPaymentPage()));
                   },
                   child: Container(
-                    height: 55,
+                    height: 45.h,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: MainColors.greenColor,
@@ -87,7 +87,7 @@ class _UserShopScreenState extends State<UserShopScreen> {
                       child: Text(
                         "Davom etish",
                         style: TextStyle(
-                            color: MainColors.whiteColor, fontSize: 20),
+                            color: MainColors.whiteColor, fontSize: 17.sp),
                       ),
                     ),
                   ),
@@ -104,21 +104,21 @@ class _UserShopScreenState extends State<UserShopScreen> {
       children: [
         Text(
           "Grechiski",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+          style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
               "23 000 UZS",
-              style: TextStyle(fontSize: 17, color: Colors.grey[700]),
+              style: TextStyle(fontSize: 15.sp, color: Colors.grey[700]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
-              height: 45,
-              width: 180,
+              height: 40.h,
+              width: 170.w,
               decoration: BoxDecoration(
                 color: Colors.grey.withOpacity(.2),
                 borderRadius: BorderRadius.circular(8),
@@ -137,13 +137,13 @@ class _UserShopScreenState extends State<UserShopScreen> {
                         }
                       },
                       child: Container(
-                        height: 35,
-                        width: 35,
+                        height: 30.h,
+                        width: 30.w,
                         child: Center(
                           child: Text(
                             "-",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 25),
+                                fontWeight: FontWeight.w600, fontSize: 20.sp),
                           ),
                         ),
                         decoration: BoxDecoration(
@@ -154,7 +154,7 @@ class _UserShopScreenState extends State<UserShopScreen> {
                     Text(
                       "$foodCount",
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 20.sp),
                     ),
                     InkWell(
                       onTap: () {
@@ -163,13 +163,13 @@ class _UserShopScreenState extends State<UserShopScreen> {
                         });
                       },
                       child: Container(
-                        height: 35,
-                        width: 35,
+                        height: 30.h,
+                        width: 30.w,
                         child: Center(
                           child: Text(
                             "+",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 22),
+                                fontWeight: FontWeight.w600, fontSize: 20.sp),
                           ),
                         ),
                         decoration: BoxDecoration(

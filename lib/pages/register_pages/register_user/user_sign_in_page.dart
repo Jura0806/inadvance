@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/simple_user_screens/user_navigation_bar.dart';
 import 'package:inadvance/utils/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserSignIn extends StatefulWidget {
   const UserSignIn({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _UserSignInState extends State<UserSignIn> {
         elevation: 0,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 20,
         ),
         child: Column(
@@ -32,10 +33,10 @@ class _UserSignInState extends State<UserSignIn> {
                 width: phoneWidth / 2,
               ),
             ),
-          const   Spacer(),
-            const Text(
+            const Spacer(),
+            Text(
               "Kirish",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
             ),
             const Spacer(
               flex: 2,
@@ -60,10 +61,10 @@ class _UserSignInState extends State<UserSignIn> {
               height: 15,
             ),
             Container(
-              margin: EdgeInsets.only(left: phoneWidth/2),
+              margin: EdgeInsets.only(left: phoneWidth / 2),
               child: Text(
                 "Parolni unutdingizmi?",
-                style: TextStyle(color: MainColors.greenColor, fontSize: 15),
+                style: TextStyle(color: MainColors.greenColor, fontSize: 13.sp),
               ),
             ),
             const Spacer(
@@ -72,11 +73,12 @@ class _UserSignInState extends State<UserSignIn> {
             InkWell(
               onTap: () {
                 if (true) {
-                Navigator.pushNamedAndRemoveUntil(context, UserNavigationBar.id, (route) => false);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, UserNavigationBar.id, (route) => false);
                 }
               },
               child: Container(
-                height: 55,
+                height: 45.h,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: MainColors.greenColor,
@@ -85,13 +87,13 @@ class _UserSignInState extends State<UserSignIn> {
                 child: Center(
                   child: Text(
                     "Davom etish",
-                    style:
-                        TextStyle(color: MainColors.whiteColor, fontSize: 20),
+                    style: TextStyle(
+                        color: MainColors.whiteColor, fontSize: 17.sp),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: 40.h),
           ],
         ),
       ),

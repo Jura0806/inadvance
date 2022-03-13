@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserOrderScreen extends StatefulWidget {
   const UserOrderScreen({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
           child: Stack(
             children: [
               Container(
-                height: 40,
+                height: 35.h,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade200,
@@ -60,7 +61,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
         });
       },
       child: Container(
-        height: 40,
+        height: 35.h,
         width: SizeConfig.screenWidth! / 2 - 30,
         decoration: BoxDecoration(
             color:
@@ -73,7 +74,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
                 color: isNowOrder == x
                     ? MainColors.whiteColor
                     : MainColors.blackColor,
-                fontSize: 17),
+                fontSize: 15.sp),
           ),
         ),
       ),
@@ -84,7 +85,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
     return Column(
       children: [
         data == null ? Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 50,vertical: SizeConfig.screenWidth!/1.5),
+          padding:  EdgeInsets.symmetric(horizontal: 50.h,vertical: SizeConfig.screenWidth!/1.5),
           child: Text(
             "Sizda aktiv holatdagi buyurtmalar yo'q!",
             textAlign: TextAlign.center,
@@ -99,8 +100,8 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: SizeConfig.screenWidth! / 4,
-                  width: SizeConfig.screenWidth! / 3.5,
+                  height: 100.h,
+                  width: 106.w,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       image: DecorationImage(
@@ -114,18 +115,20 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Rayhon", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
+                      Text("Rayhon", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),),
                       const SizedBox(height: 10,),
-                      Text("56000" + "UZS", style: TextStyle( fontSize: 15, color: MainColors.greenColor),),
+                      Text("56000" + "UZS", style: TextStyle( fontSize: 13.sp, color: MainColors.greenColor),),
                       const SizedBox(height: 30,),
                       Row(
                         children: [
-                          Icon(Icons.watch_later, size: 20,),
-                          Text(" 19:00   "),
-                          Icon(Icons.table_chart, size: 20,),
-                          Text(" 5-stol   "),
-                          Icon(Icons.date_range, size: 20,),
-                          Text("15.02.2022  ")
+                          Icon(Icons.watch_later, size: 15.sp,),
+                          Text(" 9:00 "),
+                          const SizedBox(width: 5,),
+                          Icon(Icons.table_chart, size: 15.sp,),
+                          Text(" 5-stol "),
+                          const SizedBox(width: 5,),
+                          Icon(Icons.date_range, size: 15.sp,),
+                          Text(" 15.02.2022 ")
                         ],
                       )
                     ],
@@ -147,8 +150,8 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: SizeConfig.screenWidth! / 4,
-              width: SizeConfig.screenWidth! / 3.5,
+              height: 100.h,
+              width: 106.w,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
@@ -162,18 +165,21 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Rayhon", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
+                  Text("Rayhon", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),),
                   const SizedBox(height: 10,),
-                  Text("56000" + "UZS", style: TextStyle( fontSize: 15, color: MainColors.greenColor),),
+                  Text("56000" + "UZS", style: TextStyle( fontSize: 13.sp, color: MainColors.greenColor),),
                   const SizedBox(height: 30,),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(Icons.watch_later, size: 20,),
-                      Text(" 19:00   "),
-                      Icon(Icons.table_chart, size: 20,),
-                      Text(" 5-stol   "),
-                      Icon(Icons.date_range, size: 20,),
-                      Text("15.02.2022  ")
+                      Icon(Icons.watch_later, size: 15.sp,),
+                      Text(" 9:00 "),
+                      const SizedBox(width: 5,),
+                      Icon(Icons.table_chart, size: 15.sp,),
+                      Text(" 5-stol "),
+                      const SizedBox(width: 5,),
+                      Icon(Icons.date_range, size: 15.sp,),
+                      Text(" 15.02.2022 ")
                     ],
                   )
                 ],

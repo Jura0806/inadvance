@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inadvance/utils/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ClientProfilePage extends StatefulWidget {
   int item ;
@@ -62,7 +63,7 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
       body: ListView(
         children: [
           Padding(
-              padding: const EdgeInsets.all(15),
+              padding:  EdgeInsets.all(10.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -73,30 +74,30 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
                           transitionOnUserGestures: true,
                           tag: widget.item,
                           child: Container(
-                            height: 80,
-                            width: 80,
+                            height: 75.h,
+                            width: 75.w,
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 border:
-                                    Border.all(width: 3, color: MainColors.greenColor),
+                                    Border.all(width: 3.w, color: MainColors.greenColor),
                                 image: DecorationImage(
                                     image: NetworkImage(
                                         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0aZ_qZ41uKX9HA5EQsxP6tdrUUZBA1auZQ&usqp=CAU"))),
                           ),
                         ),
                       ),
-                      SizedBox(width: 30,),
+                      SizedBox(width: 30.w,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Rayhon Safarova",style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-                          SizedBox(height: 10,),
+                          Text("Rayhon Safarova",style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),),
+                          SizedBox(height: 10.h,),
                           Text("56 000 UZS", style: TextStyle(color: MainColors.greenColor),)
                         ],
                       )
                     ],
                   ),
-                  SizedBox(height: 15,),
+                  SizedBox(height: 15.h,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -105,7 +106,7 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
                           Icon(
                             Icons.watch_later,
                             color: MainColors.greenColor,
-                            size: 20,
+                            size: 20.w,
                           ),
                           Text(" 9:00 - 22:00"),
                         ],
@@ -121,39 +122,39 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
                           Icon(
                             Icons.calendar_today_sharp,
                             color: MainColors.greenColor,
-                            size: 20,
+                            size: 20.w,
                           ),
                           Text( " 15.02.22",),
                         ],
                       ),
                     ],
                   ),
-                  SizedBox(height: 25,),
-                  Text("Orders", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                  SizedBox(height: 15,),
+                  SizedBox(height: 25.h,),
+                  Text("Orders", style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),),
+                  SizedBox(height: 15.h,),
                   Container(
                     width: double.infinity,
                     child: Column(
                       children: orderFoods.map((e) => cardFood(e)).toList(),
                     )
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(height: 20.h,),
                   InkWell(
                     onTap: (){
                       
                     },
                     child: Container(
-                      height: 55,
+                      height: 45.h,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: MainColors.greenColor,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.w),
                       ),
                       child: Center(
                         child: Text(
                           "Buyurtma bajarildi",
                           style:
-                          TextStyle(color: MainColors.whiteColor, fontSize: 20),
+                          TextStyle(color: MainColors.whiteColor, fontSize: 17.sp),
                         ),
                       ),
                     ),
@@ -171,28 +172,28 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
         Card(
           elevation: 4,
           child: Container(
-            height: 90,
+            height: 85.h,
             child: Center(
               child: ListTile(
                 leading: Container(
-                  height: 70,
-                     width: 70,
+                  height: 70.h,
+                     width: 70.w,
                      decoration: BoxDecoration(
-                       borderRadius: BorderRadius.circular(8),
+                       borderRadius: BorderRadius.circular(8.w),
                        image: DecorationImage(
                          fit: BoxFit.cover,
                          image: NetworkImage(orderFoods["images"]),
                        )
                      ),
                 ),
-                title:  Text(orderFoods["title"],style: TextStyle(fontWeight: FontWeight.bold),),
+                title:  Text(orderFoods["title"],style: TextStyle(fontWeight: FontWeight.w600),),
                 subtitle: Text(orderFoods["subtitle"]),
                 trailing: Text(orderFoods["trailing"], style: TextStyle(color: MainColors.greenColor),),
               ),
             ),
           ),
         ),
-        SizedBox(height: 5,)
+        SizedBox(height: 5.h,)
       ],
     );
   }

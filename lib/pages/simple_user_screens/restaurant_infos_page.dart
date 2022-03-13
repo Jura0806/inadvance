@@ -3,6 +3,7 @@ import 'package:inadvance/models/rest_foods.dart';
 import 'package:inadvance/pages/simple_user_screens/user_savatcha_screen.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RestaurantInfosPage extends StatefulWidget {
   const RestaurantInfosPage({Key? key}) : super(key: key);
@@ -20,7 +21,8 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
     "Taomlar",
   ];
 
-   String foodDescription = "A persistent bottom sheet shows information that supplements the primary content of the app.";
+  String foodDescription =
+      "A persistent bottom sheet shows information that supplements the primary content of the app.";
 
   List<RestaurantFood> foods = [
     RestaurantFood(
@@ -47,14 +49,12 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
         foodName: "Grechiski",
         foodCost: 20000,
         foodImage:
-        "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
     RestaurantFood(
         foodName: "Grechiski",
         foodCost: 20000,
         foodImage:
-        "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
-
-
+            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
   ];
 
   int isCategory = 0;
@@ -64,7 +64,8 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
   bool isAddedFood = false;
   int foodCost = 23000;
 
-  late ScrollController controller ;
+  late ScrollController controller;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +74,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
         alignment: AlignmentDirectional.bottomStart,
         children: [
           CustomScrollView(
-          //  controller: controller,
+            //  controller: controller,
             slivers: [
               SliverAppBar(
                 elevation: 0,
@@ -81,26 +82,26 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                 pinned: true,
                 snap: false,
                 backgroundColor: MainColors.whiteColor,
-                expandedHeight: SizeConfig.screenWidth!/1.15,
+                expandedHeight: 175.h,
                 actions: [
                   Center(child: Icon(Icons.search_sharp)),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   )
                 ],
                 flexibleSpace: FlexibleSpaceBar(
                   title: Text("Rayhon"),
                   centerTitle: true,
-                   titlePadding: EdgeInsets.only(left: 15,bottom: 15),
+                  titlePadding: EdgeInsets.only(left: 15, bottom: 15),
                   background: Container(
-                    height: 200,
-                    width: SizeConfig.screenWidth,
-                    margin: EdgeInsets.only(top: 40),
+                    height: 200.h,
+                    width: 35.w,
+                    margin: const EdgeInsets.only(top: 40),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Image.network(
-                      "https://media-cdn.tripadvisor.com/media/photo-s/1a/18/3a/cb/restaurant-le-47.jpg"),
+                        "https://media-cdn.tripadvisor.com/media/photo-s/1a/18/3a/cb/restaurant-le-47.jpg"),
                   ),
                 ),
               ),
@@ -113,13 +114,14 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                       children: [
                         Text(
                           "National food",
-                          style: TextStyle(color: Colors.grey[700], fontSize: 17),
+                          style: TextStyle(
+                              color: Colors.grey[700], fontSize: 15.sp),
                         ),
                         SizedBox(
                           height: 10,
                         ),
                         Container(
-                          height: 40,
+                          height: 40.h,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               color: MainColors.greenColor.withOpacity(.2)),
@@ -131,7 +133,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                                   Icon(
                                     Icons.star,
                                     color: Colors.orangeAccent,
-                                    size: 20,
+                                    size: 20.w,
                                   ),
                                   Text(" ${4.9}"),
                                 ],
@@ -141,7 +143,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                                   Icon(
                                     Icons.watch_later,
                                     color: MainColors.greenColor,
-                                    size: 20,
+                                    size: 20.w,
                                   ),
                                   Text(" 9:00 - 22:00"),
                                 ],
@@ -151,11 +153,12 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                                   Icon(
                                     Icons.phone,
                                     color: MainColors.greenColor,
-                                    size: 20,
+                                    size: 20.w,
                                   ),
-                                  SelectableText( " +998998507504", onTap: (){
-
-                                  },),
+                                  SelectableText(
+                                    " +998998507504",
+                                    onTap: () {},
+                                  ),
                                 ],
                               ),
                             ],
@@ -179,7 +182,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
               categoryName("Menu", 25),
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: 40,
+                  height: 40.h,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: menuCategories.length,
@@ -191,7 +194,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                           });
                         },
                         child: Container(
-                          height: 45,
+                          height: 45.h,
                           width: menuCategories[category].length * 15,
                           margin: EdgeInsets.only(left: 15),
                           decoration: BoxDecoration(
@@ -226,46 +229,65 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                     ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      mainAxisSpacing: 7.5,
-                      crossAxisSpacing: 7.5,
+                      mainAxisSpacing: 5.h,
+                      crossAxisSpacing: 5.w,
                       childAspectRatio: 3 / 4,
                     )),
               ),
             ],
           ),
-         isAddedFood? Positioned(
-            bottom: 30,
-            left: 15,
-            child: InkWell(
-              onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => UserShopScreen() ));
-              },
-              child: Container(
-                height: 40,
-                width: SizeConfig.screenWidth! - 30,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: MainColors.greenColor
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.shopping_cart_rounded, color: MainColors.whiteColor,),
-                          SizedBox(width: 5,),
-                          Text("Savatcha $foodCount", style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),),
-                        ],
+          isAddedFood
+              ? Positioned(
+                  bottom: 30.h,
+                  left: 15.w,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => UserShopScreen()));
+                    },
+                    child: Container(
+                      height: 40.h,
+                      width: SizeConfig.screenWidth! - 30,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: MainColors.greenColor),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.shopping_cart_rounded,
+                                  color: MainColors.whiteColor,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "Savatcha $foodCount",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              "${foodCost * foodCount} UZS",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w600),
+                            )
+                          ],
+                        ),
                       ),
-                     Text("${foodCost * foodCount} UZS", style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),)
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ),
-          ) :  const SizedBox.shrink(),
+                )
+              : const SizedBox.shrink(),
         ],
       ),
     );
@@ -279,7 +301,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
           onTap: () => showModalBottomSheet(
               context: context, builder: (context) => bottomSheetAdd()),
           child: Container(
-            height: SizeConfig.screenWidth! / 2.2,
+            height: 170.h,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -301,14 +323,14 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
               Text(
                 "Grechiski",
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Text(
                 "$foodCost UZS",
-                style: TextStyle(fontSize: 15),
+                style: TextStyle(fontSize: 12.sp),
               )
             ],
           ),
@@ -329,7 +351,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
         padding: const EdgeInsets.only(left: 15, bottom: 10, top: 10),
         child: Text(
           nameCtg,
-          style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w600),
         ),
       ),
     );
@@ -344,9 +366,9 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
 
   Widget bottomSheetAdd() {
     return StatefulBuilder(
-      builder: (BuildContext context, StateSetter myState){
+      builder: (BuildContext context, StateSetter myState) {
         return Container(
-          height: 160 + foodDescription.length/1.5,
+          height: (140 + foodDescription.length / 1.5).h,
           child: Padding(
             padding: EdgeInsets.all(20),
             child: Column(
@@ -359,20 +381,22 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                       children: [
                         Text(
                           "Grechiski salat",
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 17.sp),
                         ),
                         Text(
                           "23 000 so'm",
-                          style: TextStyle(color: MainColors.greenColor, fontSize: 17),
+                          style: TextStyle(
+                              color: MainColors.greenColor, fontSize: 17.sp),
                         )
                       ],
                     ),
-                    SizedBox(
-                      height: 10,
+                    const SizedBox(
+                      height: 5,
                     ),
                     Text(
                       foodDescription,
-                      style: TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: 13.sp),
                     ),
                   ],
                 ),
@@ -380,30 +404,30 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.of(context).pop();
                         setState(() {
                           isAddedFood = true;
                         });
                       },
                       child: Container(
-                        height: 45,
-                        width: SizeConfig.screenWidth! / 2.8,
+                        height: 40.h,
+                        width: 150.w,
                         decoration: BoxDecoration(
                           color: MainColors.greenColor,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Center(
                             child: Text(
-                              "Qo'shish",
-                              style:
-                              TextStyle(color: MainColors.whiteColor, fontSize: 17),
-                            )),
+                          "Qo'shish",
+                          style: TextStyle(
+                              color: MainColors.whiteColor, fontSize: 15.sp),
+                        )),
                       ),
                     ),
                     Container(
-                      height: 45,
-                      width: SizeConfig.screenWidth! / 2,
+                      height: 40.h,
+                      width: 165.w,
                       decoration: BoxDecoration(
                         color: MainColors.greenColor.withOpacity(.2),
                         borderRadius: BorderRadius.circular(8),
@@ -413,16 +437,15 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              if(foodCount > 1) {
+                              if (foodCount > 1) {
                                 myState(() {
                                   foodCount--;
                                 });
                               }
-
                             },
                             child: Container(
-                              height: 35,
-                              width: 35,
+                              height: 30.h,
+                              width: 30.w,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(5),
@@ -431,24 +454,24 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                                   alignment: Alignment.topCenter,
                                   child: Text(
                                     "-",
-                                    style: TextStyle(fontSize: 30),
+                                    style: TextStyle(fontSize: 25.sp),
                                   )),
                             ),
                           ),
                           Text(
                             "$foodCount",
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                                fontSize: 20.sp, fontWeight: FontWeight.bold),
                           ),
                           GestureDetector(
-                            onTap: (){
-                             myState((){
-                               foodCount++;
-                             });
+                            onTap: () {
+                              myState(() {
+                                foodCount++;
+                              });
                             },
                             child: Container(
-                              height: 35,
-                              width: 35,
+                              height: 30.h,
+                              width: 30.w,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(5),
@@ -457,7 +480,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                                   alignment: Alignment.topCenter,
                                   child: Text(
                                     "+",
-                                    style: TextStyle(fontSize: 25),
+                                    style: TextStyle(fontSize: 23.sp),
                                   )),
                             ),
                           ),
@@ -466,7 +489,9 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                     )
                   ],
                 ),
-                SizedBox(height: 5,),
+                const SizedBox(
+                  height: 5,
+                ),
               ],
             ),
           ),

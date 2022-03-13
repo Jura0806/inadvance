@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/owner_navigation_bar_icons.dart';
-
 import 'owner_home_screen.dart';
 import 'owner_menu_screen/owner_menu_screen.dart';
 import 'owner_order_screen.dart';
 import 'owner_setting_screen.dart';
 import 'owner_table_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OwnerNavigationBar extends StatefulWidget {
-  const OwnerNavigationBar({Key? key}) : super(key: key);
+  OwnerNavigationBar({Key? key}) : super(key: key);
   static final String id = "owner_navigation_bar";
 
   @override
@@ -18,6 +18,7 @@ class OwnerNavigationBar extends StatefulWidget {
 }
 
 class _OwnerNavigationBarState extends State<OwnerNavigationBar> {
+
 
   int currentIndex = 0;
   final screens = [
@@ -75,7 +76,7 @@ class _OwnerNavigationBarState extends State<OwnerNavigationBar> {
     return SvgPicture.asset(
       ownerBottomBarIcons[iconNumber]["active"].toString(),
       color: currentIndex == iconNumber? MainColors.greenColor : MainColors.blackColor,
-      height:  currentIndex == iconNumber? 25 : 20,
+      height:  currentIndex == iconNumber? 20.w : 17.w,
     );
   }
 

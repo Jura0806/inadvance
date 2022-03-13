@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/about_app_page.dart';
 import 'package:inadvance/utils/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChooseLanguage extends StatefulWidget {
   const ChooseLanguage({Key? key}) : super(key: key);
@@ -22,13 +23,13 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
           children: [
-            Spacer(
+           const Spacer(
               flex: 16,
             ),
             Text(
               "Choose language",
               style: TextStyle(
-                fontSize: 27,
+                fontSize: 25.sp,
                 color: MainColors.blackColor,
                 fontWeight: FontWeight.bold,
               ),
@@ -39,11 +40,11 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
             Text(
               "Please choose which language you want. You can change later in the profile!",
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 16.sp,
 
               ),
             ),
-            Spacer(
+           const Spacer(
               flex: 7,
             ),
             languages(
@@ -51,7 +52,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               language: "O'zbekcha",
               x: 1,
             ),
-            Spacer(
+           const Spacer(
               flex: 1,
             ),
             languages(
@@ -59,7 +60,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               language: "Russian",
               x: 2
             ),
-            Spacer(
+           const Spacer(
               flex: 1,
             ),
             languages(
@@ -67,7 +68,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               language: "English",
               x: 3
             ),
-            Spacer(
+           const Spacer(
               flex: 8,
             )
           ],
@@ -89,7 +90,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
         Navigator.pushReplacementNamed(context, AboutAppPage.id);
       },
       child: Container(
-        height: 70,
+        height: 65.h,
         width: double.infinity,
         decoration: BoxDecoration(
             color: isChoose == x? MainColors.greenColor: MainColors.whiteColor,
@@ -101,20 +102,20 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
             children: [
               Image.asset(
                 imageFlag,
-                width: 45,
+                width: 45.w,
               ),
               SizedBox(
-                width: 30,
+                width: 30.w,
               ),
               Text(
                 language,
                 style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 17.sp,
+                    fontWeight: FontWeight.w600,
                     color: isChoose == x? MainColors.whiteColor : MainColors.blackColor),
               ),
-              Spacer(flex: 20,),
-            isChoose == x? Icon(Icons.navigate_next, size: 35, color: MainColors.whiteColor,): SizedBox.shrink(),
+             const Spacer(flex: 20,),
+            isChoose == x? Icon(Icons.navigate_next, size: 35.w, color: MainColors.whiteColor,): SizedBox.shrink(),
               Spacer(flex: 1,)
             ],
           ),

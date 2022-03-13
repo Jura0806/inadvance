@@ -7,6 +7,7 @@ import 'package:inadvance/pages/simple_user_screens/user_search_screen.dart';
 import 'package:inadvance/pages/simple_user_screens/user_savatcha_screen.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/user_navigation_bar_icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserNavigationBar extends StatefulWidget {
   const UserNavigationBar({Key? key}) : super(key: key);
@@ -73,7 +74,7 @@ class _UserNavigationBarState extends State<UserNavigationBar> {
     return SvgPicture.asset(
       userBottomBarIcons[iconNumber]["active"].toString(),
       color: currentIndex == iconNumber? MainColors.greenColor : MainColors.blackColor,
-      height:  currentIndex == iconNumber? 25 : 20,
+      height:  currentIndex == iconNumber? 20.w : 17.w,
     );
   }
 }

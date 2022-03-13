@@ -19,6 +19,7 @@ dependencies:
   hive: ^2.0.6
   hive_flutter: ^1.1.0
   image_picker: ^0.8.4+1
+  flutter_screenutil: ^5.3.1
 
 dev_dependencies:
   flutter_test:

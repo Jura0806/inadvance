@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:inadvance/utils/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ClientStoryPage extends StatefulWidget {
   int item;
@@ -61,7 +62,7 @@ class _ClientStoryPageState extends State<ClientStoryPage> {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: EdgeInsets.all(10.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -71,29 +72,29 @@ class _ClientStoryPageState extends State<ClientStoryPage> {
                       transitionOnUserGestures: true,
                       tag: widget.item,
                       child: Container(
-                        height: 80,
-                        width: 80,
+                        height: 75.h,
+                        width: 75.w,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border:
-                            Border.all(width: 3, color: MainColors.redColor),
+                            Border.all(width: 3.w, color: MainColors.redColor),
                             image: DecorationImage(
                                 image: NetworkImage(
                                     "https://1.bp.blogspot.com/-34OVFeumu1A/YUgU7sm4yLI/AAAAAAAAN8M/lk6xkZKO7CYUMYKBFCz9FL3o05eOu7ydwCLcBGAsYHQ/s720/DP%2BFor%2BGirls%2B%252813%2529.jpg"))),
                       ),
                     ),
-                    SizedBox(width: 30,),
+                    SizedBox(width: 30.w,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Zulfizar Abdug'aniyeva",style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-                        SizedBox(height: 10,),
+                        Text("Zulfizar Abdug'aniyeva",style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),),
+                        SizedBox(height: 10.h,),
                         Text("56 000 UZS", style: TextStyle(color: MainColors.redColor),)
                       ],
                     )
                   ],
                 ),
-                SizedBox(height: 15,),
+                SizedBox(height: 15.h,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -102,7 +103,7 @@ class _ClientStoryPageState extends State<ClientStoryPage> {
                         Icon(
                           Icons.watch_later,
                           color: MainColors.redColor.withOpacity(.6),
-                          size: 20,
+                          size: 20.w,
                         ),
                         Text(" 9:00 - 22:00"),
                       ],
@@ -118,39 +119,39 @@ class _ClientStoryPageState extends State<ClientStoryPage> {
                         Icon(
                           Icons.calendar_today_sharp,
                           color: MainColors.redColor.withOpacity(.6),
-                          size: 20,
+                          size: 20.w,
                         ),
                         Text( " 15.02.22",),
                       ],
                     ),
                   ],
                 ),
-                SizedBox(height: 25,),
-                Text("Orders", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                SizedBox(height: 15,),
+                SizedBox(height: 25.h,),
+                Text("Orders", style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),),
+                SizedBox(height: 15.h,),
                 Container(
                     width: double.infinity,
                     child: Column(
                       children: storyOrderFoods.map((e) => cardFood(e)).toList(),
                     )
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 20.h,),
                 InkWell(
                   onTap: (){
 
                   },
                   child: Container(
-                    height: 55,
+                    height: 45.h,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: MainColors.redColor.withOpacity(.8),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.w),
                     ),
                     child: Center(
                       child: Text(
                         "Tarixdan o'chirish",
                         style:
-                        TextStyle(color: MainColors.whiteColor, fontSize: 20),
+                        TextStyle(color: MainColors.whiteColor, fontSize: 17.sp),
                       ),
                     ),
                   ),
@@ -168,28 +169,28 @@ class _ClientStoryPageState extends State<ClientStoryPage> {
         Card(
           elevation: 4,
           child: Container(
-            height: 90,
+            height: 85.h,
             child: Center(
               child: ListTile(
                 leading: Container(
-                  height: 70,
-                  width: 70,
+                  height: 70.h,
+                  width: 70.w,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.w),
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(orderFoods["images"]),
                       ),
                   ),
                 ),
-                title:  Text(orderFoods["title"],style: TextStyle(fontWeight: FontWeight.bold),),
+                title:  Text(orderFoods["title"],style: TextStyle(fontWeight: FontWeight.w600),),
                 subtitle: Text(orderFoods["subtitle"]),
                 trailing: Text(orderFoods["trailing"], style: TextStyle(color: MainColors.redColor.withOpacity(.7)),),
               ),
             ),
           ),
         ),
-        SizedBox(height: 5,)
+        SizedBox(height: 5.h,)
       ],
     );
   }

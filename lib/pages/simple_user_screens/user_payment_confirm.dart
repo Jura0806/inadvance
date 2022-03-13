@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/simple_user_screens/user_payment_page.dart';
 import 'package:inadvance/utils/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserPaymentConfirm extends StatelessWidget {
   const UserPaymentConfirm({Key? key}) : super(key: key);
@@ -20,10 +21,15 @@ class UserPaymentConfirm extends StatelessWidget {
             Column(
               children: [
                 paymentInfo(title: "Sana", body: "02.04.2022"),
-                paymentInfo(title: "Jo'natuvchining kartasi", body: "8600 00****3123"),
+                const SizedBox(height: 3,),
+                paymentInfo(title: "Jo'natuvchining kartasi}", body: "8600 00****3123"),
+                const SizedBox(height: 3,),
                 paymentInfo(title: "Qabul qiluchining kartasi", body: "8600 00****8987"),
+                const SizedBox(height: 3,),
                 paymentInfo(title: "Yuboruvchi ismi", body: "Feruza Ergasheva"),
+                const SizedBox(height: 3,),
                 paymentInfo(title: "O'tkazma summasi", body: "200000 UZS"),
+                const SizedBox(height: 3,),
                 Divider(height: 30,thickness: 2,),
                 paymentInfo(title: "Jami", body: "200000 UZS"),
               ],
@@ -34,7 +40,7 @@ class UserPaymentConfirm extends StatelessWidget {
                     builder: (BuildContext context) => UserPaymentPage()));
               },
               child: Container(
-                height: 55,
+                height: 45.h,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: MainColors.greenColor,
@@ -44,7 +50,7 @@ class UserPaymentConfirm extends StatelessWidget {
                   child: Text(
                     "Tasdiqlash",
                     style: TextStyle(
-                        color: MainColors.whiteColor, fontSize: 20),
+                        color: MainColors.whiteColor, fontSize: 17.sp),
                   ),
                 ),
               ),
@@ -58,8 +64,8 @@ class UserPaymentConfirm extends StatelessWidget {
     return  Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: TextStyle(fontSize: 17, color: Colors.grey[700]),),
-        Text(body, style: TextStyle(fontSize: 17, color: Colors.grey[700]),)
+        Text(title, style: TextStyle(fontSize: 14.sp, color: Colors.grey[700]),),
+        Text(body, style: TextStyle(fontSize: 14.sp, color: Colors.grey[700]),)
       ],
     );
   }

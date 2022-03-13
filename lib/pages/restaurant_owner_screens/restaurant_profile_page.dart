@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inadvance/models/restaurant_profile_model.dart';
 import 'package:inadvance/pages/restaurant_owner_screens/owner_navigation_bar.dart';
-import 'package:inadvance/pages/restaurant_owner_screens/owner_setting_screen.dart';
-import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 import 'dart:io';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RestProfilePage extends StatefulWidget {
   const RestProfilePage({Key? key}) : super(key: key);
@@ -21,7 +19,7 @@ class RestProfilePage extends StatefulWidget {
 
 class _RestProfilePageState extends State<RestProfilePage> {
   late final _formKey = GlobalKey<FormState>();
-  File? _imageRest;
+  File? imageRest;
   bool isLoading = false;
 
   var nameController = TextEditingController();
@@ -38,7 +36,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
       _formKey.currentState!.save();
       var profile = RestaurantProfileModel(
           name: nameController.text,
-          image_path: _imageRest!,
+          image_path: imageRest!,
           bank_number: bankNumberController.text,
           phone: phoneController.text,
           open_time: openTimeController.text,
@@ -48,10 +46,9 @@ class _RestProfilePageState extends State<RestProfilePage> {
       setState(() {
         isLoading = true;
       });
-      var response = await OwnerNetwork.ownerProfile(
+      var response = await OwnerNetwork.ownerProfile1(
           OwnerNetwork.Api_Restaurant_Profile,
-          Hive.box("OwnerProfile").isEmpty?
-          OwnerNetwork.paramsOwnerProfile(profile): OwnerNetwork.paramsOwnerProfilePut(profile));
+          OwnerNetwork.paramsOwnerProfile(profile));
       setState(() {
         if(response != null ){
           _doSaveHive();
@@ -63,21 +60,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
   }
 
   void _doSaveHive(){
-    var profile = RestaurantProfileModel(
-        name: nameController.text,
-        image_path: _imageRest!,
-        bank_number: bankNumberController.text,
-        phone: phoneController.text,
-        open_time: openTimeController.text,
-        close_time: closeTimeController.text,
-        map_In: mapInController.text,
-        map_It: mapItController.text);
 
-    OwnerProfile().storeProfile(profile);
-    var profileLocal = OwnerProfile().loadProfile();
-    setState(() {
-      _imageRest = profileLocal.image_path;
-    });
     Navigator.pushNamedAndRemoveUntil(
         context, OwnerNavigationBar.id, (route) => false);
   }
@@ -88,7 +71,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
       if (image == null) return;
 
       final imageTemporary = File(image.path);
-      setState(() => this._imageRest = imageTemporary);
+      setState(() => this.imageRest = imageTemporary);
     } on PlatformException catch (e) {
       print("Failed to pick image: $e");
     }
@@ -107,7 +90,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
             },
             icon: SvgPicture.asset(
               "assets/images/vector_ok.svg",
-              height: 22.5,
+              height: 22.5.h,
             ),
           ),
         ],
@@ -120,32 +103,32 @@ class _RestProfilePageState extends State<RestProfilePage> {
               Stack(
                 children: [
                   Container(
-                    height: 200,
+                    height: 190.h,
                     margin: EdgeInsets.only(
-                      bottom: 50,
+                      bottom: 50.h,
                     ),
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.w),
                     ),
                     child: Stack(
                       children: [
                         ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: _imageRest == null
+                            borderRadius: BorderRadius.circular(8.w),
+                            child: imageRest == null
                                 ? Image.asset(
                                     "assets/images/default_image.png",
                                     fit: BoxFit.fill,
                                     width: double.infinity,
                                   )
                                 : Image.file(
-                                    _imageRest!,
+                                    imageRest!,
                                     fit: BoxFit.cover,
                                     width: double.infinity,
                                   )),
                         Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(8.w),
                             gradient: LinearGradient(
                               colors: [
                                 Colors.black.withOpacity(.2),
@@ -160,10 +143,10 @@ class _RestProfilePageState extends State<RestProfilePage> {
                   ),
                   Positioned(
                     left: SizeConfig.screenWidth! / 2.5,
-                    top: 150,
+                    top: 145.h,
                     child: Container(
-                      height: 100,
-                      width: 100,
+                      height: 95.h,
+                      width: 95.w,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: MainColors.dimRedColor,
@@ -176,13 +159,13 @@ class _RestProfilePageState extends State<RestProfilePage> {
                     ),
                   ),
                   Positioned(
-                    top: 150,
+                    top: 145.h,
                     left: SizeConfig.screenWidth! / 1.15,
                     child: GestureDetector(
                       onTap: () => getImage(),
                       child: Container(
-                        height: 45,
-                        width: 45,
+                        height: 40.h,
+                        width: 40.w,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           gradient: LinearGradient(colors: [
@@ -199,11 +182,11 @@ class _RestProfilePageState extends State<RestProfilePage> {
                     ),
                   ),
                   Positioned(
-                    top: 150,
+                    top: 145.h,
                     left: SizeConfig.screenWidth! / 1.8,
                     child: Container(
-                      height: 40,
-                      width: 40,
+                      height: 40.h,
+                      width: 40.w,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: MainColors.whiteColor,
@@ -217,7 +200,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
                           icon: Icon(
                             Icons.camera_alt_outlined,
                             color: MainColors.greenColor,
-                            size: 20,
+                            size: 20.w,
                           ),
                         ),
                       ),
@@ -226,7 +209,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
                 ],
               ),
               SizedBox(
-                height: 15,
+                height: 15.h,
               ),
               textField(labelText: "Restoran nomi", controller: nameController),
               textField(labelText: "Admin raqami", controller: phoneController),
@@ -235,7 +218,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
                   icon: Icons.location_on,
                   controller: locationController),
               SizedBox(
-                height: 15,
+                height: 15.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -251,7 +234,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
                 ],
               ),
               SizedBox(
-                height: 15,
+                height: 15.h,
               ),
               textField(
                   labelText: "Restoran hisob raqami",
@@ -268,7 +251,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
       IconData? icon,
       required TextEditingController controller}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      padding:  EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
       child: TextFormField(
           validator: (input) {
             if (input!.isEmpty) {
@@ -278,22 +261,20 @@ class _RestProfilePageState extends State<RestProfilePage> {
           controller: controller,
           decoration: InputDecoration(
               labelText: labelText,
-              //floatingLabelBehavior: Hive.box("OwnerProfile").isEmpty?  FloatingLabelBehavior.always: FloatingLabelBehavior.never,
               alignLabelWithHint: true,
               suffixIcon: Icon(
                 icon,
                 color: MainColors.greenColor,
               ),
-              // labelStyle: TextStyle(color: MainColors.greenColor),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(8.w),
                 borderSide: BorderSide(
                     color: MainColors.greenColor,
                     width: 1,
                     style: BorderStyle.solid),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(8.w),
                 borderSide: BorderSide(
                     color: MainColors.textFieldColor,
                     width: 1,
@@ -311,10 +292,10 @@ class _RestProfilePageState extends State<RestProfilePage> {
       children: [
         Text(
           isOpen,
-          style: TextStyle(fontSize: 17),
+          style: TextStyle(fontSize: 15.sp),
         ),
         Container(
-          height: 40,
+          height: 40.h,
           margin: EdgeInsets.only(top: 5),
           width: SizeConfig.screenWidth! / 2.3,
           decoration: BoxDecoration(
@@ -322,7 +303,6 @@ class _RestProfilePageState extends State<RestProfilePage> {
             color: MainColors.greenColor.withOpacity(.3),
           ),
           child: TextFormField(
-
             validator: (input) {
               if (input!.isEmpty) {
                 return "Iltimos ma'lumotlarni to'liq kiriting!";
@@ -332,7 +312,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
             decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: time,
-                contentPadding: EdgeInsets.only(left: 20, top: 5),
+                contentPadding: EdgeInsets.only(left: 20.w, top: 10.h),
                 suffixIcon: InkWell(
                     onTap: () {},
                     child: Icon(

@@ -5,6 +5,7 @@ import 'package:inadvance/pages/choose_language_page.dart';
 import 'package:inadvance/pages/simple_user_screens/user_profile_page.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'dart:io' show Platform;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserSettingScreen extends StatefulWidget {
   const UserSettingScreen({Key? key}) : super(key: key);
@@ -78,8 +79,8 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
             child: Column(
               children: [
                 Container(
-                  height: 115,
-                  width: 115,
+                  height: 105.h,
+                  width: 105.w,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(
@@ -106,17 +107,17 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                       child: Text(
                         "Feruza"[0],
                         style: TextStyle(
-                            color: MainColors.whiteColor, fontSize: 40),
+                            color: MainColors.whiteColor, fontSize: 35.sp),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(
+               const SizedBox(
                   height: 10,
                 ),
                 Text(
                   "Feruza Ergasheva",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
                 ),
               ],
             ),
@@ -150,7 +151,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
               _iosDialog();
             }
           }, child: settingInfos(nameInfo: "Log Out")),
-          Spacer(
+         const Spacer(
             flex: 50,
           ),
         ],
@@ -170,8 +171,8 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
           title: Text(
             nameInfo,
             style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w600,
                 color: nameInfo == "Log Out"
                     ? Colors.redAccent
                     : MainColors.blackColor),
@@ -181,7 +182,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
             color: nameInfo == "Log Out"
                 ? Colors.redAccent
                 : MainColors.blackColor,
-            size: 30,
+            size: 25.sp,
           ),
           tileColor: MainColors.whiteColor,
         ),
