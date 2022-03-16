@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/about_app_page.dart';
 import 'package:inadvance/utils/colors.dart';
+<<<<<<< HEAD
+=======
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
 
 class ChooseLanguage extends StatefulWidget {
   const ChooseLanguage({Key? key}) : super(key: key);
@@ -22,13 +26,21 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
           children: [
+<<<<<<< HEAD
             Spacer(
+=======
+           const Spacer(
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
               flex: 16,
             ),
             Text(
               "Choose language",
               style: TextStyle(
+<<<<<<< HEAD
                 fontSize: 27,
+=======
+                fontSize: 25.sp,
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                 color: MainColors.blackColor,
                 fontWeight: FontWeight.bold,
               ),
@@ -39,11 +51,19 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
             Text(
               "Please choose which language you want. You can change later in the profile!",
               style: TextStyle(
+<<<<<<< HEAD
                 fontSize: 18,
 
               ),
             ),
             Spacer(
+=======
+                fontSize: 16.sp,
+
+              ),
+            ),
+           const Spacer(
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
               flex: 7,
             ),
             languages(
@@ -51,7 +71,11 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               language: "O'zbekcha",
               x: 1,
             ),
+<<<<<<< HEAD
             Spacer(
+=======
+           const Spacer(
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
               flex: 1,
             ),
             languages(
@@ -59,7 +83,11 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               language: "Russian",
               x: 2
             ),
+<<<<<<< HEAD
             Spacer(
+=======
+           const Spacer(
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
               flex: 1,
             ),
             languages(
@@ -67,7 +95,11 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               language: "English",
               x: 3
             ),
+<<<<<<< HEAD
             Spacer(
+=======
+           const Spacer(
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
               flex: 8,
             )
           ],
@@ -89,7 +121,11 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
         Navigator.pushReplacementNamed(context, AboutAppPage.id);
       },
       child: Container(
+<<<<<<< HEAD
         height: 70,
+=======
+        height: 65.h,
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
         width: double.infinity,
         decoration: BoxDecoration(
             color: isChoose == x? MainColors.greenColor: MainColors.whiteColor,
@@ -101,20 +137,36 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
             children: [
               Image.asset(
                 imageFlag,
+<<<<<<< HEAD
                 width: 45,
               ),
               SizedBox(
                 width: 30,
+=======
+                width: 45.w,
+              ),
+              SizedBox(
+                width: 30.w,
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
               ),
               Text(
                 language,
                 style: TextStyle(
+<<<<<<< HEAD
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: isChoose == x? MainColors.whiteColor : MainColors.blackColor),
               ),
               Spacer(flex: 20,),
             isChoose == x? Icon(Icons.navigate_next, size: 35, color: MainColors.whiteColor,): SizedBox.shrink(),
+=======
+                    fontSize: 17.sp,
+                    fontWeight: FontWeight.w600,
+                    color: isChoose == x? MainColors.whiteColor : MainColors.blackColor),
+              ),
+             const Spacer(flex: 20,),
+            isChoose == x? Icon(Icons.navigate_next, size: 35.w, color: MainColors.whiteColor,): SizedBox.shrink(),
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
               Spacer(flex: 1,)
             ],
           ),

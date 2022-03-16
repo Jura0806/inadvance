@@ -25,14 +25,22 @@ class SizeConfig {
     safeBlockVertical = (screenHeight! - _safeAreaVertical!) / 100;
   }
 }
+<<<<<<< HEAD
 double getHeight(double inputHeight) {
+=======
+double getProportionateScreenHeight(double inputHeight) {
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
   double? screenHeight = SizeConfig.screenHeight;
   // 812 is the layout height that designer use
   return (inputHeight / 926.0) * screenHeight!;
 }
 
 // Get the proportionate height as per screen size
+<<<<<<< HEAD
 double getWidth(double inputWidth) {
+=======
+double getProportionateScreenWidth(double inputWidth) {
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
   double? screenWidth = SizeConfig.screenWidth;
   // 375 is the layout width that designer use
   return (inputWidth / 428.0) * screenWidth!;

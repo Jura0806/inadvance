@@ -39,7 +39,10 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+<<<<<<< HEAD
         ndkVersion '21.3.6528147'
+=======
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
     }
 
     buildTypes {

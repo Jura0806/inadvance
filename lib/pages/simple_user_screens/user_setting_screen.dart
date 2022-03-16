@@ -5,6 +5,10 @@ import 'package:inadvance/pages/choose_language_page.dart';
 import 'package:inadvance/pages/simple_user_screens/user_profile_page.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'dart:io' show Platform;
+<<<<<<< HEAD
+=======
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
 
 class UserSettingScreen extends StatefulWidget {
   const UserSettingScreen({Key? key}) : super(key: key);
@@ -78,8 +82,13 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
             child: Column(
               children: [
                 Container(
+<<<<<<< HEAD
                   height: 115,
                   width: 115,
+=======
+                  height: 105.h,
+                  width: 105.w,
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(
@@ -106,17 +115,29 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                       child: Text(
                         "Feruza"[0],
                         style: TextStyle(
+<<<<<<< HEAD
                             color: MainColors.whiteColor, fontSize: 40),
+=======
+                            color: MainColors.whiteColor, fontSize: 35.sp),
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                       ),
                     ),
                   ),
                 ),
+<<<<<<< HEAD
                 SizedBox(
+=======
+               const SizedBox(
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   height: 10,
                 ),
                 Text(
                   "Feruza Ergasheva",
+<<<<<<< HEAD
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+=======
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                 ),
               ],
             ),
@@ -150,7 +171,11 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
               _iosDialog();
             }
           }, child: settingInfos(nameInfo: "Log Out")),
+<<<<<<< HEAD
           Spacer(
+=======
+         const Spacer(
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
             flex: 50,
           ),
         ],
@@ -170,8 +195,13 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
           title: Text(
             nameInfo,
             style: TextStyle(
+<<<<<<< HEAD
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
+=======
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w600,
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                 color: nameInfo == "Log Out"
                     ? Colors.redAccent
                     : MainColors.blackColor),
@@ -181,7 +211,11 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
             color: nameInfo == "Log Out"
                 ? Colors.redAccent
                 : MainColors.blackColor,
+<<<<<<< HEAD
             size: 30,
+=======
+            size: 25.sp,
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
           ),
           tileColor: MainColors.whiteColor,
         ),

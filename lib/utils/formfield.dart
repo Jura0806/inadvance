@@ -30,7 +30,11 @@ class _CustomFormFieldState extends State<CustomFormField> {
   Widget build(BuildContext context) {
     SizeConfig().init;
     return Padding(
+<<<<<<< HEAD
       padding: EdgeInsets.only(bottom: getWidth(15.0)),
+=======
+      padding: EdgeInsets.only(bottom: getProportionateScreenWidth(15.0)),
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
       child: TextFormField(
         maxLines:widget.line,
         controller: widget.controller,
@@ -46,12 +50,17 @@ class _CustomFormFieldState extends State<CustomFormField> {
 
           border: OutlineInputBorder(
             borderRadius:
+<<<<<<< HEAD
             BorderRadius.circular(getWidth(15.0)),
+=======
+            BorderRadius.circular(getProportionateScreenWidth(15.0)),
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
             borderSide: BorderSide(
               color: Colors.green,
             ),
           ),
           contentPadding: EdgeInsets.only(
+<<<<<<< HEAD
             top: getHeight(38.0),
             left: getWidth(25.0),
             right: getWidth(20.0),
@@ -59,6 +68,15 @@ class _CustomFormFieldState extends State<CustomFormField> {
           enabledBorder: OutlineInputBorder(
             borderRadius:
             BorderRadius.circular(getWidth(12.0)),
+=======
+            top: getProportionateScreenHeight(38.0),
+            left: getProportionateScreenWidth(25.0),
+            right: getProportionateScreenWidth(20.0),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius:
+            BorderRadius.circular(getProportionateScreenWidth(12.0)),
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
             borderSide: BorderSide(
               color: Colors.green,
             ),
@@ -67,7 +85,11 @@ class _CustomFormFieldState extends State<CustomFormField> {
           fillColor: Color(0xFFFFFFFF),
           focusedBorder: OutlineInputBorder(
             borderRadius:
+<<<<<<< HEAD
             BorderRadius.circular(getWidth(12.0)),
+=======
+            BorderRadius.circular(getProportionateScreenWidth(12.0)),
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
             borderSide: BorderSide(color:Colors.green,),
           ),
           errorBorder: OutlineInputBorder(
@@ -79,7 +101,11 @@ class _CustomFormFieldState extends State<CustomFormField> {
           labelText: widget.hint,
           floatingLabelBehavior: FloatingLabelBehavior.auto,
           hintStyle: TextStyle(
+<<<<<<< HEAD
             fontSize: getWidth(16.0),
+=======
+            fontSize: getProportionateScreenWidth(16.0),
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
             color: Color(0xFF677294),
           ),
         ),
@@ -87,7 +113,11 @@ class _CustomFormFieldState extends State<CustomFormField> {
         keyboardType: widget.inputType,
         cursorColor: Color(0xFF000000),
         style: TextStyle(
+<<<<<<< HEAD
           fontSize: getWidth(16.0),
+=======
+          fontSize: getProportionateScreenWidth(16.0),
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
           fontFamily: "Poppins",
           fontWeight: FontWeight.w400,
           fontStyle: FontStyle.normal,

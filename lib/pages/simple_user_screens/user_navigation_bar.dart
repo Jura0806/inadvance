@@ -7,6 +7,10 @@ import 'package:inadvance/pages/simple_user_screens/user_search_screen.dart';
 import 'package:inadvance/pages/simple_user_screens/user_savatcha_screen.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/user_navigation_bar_icons.dart';
+<<<<<<< HEAD
+=======
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
 
 class UserNavigationBar extends StatefulWidget {
   const UserNavigationBar({Key? key}) : super(key: key);
@@ -37,6 +41,10 @@ class _UserNavigationBarState extends State<UserNavigationBar> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         elevation: 10,
+<<<<<<< HEAD
+=======
+        enableFeedback: true,
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
         currentIndex: currentIndex,
         onTap: (index) => setState(() => currentIndex = index),
         unselectedItemColor: MainColors.blackColor,
@@ -72,7 +80,11 @@ class _UserNavigationBarState extends State<UserNavigationBar> {
     return SvgPicture.asset(
       userBottomBarIcons[iconNumber]["active"].toString(),
       color: currentIndex == iconNumber? MainColors.greenColor : MainColors.blackColor,
+<<<<<<< HEAD
       height:  currentIndex == iconNumber? 25 : 20,
+=======
+      height:  currentIndex == iconNumber? 20.w : 17.w,
+>>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
     );
   }
 }
