@@ -27,7 +27,7 @@ class OwnerTableScreen extends StatefulWidget {
 
 class _OwnerTableScreenState extends State<OwnerTableScreen> {
   int indexPage = 0;
-  bool isDrawTable = false;
+  bool isDrawTable = true;
   final tableNumber = List.generate(20, (index) => "$index");
   List<String> floors = ["1 - floor", "2 - floor"];
   late PageController pageController;

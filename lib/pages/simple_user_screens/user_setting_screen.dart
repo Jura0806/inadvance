@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/about_app_page.dart';
 import 'package:inadvance/pages/choose_language_page.dart';
+import 'package:inadvance/pages/register_pages/registers_restaurant_and_user/restaurant_owner_sign_up_page.dart';
 import 'package:inadvance/pages/simple_user_screens/user_profile_page.dart';
+import 'package:inadvance/services/hive_db_user_service.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'dart:io' show Platform;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,12 +28,20 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
             actions: [
               CupertinoDialogAction(
                   isDefaultAction: true,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                   child: Text('Cancel',style: TextStyle(color: MainColors.greenColor))),
               CupertinoDialogAction(
                   isDefaultAction: true,
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    HiveClientSignIn().removeClient();
+                    HiveClientSignUp().removeClient();
+                    ClientToken().removeToken();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => OwnerSignUp(roleId: 2,)),
+                            (route) => false);
                   },
                   child: Text('Confirm',style: TextStyle(color: Colors.redAccent),)),
             ],
@@ -55,7 +65,13 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
               TextButton(
                 child: Text('Confirm'),
                 onPressed: (){
-                  Navigator.of(context).pop();
+                  HiveClientSignIn().removeClient();
+                  HiveClientSignUp().removeClient();
+                  ClientToken().removeToken();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => OwnerSignUp(roleId: 2,)),
+                          (route) => false);
                 },
               ),
             ],

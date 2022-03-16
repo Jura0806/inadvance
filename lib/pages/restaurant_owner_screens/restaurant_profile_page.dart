@@ -35,14 +35,14 @@ class _RestProfilePageState extends State<RestProfilePage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       var profile = RestaurantProfileModel(
-          name: nameController.text,
+          name: nameController.text.toString(),
           image_path: imageRest!,
-          bank_number: bankNumberController.text,
+          bank_number: bankNumberController.text.toString(),
           phone: phoneController.text,
-          open_time: openTimeController.text,
-          close_time: closeTimeController.text,
-          map_In: mapInController.text,
-          map_It: mapItController.text);
+          open_time: openTimeController.text.toString(),
+          close_time: closeTimeController.text.toString(),
+          map_In: mapInController.text.toString(),
+          map_It: mapItController.text.toString());
       setState(() {
         isLoading = true;
       });
@@ -79,7 +79,6 @@ class _RestProfilePageState extends State<RestProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile"),
@@ -142,7 +141,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
                     ),
                   ),
                   Positioned(
-                    left: SizeConfig.screenWidth! / 2.5,
+                    left: 140.w,
                     top: 145.h,
                     child: Container(
                       height: 95.h,

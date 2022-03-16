@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:inadvance/pages/choose_language_page.dart';
 import 'package:inadvance/pages/restaurant_owner_screens/owner_navigation_bar.dart';
+import 'package:inadvance/pages/simple_user_screens/user_navigation_bar.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,11 +20,14 @@ class _SplashPageState extends State<SplashPage> {
   bool isLoggedIn = false;
 
   _startPage() {
-    if (Hive.box("OwnerSignUp").isEmpty && Hive.box("OwnerSignIn").isEmpty) {
-      return Navigator.pushReplacementNamed(context, ChooseLanguage.id);
-    } else {
+    if (Hive.box("OwnerSignUp").isNotEmpty || Hive.box("OwnerSignIn").isNotEmpty) {
       return Navigator.pushNamedAndRemoveUntil(
           context, OwnerNavigationBar.id, (route) => false);
+    } else if(Hive.box("ClientSignUp").isNotEmpty || Hive.box("ClientSignIn").isNotEmpty) {
+      return Navigator.pushNamedAndRemoveUntil(
+          context, UserNavigationBar.id, (route) => false);
+    } else{
+    return Navigator.pushReplacementNamed(context, ChooseLanguage.id);
     }
   }
 

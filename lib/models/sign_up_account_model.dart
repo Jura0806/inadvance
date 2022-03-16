@@ -1,4 +1,4 @@
-class OwnerAccount {
+class SignUpAccount {
   late int role_id;
   late String full_name;
   late int phone;
@@ -6,7 +6,7 @@ class OwnerAccount {
   late String password;
   late String verify_password;
 
-  OwnerAccount(
+  SignUpAccount(
       {required this.full_name,
       required this.phone,
       required this.login,
@@ -14,7 +14,7 @@ class OwnerAccount {
       required this.verify_password,
       required this.role_id});
 
-  OwnerAccount.fromJson(Map<String, dynamic> json)
+  SignUpAccount.fromJson(Map<String, dynamic> json)
       : full_name = json["full_name"],
         phone = json["phone"],
         login = json["login"],
