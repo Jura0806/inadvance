@@ -1,0 +1,38 @@
+name: inadvance
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons: ^1.0.2
+  flutter_svg: ^0.22.0
+  http: ^0.13.3
+  hive: ^2.0.6
+  hive_flutter: ^1.1.0
+  image_picker: ^0.8.4+1
+  cached_network_image: ^3.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+     - assets/images/
+#     - assets/fonts
+  fonts:
+    - family: Gilroy
+      fonts:
+        - asset: assets/fonts/Gilroy-Regular.ttf
