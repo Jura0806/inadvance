@@ -1,68 +1,74 @@
+import 'dart:convert';
+
+Restaurant restaurantFromMap(String str) =>
+    Restaurant.fromMap(json.decode(str));
+
+String restaurantToMap(Restaurant data) => json.encode(data.toMap());
+
 class Restaurant {
   Restaurant({
-    required this.id,
-    required this.userId,
-    required this.imagePath,
-    required this.logoPath,
-    required this.name,
-    required this.phone,
-    required this.mapLn,
-    required this.mapLt,
-    required this.openTime,
-    required this.closeTime,
-    required this.bankNumber,
-    required this.deletedAt,
-    required this.createdAt,
-    required this.updatedAt,
+    this.id,
+    this.userId,
+    this.imagePath,
+    this.logoPath,
+    this.name,
+    this.phone,
+    this.mapLn,
+    this.mapLt,
+    this.openTime,
+    this.closeTime,
+    this.bankNumber,
+    this.deletedAt,
+    this.createdAt,
+    this.updatedAt,
   });
-  late final int id;
-  late final String userId;
-  late final String imagePath;
-  late final String logoPath;
-  late final String name;
-  late final String phone;
-  late final String mapLn;
-  late final String mapLt;
-  late final String openTime;
-  late final String closeTime;
-  late final String bankNumber;
-  late final String deletedAt;
-  late final String createdAt;
-  late final String updatedAt;
-  
-  Restaurant.fromJson(Map<String, dynamic> json){
-    id = json['id'];
-    userId = json['user_id'];
-    imagePath = json['image_path'];
-    logoPath = json['logo_path'];
-    name = json['name'];
-    phone = json['phone'];
-    mapLn = json['map_ln'];
-    mapLt = json['map_lt'];
-    openTime = json['open_time'];
-    closeTime = json['close_time'];
-    bankNumber = json['bank_number'];
-    deletedAt = json['deleted_at'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['user_id'] = userId;
-    _data['image_path'] = imagePath;
-    _data['logo_path'] = logoPath;
-    _data['name'] = name;
-    _data['phone'] = phone;
-    _data['map_ln'] = mapLn;
-    _data['map_lt'] = mapLt;
-    _data['open_time'] = openTime;
-    _data['close_time'] = closeTime;
-    _data['bank_number'] = bankNumber;
-    _data['deleted_at'] = deletedAt;
-    _data['created_at'] = createdAt;
-    _data['updated_at'] = updatedAt;
-    return _data;
-  }
+  int? id;
+  String? userId;
+  String? imagePath;
+  String? logoPath;
+  String? name;
+  String? phone;
+  String? mapLn;
+  String? mapLt;
+  String? openTime;
+  String? closeTime;
+  String? bankNumber;
+  String? deletedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+
+  factory Restaurant.fromMap(Map<String, dynamic> json) => Restaurant(
+        id: json["id"],
+        userId: json["user_id"],
+        imagePath: json["image_path"],
+        logoPath: json["logo_path"],
+        name: json["name"],
+        phone: json["phone"],
+        mapLn: json["map_ln"],
+        mapLt: json["map_lt"],
+        openTime: json["open_time"],
+        closeTime: json["close_time"],
+        bankNumber: json["bank_number"],
+        deletedAt: json["deleted_at"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+      );
+
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "user_id": userId,
+        "image_path": imagePath,
+        "logo_path": logoPath,
+        "name": name,
+        "phone": phone,
+        "map_ln": mapLn,
+        "map_lt": mapLt,
+        "open_time": openTime,
+        "close_time": closeTime,
+        "bank_number": bankNumber,
+        "deleted_at": deletedAt,
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
+      };
 }

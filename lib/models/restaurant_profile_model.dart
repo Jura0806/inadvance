@@ -1,43 +1,58 @@
-import 'dart:io';
+import 'dart:convert';
+
 
 class RestaurantProfileModel {
-  late File image_path;
-  late String name;
-  late String phone;
-  late String open_time;
-  late String close_time;
-  late String bank_number;
-  late String map_In;
-  late String map_It;
+  // final int userId;
+  String imagePath;
+  String name;
+  String phone;
+  String mapLn;
+  String mapLt;
+  String openTime;
+  String closeTime;
+  String bankNumber;
+  String logo;
+  RestaurantProfileModel({
+    // this.userId,
+    required this.imagePath,
+    required this.name,
+    required this.phone,
+    required this.mapLn,
+    required this.mapLt,
+    required this.openTime,
+    required this.closeTime,
+    required this.bankNumber,
+    required this.logo
+  });
 
-  RestaurantProfileModel(
-      {required this.name,
-      required this.image_path,
-      required this.bank_number,
-      required this.phone,
-      required this.open_time,
-      required this.close_time,
-      required this.map_In,
-      required this.map_It});
-
-  RestaurantProfileModel.fromJson(Map<String, dynamic> json)
-      : name = json["name"],
-        phone = json["phone"],
-        image_path = json["image_path"],
-        bank_number = json["bank_number"],
-        open_time = json["open_time"],
-        close_time = json["close_time"],
-        map_It = json["map_It"],
-        map_In = json["map_In"];
+  factory RestaurantProfileModel.fromJson(Map<String, dynamic> json) =>
+      RestaurantProfileModel(
+        imagePath: json["image_path"],
+        logo: json["logo_path"],
+        name: json["name"],
+        phone: json["phone"],
+        mapLn: json["map_ln"],
+        mapLt: json["map_lt"],
+        openTime: json["open_time"],
+        closeTime: json["close_time"],
+        bankNumber: json["bank_number"],
+      );
 
   Map<String, dynamic> toJson() => {
+        "image_path": imagePath,
+         "logo_path" : logo,
         "name": name,
         "phone": phone,
-        "image_path": image_path,
-        "bank_number": bank_number,
-        "open_time": open_time,
-        "close_time": close_time,
-        "map_It": map_It,
-        "map_In": map_In,
+        "map_ln": mapLn,
+        "map_lt": mapLt,
+        "open_time": openTime,
+        "close_time": closeTime,
+        "bank_number": bankNumber,
       };
+
+  RestaurantProfileModel restaurantProfileModelFromJson(String str) =>
+      RestaurantProfileModel.fromJson(json.decode(str));
+
+  String restaurantProfileModelToJson(RestaurantProfileModel data) =>
+      json.encode(data.toJson());
 }

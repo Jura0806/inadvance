@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/about_app_page.dart';
 import 'package:inadvance/pages/choose_language_page.dart';
+import 'package:inadvance/pages/register_pages/registers_restaurant_and_user/restaurant_owner_sign_up_page.dart';
 import 'package:inadvance/pages/simple_user_screens/user_profile_page.dart';
+import 'package:inadvance/services/hive_db_owner_service.dart';
+import 'package:inadvance/services/hive_db_user_service.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'dart:io' show Platform;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,9 +19,9 @@ class UserSettingScreen extends StatefulWidget {
 }
 
 class _UserSettingScreenState extends State<UserSettingScreen> {
-
-  void _iosDialog(){
-    showDialog(context: context,
+  void _iosDialog() {
+    showDialog(
+        context: context,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
             title: Text('Logout'),
@@ -26,43 +29,66 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
             actions: [
               CupertinoDialogAction(
                   isDefaultAction: true,
-                  onPressed: () {},
-                  child: Text('Cancel',style: TextStyle(color: MainColors.greenColor))),
-              CupertinoDialogAction(
-                  isDefaultAction: true,
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Confirm',style: TextStyle(color: Colors.redAccent),)),
+                  child: Text('Cancel',
+                      style: TextStyle(color: MainColors.greenColor))),
+              CupertinoDialogAction(
+                  isDefaultAction: true,
+                  onPressed: () {
+                    HiveSignUp().removeOwner();
+                    HiveSignIn().removeOwner();
+                    HiveToken().removeToken();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => OwnerSignUp(
+                                  roleId: 2,
+                                )),
+                        (route) => false);
+                  },
+                  child: Text(
+                    'Confirm',
+                    style: TextStyle(color: Colors.redAccent),
+                  )),
             ],
           );
-        }
-    );
+        });
   }
-  void _androidDialog(){
-    showDialog(context: context,
-        builder: (BuildContext context){
+
+  void _androidDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Logout'),
             content: Text('Are you sure you want to Logout!'),
             actions: [
               TextButton(
                 child: Text('Cancel'),
-                onPressed: (){
+                onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               TextButton(
                 child: Text('Confirm'),
-                onPressed: (){
-                  Navigator.of(context).pop();
+                onPressed: () {
+                  HiveSignUp().removeOwner();
+                  HiveSignIn().removeOwner();
+                  HiveToken().removeToken();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => OwnerSignUp(
+                                roleId: 2,
+                              )),
+                      (route) => false);
                 },
               ),
             ],
           );
-        }
-    );
+        });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,12 +138,13 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                     ),
                   ),
                 ),
-               const SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
                   "Feruza Ergasheva",
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
+                  style:
+                      TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
                 ),
               ],
             ),
@@ -141,17 +168,23 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
             },
           ),
           settingInfos(nameInfo: "Contact"),
-          InkWell(child: settingInfos(nameInfo: "Languages"), onTap: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ChooseLanguage()));
-          },),
-          InkWell(onTap: () {
-            if(Platform.isAndroid){
-              _androidDialog();
-            }else if(Platform.isIOS){
-              _iosDialog();
-            }
-          }, child: settingInfos(nameInfo: "Log Out")),
-         const Spacer(
+          InkWell(
+            child: settingInfos(nameInfo: "Languages"),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => ChooseLanguage()));
+            },
+          ),
+          InkWell(
+              onTap: () {
+                if (Platform.isAndroid) {
+                  _androidDialog();
+                } else if (Platform.isIOS) {
+                  _iosDialog();
+                }
+              },
+              child: settingInfos(nameInfo: "Log Out")),
+          const Spacer(
             flex: 50,
           ),
         ],

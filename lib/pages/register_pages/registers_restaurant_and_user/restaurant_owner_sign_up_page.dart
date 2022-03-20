@@ -1,16 +1,21 @@
 import 'dart:convert';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
-import 'package:inadvance/models/rest_owner_register.dart';
-import 'package:inadvance/pages/register_pages/register_restaurant_owner/restaurant_owner_sign_in_page.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:inadvance/models/sign_up_account_model.dart';
+import 'package:inadvance/pages/register_pages/registers_restaurant_and_user/restaurant_owner_sign_in_page.dart';
 import 'package:inadvance/pages/restaurant_owner_screens/owner_navigation_bar.dart';
+import 'package:inadvance/pages/simple_user_screens/user_navigation_bar.dart';
 import 'package:inadvance/services/hive_db_owner_service.dart';
+import 'package:inadvance/services/hive_db_user_service.dart';
 import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 
 class OwnerSignUp extends StatefulWidget {
-  const OwnerSignUp({Key? key}) : super(key: key);
+  int? roleId;
+
+  OwnerSignUp({Key? key, this.roleId}) : super(key: key);
   static final String id = "owner_sign_in_page";
 
   @override
@@ -35,56 +40,71 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
   late String restName = restaurantNameController.text.toString();
   late String adminNumber = adminPhoneController.text.toString();
   late String login = logInController.text.toString();
-  late String confirmPassword =
-      confirmPasswordController.text.toString();
+  late String confirmPassword = confirmPasswordController.text.toString();
+
+  String? id;
+  String? token;
 
   void _createAccount() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      var ownerAccount = OwnerAccount(
+      var ownerAccount = SignUpAccount(
           full_name: restName,
           phone: int.parse(adminNumber),
           login: login,
           password: password,
           verify_password: confirmPassword,
-          role_id: 2);
+          role_id: widget.roleId == 1 ? 2 : 3);
       setState(() {
         isLoading = true;
       });
       var response = await OwnerNetwork.ownerRegister(
           OwnerNetwork.Api_Register, OwnerNetwork.paramsCreate(ownerAccount));
-      setState(() {
+
         if (response != null) {
-          OwnerToken().storeToken(jsonDecode(response)["data"]["token"]);
+          setState(() {
           doSignUp();
+          HiveToken().storeToken(jsonDecode(response)["data"]["token"]);
+         id = jsonDecode(response)["data"]["id"];
+         token = jsonDecode(response)["data"]["token"];
+
+          isLoading = false;
+          });
         }
-        isLoading = false;
-      });
-      print("New User Restaurant => $response");
+      widget.roleId == 1
+          ? print("New User Restaurant => $response")
+          : print("New User Client => $response");
     } else {
       setState(() => _autoValidate = AutovalidateMode.always);
     }
   }
 
   void doSignUp() {
-    var ownerAccount = OwnerAccount(
-        full_name: restName,
-        phone: int.parse(adminNumber),
-        login: login,
-        password: password,
-        verify_password: confirmPassword,
-        role_id: 2);
+    var ownerAccount = SignUpAccount(
+      full_name: restName,
+      phone: int.parse(adminNumber),
+      login: login,
+      password: password,
+      verify_password: confirmPassword,
+      role_id: widget.roleId == 1 ? 2 : 3,
+      id: id,
+      token: token,
+    );
+    HiveSignUp().storeOwner(ownerAccount);
 
-    HiveOwnerSignUp().storeOwner(ownerAccount);
-    var account2 = HiveOwnerSignUp().loadOwner();
+    var account2 = HiveSignUp().loadOwner();
+    //
+    print(account2);
+    print(account2.token);
 
-    print(account2.full_name);
-    print(account2.phone);
-    print(account2.login);
-    print(account2.password);
-    print(account2.verify_password);
-    Navigator.pushNamedAndRemoveUntil(
-        context, OwnerNavigationBar.id, (route) => false);
+    print(HiveToken().loadToken());
+
+
+    widget.roleId == 1
+        ? Navigator.pushNamedAndRemoveUntil(
+            context, OwnerNavigationBar.id, (route) => false)
+        : Navigator.pushNamedAndRemoveUntil(
+            context, UserNavigationBar.id, (route) => false);
   }
 
   @override
@@ -111,17 +131,21 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                   child: Column(
                     children: [
                       Center(
-                        child: Image.asset(
-                          "assets/images/user_signup_vector.jpg",
+                        child: SvgPicture.asset(
+                          "assets/images/sign_up_vector.svg",
                           width: SizeConfig.screenWidth! / 2,
                         ),
                       ),
-                      const Text(
+                      SizedBox(
+                        height: 7,
+                      ),
+                      Text(
                         "Ro'yxatdan o'tish",
-                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 20.sp, fontWeight: FontWeight.w600),
                       ),
                       const Spacer(
-                        flex: 2,
+                        flex: 1,
                       ),
                       TextFormField(
                         controller: restaurantNameController,
@@ -132,7 +156,9 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                         },
                         onSaved: (input) => restName = input!,
                         decoration: buildDecorate(
-                          labelText: "Restoran  nomi",
+                          labelText: widget.roleId == 2
+                              ? "FullName"
+                              : "Restoran  nomi",
                         ),
                       ),
                       const SizedBox(
@@ -151,7 +177,9 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                           }
                         },
                         decoration: buildDecorate(
-                          labelText: "Admin telefon raqami",
+                          labelText: widget.roleId == 2
+                              ? "Telefon raqam"
+                              : "Admin telefon raqami",
                           hintText: "991234567",
                           prefixText: "+998 ",
                         ),
@@ -205,9 +233,10 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                       ),
                       TextFormField(
                         controller: confirmPasswordController,
-                        validator: (input) => (input!.isEmpty || input != password)
-                            ? "Parol to'g'ri kirtilmadi"
-                            : null,
+                        validator: (input) =>
+                            (input!.isEmpty || input != password)
+                                ? "Parol to'g'ri kirtilmadi"
+                                : null,
                         onSaved: (input) => confirmPassword = input!,
                         obscureText: isHiddenPassword2,
                         decoration: buildDecorate(
@@ -234,7 +263,9 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        OwnerSignInPage()));
+                                        OwnerSignInPage(
+                                          roleId: widget.roleId,
+                                        )));
                               },
                               child: Text(
                                 "LogIn",
@@ -255,8 +286,8 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
             ),
           ),
           Positioned(
-            bottom: 40,
-            height: 55,
+            bottom: 40.h,
+            height: 45.h,
             width: SizeConfig.screenWidth,
             child: InkWell(
               onTap: () {
@@ -273,7 +304,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                     child: Text(
                       "Davom etish",
                       style: TextStyle(
-                          color: MainColors.whiteColor, fontSize: 20),
+                          color: MainColors.whiteColor, fontSize: 17.sp),
                     ),
                   ),
                 ),
@@ -294,20 +325,18 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
         labelText: labelText,
         suffixIcon: suffixIcon,
         hintText: hintText,
-        hintStyle: TextStyle(fontSize: 16),
+        hintStyle: TextStyle(fontSize: 15.sp),
         prefixText: prefixText,
-        prefixStyle: TextStyle(color: Colors.black, fontSize: 16),
+        prefixStyle: TextStyle(color: Colors.black, fontSize: 15.sp),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-              color: MainColors.greenColor, width: 1, style: BorderStyle.solid),
+              color: MainColors.greyColor, width: 1, style: BorderStyle.solid),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-              color: MainColors.textFieldColor,
-              width: 1,
-              style: BorderStyle.solid),
+              color: MainColors.greenColor, width: 1, style: BorderStyle.solid),
         ));
   }
 }

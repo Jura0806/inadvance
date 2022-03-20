@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:inadvance/models/categories_restaurant.dart';
 import 'package:inadvance/models/restaurant_model.dart';
@@ -19,7 +20,7 @@ class UserHomeScreen extends StatefulWidget {
 }
 
 class _UserHomeScreenState extends State<UserHomeScreen> {
-  List<Restaurants> restaurants = [
+  List<Restaurants> fakeRestaurants = [
     Restaurants(
         restaurantName: "Rayhon",
         restaurantImage:
@@ -125,7 +126,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                itemCount: restaurants.length,
+                itemCount: fakeRestaurants.length,
                 itemBuilder: (ctx, i) {
                   return Card(
                     child: Container(
@@ -133,7 +134,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       height: 210.h,
                       decoration:
                           BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                      child: topRestaurants(restaurants[i]),
+                      child: topRestaurants(fakeRestaurants[i]),
                     ),
                   );
                 },
@@ -170,24 +171,36 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 // separatorBuilder: (BuildContext context, index) => SizedBox(width: 10,),
               ),
             ),
-            const SizedBox(
-              height: 15,
-            ),
-            FutureBuilder(
+            const SizedBox(height: 15),
+            FutureBuilder<List<Restaurant>>(
               future: OwnerNetwork.getRestaurants(),
-              builder: (context, AsyncSnapshot snapshot) {
-                // print(snapshot.data);
-                return Column(
-                  children: restaurants
-                      .map(
-                        (restoran) => Card(
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          child: Container(
-                              height: 212.h, child: allRestaurants(restoran)),
-                        ),
-                      )
-                      .toList(),
-                );
+              builder: (context, AsyncSnapshot<List<Restaurant>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return SizedBox();
+                } else if (snapshot.connectionState == ConnectionState.done) {
+                  List<Restaurant> restaurants = snapshot.data!;
+                  if (snapshot.hasError) {
+                    return SizedBox();
+                  } else if (snapshot.hasData) {
+                    return Column(
+                      children: restaurants
+                          .map(
+                            (restaurant) => Card(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              child: Container(
+                                height: 212.h,
+                                child: singleRestaurant(restaurant),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    );
+                  } else {
+                    return SizedBox();
+                  }
+                } else {
+                  return SizedBox();
+                }
               },
             ),
           ],
@@ -274,7 +287,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     );
   }
 
-  Widget allRestaurants(Restaurants restaurants) {
+  Widget singleRestaurant(Restaurant restaurant) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -287,12 +300,10 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             height: 155.h,
             width: double.infinity,
             child: ClipRRect(
-              child: Hero(
-                tag: "1",
-                child: Image.network(
-                  restaurants.restaurantImage,
-                  fit: BoxFit.cover,
-                ),
+              child: CachedNetworkImage(
+                imageUrl:
+                    'https://in-advance.bingo99.uz${restaurant.imagePath}',
+                fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(8), topLeft: Radius.circular(8)),
@@ -309,7 +320,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    restaurants.restaurantName,
+                    restaurant.name!,
                     style:
                         TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
                   ),
@@ -317,7 +328,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     height: 5,
                   ),
                   Text(
-                    restaurants.restaurantsFoodType,
+                    "National Food",
                     style: TextStyle(color: Colors.grey, fontSize: 13.sp),
                   ),
                 ],
@@ -333,7 +344,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     width: 3,
                   ),
                   Text(
-                    "${restaurants.restaurantFeedback}",
+                    '4.9',
                     style:
                         TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600),
                   )

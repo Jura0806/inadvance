@@ -1,7 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:inadvance/pages/register_pages/registers_restaurant_and_user/restaurant_owner_sign_up_page.dart';
 import 'package:inadvance/pages/restaurant_owner_screens/restaurant_profile_page.dart';
+import 'package:inadvance/provider_views/owner_views_provider/profile_post_view.dart';
 import 'package:inadvance/services/hive_db_owner_service.dart';
+import 'package:inadvance/services/hive_db_user_service.dart';
+import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'dart:io' show Platform;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,16 +18,28 @@ import '../choose_language_page.dart';
 
 class OwnerSettingScreen extends StatefulWidget {
   const OwnerSettingScreen({Key? key}) : super(key: key);
-  static  final String id  = "owner_setting";
+  static final String id = "owner_setting";
 
   @override
   _OwnerSettingScreenState createState() => _OwnerSettingScreenState();
 }
 
 class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
+  // CreateProfile createProfile = new CreateProfile();
+  Map<String, dynamic> profile ={
+    "data": {
+      "logo_path": "https://anitekh.ru/wp-content/uploads/2019/10/wallpaper.jpg.png",
+      "full_name": "",
+      "phone": "",
+      "open_time": "",
+      "close_time": "",
+      "bank_number": "",
 
-  void _iosDialog(){
-    showDialog(context: context,
+    }
+  };
+  void _iosDialog() {
+    showDialog(
+        context: context,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
             title: Text('Logout'),
@@ -28,42 +47,89 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
             actions: [
               CupertinoDialogAction(
                   isDefaultAction: true,
-                  onPressed: () {},
-                  child: Text('Cancel',style: TextStyle(color: MainColors.greenColor))),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    // createProfile.getProfile();
+                    print(HiveSignUp().loadOwner().id);
+                    print(HiveSignUp().loadOwner().token);
+                    var response = await OwnerNetwork.ownerProfileGet(
+                        OwnerNetwork.Api_Restaurant_Profile);
+                    print(response);
+                  },
+                  child: Text('Cancel',
+                      style: TextStyle(color: MainColors.greenColor))),
               CupertinoDialogAction(
                   isDefaultAction: true,
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    HiveSignIn().removeOwner();
+                    HiveSignUp().removeOwner();
+                    HiveToken().removeToken();
+                    HiveRestId().removeId();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => OwnerSignUp(
+                                  roleId: 1,
+                                )),
+                        (route) => false);
                   },
-                  child: Text('Confirm',style: TextStyle(color: Colors.redAccent),)),
+                  child: Text(
+                    'Confirm',
+                    style: TextStyle(color: Colors.redAccent),
+                  )),
             ],
           );
-        }
-    );
+        });
   }
-  void _androidDialog(){
-    showDialog(context: context,
-        builder: (BuildContext context){
+
+  void _androidDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Logout'),
             content: Text('Are you sure you want to Logout!'),
             actions: [
               TextButton(
                 child: Text('Cancel'),
-                onPressed: (){
+                onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               TextButton(
                 child: Text('Confirm'),
-                onPressed: (){
-                  Navigator.of(context).pop();
+                onPressed: () {
+                  HiveSignIn().removeOwner();
+                  HiveSignUp().removeOwner();
+                  HiveToken().removeToken();
+                  HiveRestId().removeId();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => OwnerSignUp(
+                                roleId: 1,
+                              )),
+                      (route) => false);
                 },
               ),
             ],
           );
-        }
-    );
+        });
+  }
+
+  Future getProfile() async {
+    var response =
+    await OwnerNetwork.ownerProfileGet(OwnerNetwork.Api_Restaurant_Profile);
+
+    if (jsonDecode(response)["data"] != null) {
+      setState(() {
+        profile = jsonDecode(response);
+      });
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfile();
   }
   @override
   Widget build(BuildContext context) {
@@ -84,14 +150,21 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                   height: 105.h,
                   width: 105.w,
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(
-                            "https://scontent.ftas2-2.fna.fbcdn.net/v/t1.6435-1/147758135_2883057468590967_3283438224948433812_n.jpg?stp=dst-jpg_p720x720&_nc_cat=105&ccb=1-5&_nc_sid=1eb0c7&_nc_ohc=GzSj92nGIEAAX-EF1pd&_nc_ht=scontent.ftas2-2.fna&oh=00_AT_v--ZR3tfNgI1omykU60HmU2ULGmGL9NRF7z9fFT6jXQ&oe=6232FF9A"),
-                        fit: BoxFit.fill),
+                    image:
+                    // Hive.box("Restaurant_id").isEmpty
+                    //     ?
+                    DecorationImage(
+                            image:
+                                AssetImage("assets/images/default_image.png"),
+                            fit: BoxFit.fill),
+                        // : DecorationImage(
+                        //     image:
+                        //         NetworkImage("https://in-advance.bingo99.uz${profile["data"]["logo_path"]}"),
+                        //     fit: BoxFit.fill),
                     color: Colors.grey,
                     shape: BoxShape.circle,
                     border:
-                    Border.all(width: 2.5.w, color: MainColors.greenColor),
+                        Border.all(width: 2.5.w, color: MainColors.greenColor),
                   ),
                   child: Container(
                     decoration: BoxDecoration(
@@ -119,7 +192,8 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                 ),
                 Text(
                   "Rayhon",
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
+                  style:
+                      TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
                 ),
               ],
             ),
@@ -130,6 +204,8 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
           InkWell(
             child: settingInfos(nameInfo: "Restaurant profili"),
             onTap: () {
+              // print(HiveRestId().loadId());
+              // RestProfilePage().createState().getProfile();
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => RestProfilePage()));
             },
@@ -143,39 +219,37 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
             },
           ),
           settingInfos(nameInfo: "Contact"),
-          InkWell(child: settingInfos(nameInfo: "Languages"), onTap: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ChooseLanguage()));
-          },),
-          InkWell(onTap: () {
-            if(Platform.isAndroid){
-              _androidDialog();
-            }else if(Platform.isIOS){
-              _iosDialog();
-            }
-          }, child: settingInfos(nameInfo: "Log Out")),
-          TextButton(
-              onPressed: (){
-                HiveOwnerSignIn().removeOwner();
+          InkWell(
+            child: settingInfos(nameInfo: "Languages"),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => ChooseLanguage()));
+            },
+          ),
+          InkWell(
+              onTap: () {
+                if (Platform.isAndroid) {
+                  _androidDialog();
+                } else if (Platform.isIOS) {
+                  _iosDialog();
+                }
               },
-              child: const Text("Remove_Owner's_SignIn_Data")),
+              child: settingInfos(nameInfo: "Log Out")),
           TextButton(
-              onPressed: (){
-                print(OwnerToken().loadToken());
+              onPressed: () {
+                var token = HiveSignUp().loadOwner();
+                print(token.password);
+                // print(OwnerToken().loadToken());
               },
               child: Text("Print_Owner_Token")),
-          TextButton(
-              onPressed: (){
-                print(OwnerProfile().loadProfile());
-              },
-              child: Text("Owner_PROFILE_LOCALDATA_PRINT")),
-         const Spacer(
+          const Spacer(
             flex: 50,
           ),
-
         ],
       ),
     );
   }
+
   Widget settingInfos({required String nameInfo}) {
     return Column(
       children: [

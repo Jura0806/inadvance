@@ -1,15 +1,21 @@
 import 'dart:convert';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
-import 'package:inadvance/models/rest_owner_login.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:inadvance/models/sign_in_model.dart';
+import 'package:inadvance/pages/register_pages/registers_restaurant_and_user/restaurant_owner_sign_up_page.dart';
 import 'package:inadvance/pages/restaurant_owner_screens/owner_navigation_bar.dart';
+import 'package:inadvance/pages/simple_user_screens/user_navigation_bar.dart';
 import 'package:inadvance/services/hive_db_owner_service.dart';
+import 'package:inadvance/services/hive_db_user_service.dart';
 import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 
 class OwnerSignInPage extends StatefulWidget {
-  const OwnerSignInPage({Key? key}) : super(key: key);
+  int? roleId;
+
+  OwnerSignInPage({Key? key, this.roleId}) : super(key: key);
   static String id = "owner_sign_in";
 
   @override
@@ -22,6 +28,9 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
   late bool isLoading = true;
   String notAvialableLogin = '';
 
+  String? id;
+  String? token;
+
   var logInController = TextEditingController();
   var passwordController = TextEditingController();
 
@@ -31,17 +40,19 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
   void _signInAccount() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      var ownerSignIn = OwnerSignIn(login: login, password: password);
+      var ownerSignIn = SignIn(login: login, password: password);
       setState(() {
         isLoading = true;
       });
-       var response = await OwnerNetwork.ownerRegister(
+      var response = await OwnerNetwork.ownerRegister(
           OwnerNetwork.Api_LogIn, OwnerNetwork.paramsSignIn(ownerSignIn));
       setState(() {
         if (response != null) {
-          OwnerToken().storeToken(jsonDecode(response)["token"]);
+          HiveToken().storeToken(jsonDecode(response)["token"]);
+          // id = jsonDecode(response)["data"]["id"];
+          //token = jsonDecode(response)["data"]["token"];
           doSignIn();
-        }else{
+        } else {
           setState(() {
             notAvialableLogin = "Bu login mavjud emas";
           });
@@ -55,18 +66,24 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
   }
 
   void doSignIn() {
+    var ownerSignIn =
+        SignIn(login: login, password: password, id: id, token: token);
+    HiveSignIn().storeOwner(ownerSignIn);
 
-    var ownerSignIn = OwnerSignIn(login: login, password: password);
-    HiveOwnerSignIn().storeOwner(ownerSignIn);
-    var loginAccount = HiveOwnerSignIn().loadOwner();
+    // var loginAccount = HiveOwnerSignIn().loadOwner();
+    // var loginClient = HiveClientSignIn().loadClient();
+    //
+    // print(loginAccount.login);
+    // print(loginAccount.password);
+    // print(OwnerToken().loadToken());
 
-    print(loginAccount.login);
-    print(loginAccount.password);
-    print(OwnerToken().loadToken());
+    print(HiveToken().loadToken());
 
-
-    Navigator.pushNamedAndRemoveUntil(
-        context, OwnerNavigationBar.id, (route) => false);
+    widget.roleId == 1
+        ? Navigator.pushNamedAndRemoveUntil(
+            context, OwnerNavigationBar.id, (route) => false)
+        : Navigator.pushNamedAndRemoveUntil(
+            context, UserNavigationBar.id, (route) => false);
   }
 
   bool isHiddenPassword = true;
@@ -94,21 +111,21 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
           child: Column(
             children: [
               Center(
-                child: Image.asset(
-                  "assets/images/user_signin_vector.jpg",
+                child: SvgPicture.asset(
+                  "assets/images/sign_in_vector.svg",
                   width: SizeConfig.screenWidth! / 2,
                 ),
               ),
               Spacer(),
-              const Text(
+              Text(
                 "Kirish",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
               ),
               const Spacer(
                 flex: 2,
               ),
               TextFormField(
-                controller: logInController,
+                  controller: logInController,
                   validator: (input) {
                     if (input!.isEmpty) {
                       return "Iltimos  login kiriting!";
@@ -121,7 +138,7 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
                 height: 20,
               ),
               TextFormField(
-                controller: passwordController,
+                  controller: passwordController,
                   validator: (input) {
                     if (input!.isEmpty) {
                       return "Iltimos  login kiriting!";
@@ -143,41 +160,49 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
                           : Icons.visibility_off),
                     ),
                   )),
-              const SizedBox(
-                height: 15,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: SizeConfig.screenWidth! / 2),
-                child: Text(
-                  "Parolni unutdingizmi?",
-                  style: TextStyle(color: MainColors.greenColor, fontSize: 15),
+              Align(
+                alignment: Alignment.topRight,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, OwnerSignUp.id, (route) => false);
+                  },
+                  child: Text("Akkaunt yaratish",
+                      style: TextStyle(
+                          color: MainColors.greenColor, fontSize: 15.sp)),
                 ),
               ),
-               SizedBox(height: 10,),
-               Text(loginError()) ,
+              SizedBox(
+                height: 10,
+              ),
+              Text(loginError()),
               const Spacer(
                 flex: 14,
               ),
-               isLoading ? InkWell(
-                onTap: () {
-                  _signInAccount();
-                },
-                child: Container(
-                  height: 55,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: MainColors.greenColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Davom etish",
-                      style:
-                          TextStyle(color: MainColors.whiteColor, fontSize: 20),
+              isLoading
+                  ? InkWell(
+                      onTap: () {
+                        _signInAccount();
+                      },
+                      child: Container(
+                        height: 45.h,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: MainColors.greenColor,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Davom etish",
+                            style: TextStyle(
+                                color: MainColors.whiteColor, fontSize: 17.sp),
+                          ),
+                        ),
+                      ),
+                    )
+                  : CircularProgressIndicator(
+                      color: MainColors.greenColor,
                     ),
-                  ),
-                ),
-              ) :  CircularProgressIndicator( color: MainColors.greenColor,),
               SizedBox(
                 height: 40,
               ),
@@ -195,14 +220,12 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-              color: MainColors.greenColor, width: 1, style: BorderStyle.solid),
+              color: MainColors.greyColor, width: 1, style: BorderStyle.solid),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-              color: MainColors.textFieldColor,
-              width: 1,
-              style: BorderStyle.solid),
+              color: MainColors.greenColor, width: 1, style: BorderStyle.solid),
         ));
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inadvance/pages/register_pages/register_restaurant_owner/restaurant_owner_sign_up_page.dart';
-import 'package:inadvance/pages/register_pages/register_user/user_sign_up_page.dart';
+import 'package:inadvance/pages/register_pages/registers_restaurant_and_user/restaurant_owner_sign_up_page.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -59,13 +58,16 @@ class _FirstRegisterState extends State<FirstRegister> {
             ),
             GestureDetector(
               onTap: () {
-                if (isChoose == 2) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => UserSignUp()));
-                } else if(isChoose == 1) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => OwnerSignUp()));
-                }
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => OwnerSignUp(roleId: isChoose,)));
+                print(isChoose);
+                // if (isChoose == 2) {
+                //   Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (BuildContext context) => UserSignUp()));
+                // } else if(isChoose == 1) {
+                //   Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (BuildContext context) => OwnerSignUp()));
+                // }
               },
               child: Container(
                 height: 45.h,
