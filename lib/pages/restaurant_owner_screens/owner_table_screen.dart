@@ -1,24 +1,16 @@
+import 'dart:convert';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:inadvance/models/restaurant_tables_model.dart';
 import 'package:inadvance/pages/restaurant_owner_screens/owner_draw_scheme.dart';
+import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OwnerTableScreen extends StatefulWidget {
-  String? floor;
-  int? numberTable;
-  int? costTable;
-  String? startTable;
-  String? endTable;
-  bool? isDrawTables = false;
-
-  OwnerTableScreen({
+  const OwnerTableScreen({
     Key? key,
-    this.floor,
-    this.numberTable,
-    this.costTable,
-    this.startTable,
-    this.endTable,
-    this.isDrawTables,
   }) : super(key: key);
 
   @override
@@ -29,14 +21,60 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
   int indexPage = 0;
   bool isDrawTable = true;
   final tableNumber = List.generate(20, (index) => "$index");
-  List<String> floors = ["1 - floor", "2 - floor"];
   late PageController pageController;
 
+  Map<String, dynamic> listTables = {};
+  List listTables2 = [];
+  bool isLoading = true;
+
+  List floor1 = [];
+  List floor2 = [];
+  List floor3 = [];
+  List floor4 = [];
+  List floor5 = [];
+  List<List> floors = [];
+
+  void apiTableList(String? nextPage) async {
+    var response = await OwnerNetwork.ownersGetTableList(nextPage);
+    if (response != null) {
+      setState(() {
+        listTables2 = jsonDecode(response)["data"]["data"];
+        isLoading = false;
+        List.generate(listTables2.length, (index) {
+          if (listTables2[index]["floor"] == "1") {
+            floor1.add(listTables2[index]);
+          } else if (listTables2[index]["floor"] == "2") {
+            floor2.add(listTables2[index]);
+          } else if (listTables2[index]["floor"] == "3") {
+            floor3.add(listTables2[index]);
+          } else if (listTables2[index]["floor"] == "4") {
+            floor4.add(listTables2[index]);
+          } else if (listTables2[index]["floor"] == "5") {
+            floor5.add(listTables2[index]);
+          }
+        });
+        List<List> floorss = [floor1, floor2, floor3, floor4, floor5];
+        checkFloorList(floorss);
+      });
+    }
+    // print( response);
+  }
+
+  checkFloorList(List<List> floorr) {
+    setState(() {
+      floorr.forEach((v) {
+        if (v.isNotEmpty) {
+          floors.add(v);
+        }
+      });
+    });
+  }
 
   @override
   void initState() {
     pageController = PageController(initialPage: indexPage);
     super.initState();
+    apiTableList("");
     // setState(() {
     //   isDrawTable = true;
     // });
@@ -60,15 +98,26 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
     return Scaffold(
       appBar: isDrawTable
           ? AppBar(
-              title: Text(
-                "Tables",
-                style: TextStyle(color: MainColors.whiteColor),
+              title: GestureDetector(
+                onTap: () {
+                  // print(apiTableList());
+                  //apiTableList("");
+                  print(listTables2[2]["id"]);
+                  print("list ${floors.length}");
+                },
+                child: Text(
+                  "Tables",
+                  style: TextStyle(color: MainColors.whiteColor),
+                ),
               ),
               actions: [
-                InkWell(
+                GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => DrawScheme()));
+                          builder: (BuildContext context) => DrawScheme(
+                                setNum: '',
+                                floor: '',
+                              )));
                     },
                     child: Image.asset(
                       'assets/images/Vector.png',
@@ -88,30 +137,36 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
                   height: 45.h,
                   child: Card(
                     child: Padding(
-                      padding:  EdgeInsets.only(left: 15.w),
-                      child: Row(
-                        children: List.generate(floors.length, (index) {
-                          return TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  indexPage = index;
-                                  pageController.animateToPage(index,
-                                      duration: Duration(milliseconds: 100),
-                                      curve: Curves.bounceIn);
-                                });
-                              },
-                              child: Text(
-                                floors[index],
-                                style: TextStyle(
-                                    decoration: index == indexPage
-                                        ? TextDecoration.underline
-                                        : TextDecoration.none,
-                                    color: index == indexPage
-                                        ? MainColors.greenColor
-                                        : MainColors.blackColor,
-                                    fontSize: 15.sp),
-                              ));
-                        }),
+                      padding: EdgeInsets.only(left: 15.w),
+                      child: ListView(
+                        // controller: pageController,
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          Row(
+                            children: List.generate(floors.length, (index) {
+                              return TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      indexPage = index;
+                                      pageController.animateToPage(index,
+                                          duration: Duration(milliseconds: 100),
+                                          curve: Curves.bounceIn);
+                                    });
+                                  },
+                                  child: Text(
+                                    "${index + 1} - floor",
+                                    style: TextStyle(
+                                        decoration: index == indexPage
+                                            ? TextDecoration.underline
+                                            : TextDecoration.none,
+                                        color: index == indexPage
+                                            ? MainColors.greenColor
+                                            : MainColors.blackColor,
+                                        fontSize: 15.sp),
+                                  ));
+                            }),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -126,63 +181,117 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
               backgroundColor: MainColors.greenColor,
             ),
       body: isDrawTable
-          ? PageView(
-              controller: pageController,
-              onPageChanged: (int page) {
-                setState(() {
-                  indexPage = page;
-                });
-              },
-              children: [buildGridView(), Center(child: Text("TExtt"))],
-            )
+          ? isLoading
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: MainColors.greenColor,
+                ))
+              : PageView.builder(
+                  controller: pageController,
+                  onPageChanged: (int page) {
+                    setState(() {
+                      indexPage = page;
+                    });
+                  },
+                  itemCount: floors.length,
+                  itemBuilder: (ctx, item) => buildGridView(floors[item]),
+                )
           : noScheme(),
     );
   }
 
-  Widget buildTableCard(String number) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.w)),
-      child: Container(
-        padding: EdgeInsets.all(10.w),
-        decoration: BoxDecoration(
-            border: Border.all(
-              width: 0.3.sp,
-              color: MainColors.greenColor,
-            ),
-            borderRadius: BorderRadius.circular(8.w)),
-        child: GridTile(
-          header: Text(
-            "10.000 UZS",
-            style: TextStyle(fontSize: 10.sp),
-            textAlign: TextAlign.left,
-          ),
-          child: Center(
-            child: Text(
-              "$number",
-              style: TextStyle(
-                  color: MainColors.greenColor,
-                  fontSize: 25.sp,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          footer: Text(
-            "4 kishilik",
-            textAlign: TextAlign.center,
-          ),
+  Widget buildTableCard(int number, List floor) {
+    return InkWell(
+      onTap: () {
+        number != floor.length
+            ? Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => DrawScheme(
+                      floor: floor[number]["floor"],
+                      setNum: floor[number]["set_num"],
+                      price: floor[number]["price"],
+                      index: floor[number]["index"],
+                      id: floor[number]["id"],
+                    )))
+            : apiTableList("?page=2");
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.w)),
+        child: Container(
+          padding: EdgeInsets.all(10.w),
+          decoration: BoxDecoration(
+              color:
+                  number == 1 ? MainColors.greenColor : MainColors.whiteColor,
+              border: Border.all(
+                width: 0.3.sp,
+                color:
+                    number == 1 ? MainColors.whiteColor : MainColors.greenColor,
+              ),
+              borderRadius: BorderRadius.circular(8.w)),
+          child: number != floor.length
+              ? GridTile(
+                  header: Text(
+                    "${floor[number]["price"]} UZS",
+                    style: TextStyle(
+                        fontSize: 10.sp,
+                        color: number == 1
+                            ? MainColors.whiteColor
+                            : MainColors.blackColor),
+                    textAlign: TextAlign.left,
+                  ),
+                  child: Center(
+                    child: Text(
+                      "${floor[number]["index"]}",
+                      style: TextStyle(
+                          color: number == 1
+                              ? MainColors.whiteColor
+                              : MainColors.greenColor,
+                          fontSize: 25.sp,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  footer: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${floor[number]["set_num"]} kishilik   ${floor[number]["floor"]}",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: number == 1
+                                ? MainColors.whiteColor
+                                : MainColors.blackColor),
+                      ),
+                      number == 1
+                          ? Icon(
+                              Icons.lock,
+                              size: 15.sp,
+                              color: MainColors.whiteColor,
+                            )
+                          : SizedBox.shrink(),
+                    ],
+                  ),
+                )
+              : GridTile(
+                  child: Center(
+                  child: Icon(
+                    Icons.replay,
+                    size: 25,
+                    color: MainColors.greenColor,
+                  ),
+                )),
         ),
       ),
     );
   }
 
-  Widget buildGridView() {
+  Widget buildGridView(List floor) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3, crossAxisSpacing: 3.w, mainAxisSpacing: 3.w),
       padding: EdgeInsets.all(10.w),
-      itemCount: tableNumber.length,
+      itemCount: floor.length + 1,
       itemBuilder: (ctx, index) {
-        final item = tableNumber[index];
-        return buildTableCard(item);
+        // final item = tableNumber[index];
+        return buildTableCard(index, floor);
       },
     );
   }
@@ -201,7 +310,10 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
         InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => DrawScheme()));
+                builder: (BuildContext context) => DrawScheme(
+                      setNum: '',
+                      floor: '',
+                    )));
           },
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 15.w),

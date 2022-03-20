@@ -44,19 +44,36 @@ class HiveClientSignIn {
 
 // << Client  token >> //
 
-class ClientToken{
-  var box = Hive.box("ClientToken");
+class HiveToken{
+  var box = Hive.box("Token");
 
   void storeToken(String token) {
-    box.put("clientToken", token);
+    box.put("token", token);
   }
 
   String loadToken() {
-    var token = box.get("clientToken");
-    return token;
+    var tokenUrl = box.get("token");
+    return tokenUrl;
   }
 
   void removeToken() {
-    box.delete("clientToken");
+    box.delete("token");
+  }
+}
+
+class HiveRestId{
+  var box = Hive.box("Restaurant_id");
+
+  void storeId(int id) {
+    box.put("Restaurant_id", id);
+  }
+
+  int loadId() {
+    var id = box.get("Restaurant_id");
+    return id;
+  }
+
+  void removeId() {
+    box.delete("Restaurant_id");
   }
 }

@@ -17,10 +17,10 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox("OwnerSignUp");
   await Hive.openBox("OwnerSignIn");
-  await Hive.openBox("ownerToken");
+  await Hive.openBox("Token");
+  await Hive.openBox("Restaurant_id");
   await Hive.openBox("ClientSignUp");
   await Hive.openBox("ClientSignIn");
-  await Hive.openBox("ClientToken");
   runApp(MyApp());
 }
 

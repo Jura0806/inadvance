@@ -4,6 +4,7 @@ import 'package:inadvance/pages/about_app_page.dart';
 import 'package:inadvance/pages/choose_language_page.dart';
 import 'package:inadvance/pages/register_pages/registers_restaurant_and_user/restaurant_owner_sign_up_page.dart';
 import 'package:inadvance/pages/simple_user_screens/user_profile_page.dart';
+import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:inadvance/services/hive_db_user_service.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'dart:io' show Platform;
@@ -35,9 +36,8 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
               CupertinoDialogAction(
                   isDefaultAction: true,
                   onPressed: () {
-                    HiveClientSignIn().removeClient();
-                    HiveClientSignUp().removeClient();
-                    ClientToken().removeToken();
+                     HiveSignUp().removeOwner();
+                     HiveSignIn().removeOwner();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
                             builder: (BuildContext context) => OwnerSignUp(roleId: 2,)),
@@ -65,9 +65,8 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
               TextButton(
                 child: Text('Confirm'),
                 onPressed: (){
-                  HiveClientSignIn().removeClient();
-                  HiveClientSignUp().removeClient();
-                  ClientToken().removeToken();
+                  HiveSignUp().removeOwner();
+                  HiveSignIn().removeOwner();
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                           builder: (BuildContext context) => OwnerSignUp(roleId: 2,)),

@@ -3,7 +3,7 @@ import 'package:inadvance/models/sign_in_model.dart';
 import 'package:inadvance/models/sign_up_account_model.dart';
 
 // << local memory for owner's signUp >> //
-class HiveOwnerSignUp {
+class HiveSignUp {
   var box = Hive.box("OwnerSignUp");
 
   void storeOwner(SignUpAccount ownerSignUp) {
@@ -22,7 +22,7 @@ class HiveOwnerSignUp {
 
 // << local memory for owner's signIn >> //
 
-class HiveOwnerSignIn {
+class HiveSignIn {
   var box = Hive.box("OwnerSignIn");
 
   void storeOwner(SignIn ownerLogin) {
@@ -36,24 +36,5 @@ class HiveOwnerSignIn {
 
   void removeOwner() {
     box.delete("OwnerSignIn");
-  }
-}
-
-// << Owner  token >> //
-
-class OwnerToken{
-  var box = Hive.box("OwnerToken");
-
-  void storeToken(String token) {
-    box.put("ownerToken", token);
-  }
-
-  String loadToken() {
-    var token = box.get("ownerToken");
-    return token;
-  }
-
-  void removeToken() {
-    box.delete("ownerToken");
   }
 }

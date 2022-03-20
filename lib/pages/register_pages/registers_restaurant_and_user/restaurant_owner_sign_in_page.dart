@@ -28,6 +28,9 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
   late bool isLoading = true;
   String notAvialableLogin = '';
 
+  String? id;
+  String? token;
+
   var logInController = TextEditingController();
   var passwordController = TextEditingController();
 
@@ -45,9 +48,11 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
           OwnerNetwork.Api_LogIn, OwnerNetwork.paramsSignIn(ownerSignIn));
       setState(() {
         if (response != null) {
-          widget.roleId == 1
-              ? OwnerToken().storeToken(jsonDecode(response)["token"])
-              : ClientToken().storeToken(jsonDecode(response)["token"]);
+
+
+          HiveToken().storeToken(jsonDecode(response)["token"]);
+         // id = jsonDecode(response)["data"]["id"];
+          //token = jsonDecode(response)["data"]["token"];
           doSignIn();
         } else {
           setState(() {
@@ -63,16 +68,17 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
   }
 
   void doSignIn() {
-    var ownerSignIn = SignIn(login: login, password: password);
-    widget.roleId == 1
-        ? HiveOwnerSignIn().storeOwner(ownerSignIn)
-        : HiveClientSignIn().storeClient(ownerSignIn);
+    var ownerSignIn = SignIn(login: login, password: password, id: id, token: token);
+    HiveSignIn().storeOwner(ownerSignIn);
+
     // var loginAccount = HiveOwnerSignIn().loadOwner();
     // var loginClient = HiveClientSignIn().loadClient();
     //
     // print(loginAccount.login);
     // print(loginAccount.password);
     // print(OwnerToken().loadToken());
+
+   print(HiveToken().loadToken());
 
     widget.roleId == 1
         ? Navigator.pushNamedAndRemoveUntil(

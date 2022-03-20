@@ -42,6 +42,9 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
   late String login = logInController.text.toString();
   late String confirmPassword = confirmPasswordController.text.toString();
 
+  String? id;
+  String? token;
+
   void _createAccount() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -57,15 +60,17 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
       });
       var response = await OwnerNetwork.ownerRegister(
           OwnerNetwork.Api_Register, OwnerNetwork.paramsCreate(ownerAccount));
-      setState(() {
+
         if (response != null) {
-          widget.roleId == 1
-              ? OwnerToken().storeToken(jsonDecode(response)["data"]["token"])
-              : ClientToken().storeToken(jsonDecode(response)["data"]["token"]);
+          setState(() {
           doSignUp();
+          HiveToken().storeToken(jsonDecode(response)["data"]["token"]);
+         id = jsonDecode(response)["data"]["id"];
+         token = jsonDecode(response)["data"]["token"];
+
+          isLoading = false;
+          });
         }
-        isLoading = false;
-      });
       widget.roleId == 1
           ? print("New User Restaurant => $response")
           : print("New User Client => $response");
@@ -76,23 +81,25 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
 
   void doSignUp() {
     var ownerAccount = SignUpAccount(
-        full_name: restName,
-        phone: int.parse(adminNumber),
-        login: login,
-        password: password,
-        verify_password: confirmPassword,
-        role_id: widget.roleId == 1 ? 2 : 3);
+      full_name: restName,
+      phone: int.parse(adminNumber),
+      login: login,
+      password: password,
+      verify_password: confirmPassword,
+      role_id: widget.roleId == 1 ? 2 : 3,
+      id: id,
+      token: token,
+    );
+    HiveSignUp().storeOwner(ownerAccount);
 
-    widget.roleId == 1
-        ? HiveOwnerSignUp().storeOwner(ownerAccount)
-        : HiveClientSignUp().storeClient(ownerAccount);
-    // var account2 = HiveOwnerSignUp().loadOwner();
+    var account2 = HiveSignUp().loadOwner();
     //
-    // print(account2.full_name);
-    // print(account2.phone);
-    // print(account2.login);
-    // print(account2.password);
-    // print(account2.verify_password);
+    print(account2);
+    print(account2.token);
+
+    print(HiveToken().loadToken());
+
+
     widget.roleId == 1
         ? Navigator.pushNamedAndRemoveUntil(
             context, OwnerNavigationBar.id, (route) => false)
