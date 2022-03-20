@@ -35,21 +35,13 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
       setState(() {
         isLoading = true;
       });
-<<<<<<< HEAD
-      var response = await OwnerNetwork.ownerRegister(
-=======
        var response = await OwnerNetwork.ownerRegister(
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
           OwnerNetwork.Api_LogIn, OwnerNetwork.paramsSignIn(ownerSignIn));
       setState(() {
         if (response != null) {
           OwnerToken().storeToken(jsonDecode(response)["token"]);
           doSignIn();
-<<<<<<< HEAD
-        } else {
-=======
         }else{
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
           setState(() {
             notAvialableLogin = "Bu login mavjud emas";
           });
@@ -63,10 +55,7 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
   }
 
   void doSignIn() {
-<<<<<<< HEAD
-=======
 
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
     var ownerSignIn = OwnerSignIn(login: login, password: password);
     HiveOwnerSignIn().storeOwner(ownerSignIn);
     var loginAccount = HiveOwnerSignIn().loadOwner();
@@ -75,10 +64,7 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
     print(loginAccount.password);
     print(OwnerToken().loadToken());
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
     Navigator.pushNamedAndRemoveUntil(
         context, OwnerNavigationBar.id, (route) => false);
   }
@@ -122,11 +108,7 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
                 flex: 2,
               ),
               TextFormField(
-<<<<<<< HEAD
-                  controller: logInController,
-=======
                 controller: logInController,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   validator: (input) {
                     if (input!.isEmpty) {
                       return "Iltimos  login kiriting!";
@@ -139,11 +121,7 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
                 height: 20,
               ),
               TextFormField(
-<<<<<<< HEAD
-                  controller: passwordController,
-=======
                 controller: passwordController,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   validator: (input) {
                     if (input!.isEmpty) {
                       return "Iltimos  login kiriting!";
@@ -175,41 +153,6 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
                   style: TextStyle(color: MainColors.greenColor, fontSize: 15),
                 ),
               ),
-<<<<<<< HEAD
-              SizedBox(
-                height: 10,
-              ),
-              Text(loginError()),
-              const Spacer(
-                flex: 14,
-              ),
-              isLoading
-                  ? InkWell(
-                      onTap: () {
-                        _signInAccount();
-                      },
-                      child: Container(
-                        height: 55,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: MainColors.greenColor,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Davom etish",
-                            style: TextStyle(
-                                color: MainColors.whiteColor, fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    )
-                  : CircularProgressIndicator(
-                      backgroundColor: Colors.white,
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(MainColors.greenColor),
-                    ),
-=======
                SizedBox(height: 10,),
                Text(loginError()) ,
               const Spacer(
@@ -235,7 +178,6 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
                   ),
                 ),
               ) :  CircularProgressIndicator( color: MainColors.greenColor,),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
               SizedBox(
                 height: 40,
               ),

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
-<<<<<<< HEAD
-=======
 import 'package:flutter_screenutil/flutter_screenutil.dart';
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
 
 class UserOrderScreen extends StatefulWidget {
   const UserOrderScreen({Key? key}) : super(key: key);
@@ -28,11 +25,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
           child: Stack(
             children: [
               Container(
-<<<<<<< HEAD
-                height: 40,
-=======
                 height: 35.h,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade200,
@@ -68,11 +61,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
         });
       },
       child: Container(
-<<<<<<< HEAD
-        height: 40,
-=======
         height: 35.h,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
         width: SizeConfig.screenWidth! / 2 - 30,
         decoration: BoxDecoration(
             color:
@@ -85,11 +74,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
                 color: isNowOrder == x
                     ? MainColors.whiteColor
                     : MainColors.blackColor,
-<<<<<<< HEAD
-                fontSize: 17),
-=======
                 fontSize: 15.sp),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
           ),
         ),
       ),
@@ -100,11 +85,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
     return Column(
       children: [
         data == null ? Padding(
-<<<<<<< HEAD
-          padding:  EdgeInsets.symmetric(horizontal: 50,vertical: SizeConfig.screenWidth!/1.5),
-=======
           padding:  EdgeInsets.symmetric(horizontal: 50.h,vertical: SizeConfig.screenWidth!/1.5),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
           child: Text(
             "Sizda aktiv holatdagi buyurtmalar yo'q!",
             textAlign: TextAlign.center,
@@ -119,13 +100,8 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-<<<<<<< HEAD
-                  height: SizeConfig.screenWidth! / 4,
-                  width: SizeConfig.screenWidth! / 3.5,
-=======
                   height: 100.h,
                   width: 106.w,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       image: DecorationImage(
@@ -139,20 +115,6 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-<<<<<<< HEAD
-                      Text("Rayhon", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
-                      const SizedBox(height: 10,),
-                      Text("56000" + "UZS", style: TextStyle( fontSize: 15, color: MainColors.greenColor),),
-                      const SizedBox(height: 30,),
-                      Row(
-                        children: [
-                          Icon(Icons.watch_later, size: 20,),
-                          Text(" 19:00   "),
-                          Icon(Icons.table_chart, size: 20,),
-                          Text(" 5-stol   "),
-                          Icon(Icons.date_range, size: 20,),
-                          Text("15.02.2022  ")
-=======
                       Text("Rayhon", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),),
                       const SizedBox(height: 10,),
                       Text("56000" + "UZS", style: TextStyle( fontSize: 13.sp, color: MainColors.greenColor),),
@@ -167,7 +129,6 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
                           const SizedBox(width: 5,),
                           Icon(Icons.date_range, size: 15.sp,),
                           Text(" 15.02.2022 ")
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                         ],
                       )
                     ],
@@ -189,13 +150,8 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-<<<<<<< HEAD
-              height: SizeConfig.screenWidth! / 4,
-              width: SizeConfig.screenWidth! / 3.5,
-=======
               height: 100.h,
               width: 106.w,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
@@ -209,20 +165,6 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-<<<<<<< HEAD
-                  Text("Rayhon", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
-                  const SizedBox(height: 10,),
-                  Text("56000" + "UZS", style: TextStyle( fontSize: 15, color: MainColors.greenColor),),
-                  const SizedBox(height: 30,),
-                  Row(
-                    children: [
-                      Icon(Icons.watch_later, size: 20,),
-                      Text(" 19:00   "),
-                      Icon(Icons.table_chart, size: 20,),
-                      Text(" 5-stol   "),
-                      Icon(Icons.date_range, size: 20,),
-                      Text("15.02.2022  ")
-=======
                   Text("Rayhon", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),),
                   const SizedBox(height: 10,),
                   Text("56000" + "UZS", style: TextStyle( fontSize: 13.sp, color: MainColors.greenColor),),
@@ -238,7 +180,6 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
                       const SizedBox(width: 5,),
                       Icon(Icons.date_range, size: 15.sp,),
                       Text(" 15.02.2022 ")
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                     ],
                   )
                 ],

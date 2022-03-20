@@ -2,14 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:inadvance/models/categories_restaurant.dart';
+import 'package:inadvance/models/restaurant_model.dart';
 import 'package:inadvance/models/restaurants_model.dart';
 import 'package:inadvance/pages/simple_user_screens/restaurant_infos_page.dart';
+import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
-<<<<<<< HEAD
-=======
 import 'package:flutter_screenutil/flutter_screenutil.dart';
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({Key? key}) : super(key: key);
@@ -75,15 +74,9 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       appBar: AppBar(
         centerTitle: false,
         title: Container(
-<<<<<<< HEAD
-          height: 35,
-          width: SizeConfig.screenWidth! / 1.3,
-          padding: EdgeInsets.only(left: 10),
-=======
           height: 35.h,
           width: 300.w,
           padding: const EdgeInsets.only(left: 10),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
           decoration: BoxDecoration(
             color: Colors.grey.shade200,
             borderRadius: BorderRadius.circular(8),
@@ -108,45 +101,27 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           ),
         ],
       ),
-<<<<<<< HEAD
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-=======
       body: Padding(
-        padding: const EdgeInsets.only(
-          left: 15,
-          right: 15,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
-          top: 10,
+        padding: EdgeInsets.only(
+          left: 15.w,
+          right: 15.w,
+          top: 10.h,
         ),
         child: ListView(
           children: [
-            const SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20.h),
             Text(
               "Recomment",
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 20.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-<<<<<<< HEAD
-            // << Top Restaurants List Horizontall>>
-            Container(
-              height: SizeConfig.screenHeight! / 4.5,
-=======
+            SizedBox(height: 10.h),
 
             // << Top Restaurants List Horizontall>>
             Container(
               height: 200.h,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
@@ -154,13 +129,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 itemBuilder: (ctx, i) {
                   return Card(
                     child: Container(
-<<<<<<< HEAD
-                      width: SizeConfig.screenWidth! / 1.75,
-                      height: SizeConfig.screenHeight! / 4.5,
-=======
                       width: 235.w,
                       height: 210.h,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                       decoration:
                           BoxDecoration(borderRadius: BorderRadius.circular(8)),
                       child: topRestaurants(restaurants[i]),
@@ -174,15 +144,6 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             ),
             Text(
               "All Categories",
-<<<<<<< HEAD
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            SizedBox(
-              height: 40,
-=======
               style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
             ),
             const SizedBox(
@@ -190,20 +151,14 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             ),
             SizedBox(
               height: 40.h,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemCount: categories.length,
                 itemBuilder: (ctx, i) {
                   return Container(
-<<<<<<< HEAD
-                    height: 40,
-                    margin: EdgeInsets.only(right: 15),
-=======
                     height: 40.h,
                     margin: const EdgeInsets.only(right: 15),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                     width: categories[i].category.length * 17.5,
                     decoration: BoxDecoration(
                       color: colorRandom(),
@@ -218,41 +173,26 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             const SizedBox(
               height: 15,
             ),
-<<<<<<< HEAD
-            Container(
-                width: double.infinity,
-                child: Column(
+            FutureBuilder(
+              future: OwnerNetwork.getRestaurants(),
+              builder: (context, AsyncSnapshot snapshot) {
+                // print(snapshot.data);
+                return Column(
                   children: restaurants
                       .map(
                         (restoran) => Card(
+                          margin: EdgeInsets.symmetric(vertical: 10),
                           child: Container(
-                              height: SizeConfig.screenWidth! / 1.65,
-                              //width: double.infinity,
-                              child: allRestaurants(restoran)),
+                              height: 212.h, child: allRestaurants(restoran)),
                         ),
                       )
                       .toList(),
-                )),
-          ],
-        ),
-      )),
-=======
-            Column(
-              children: restaurants
-                  .map(
-                    (restoran) => Card(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: Container(
-                          height: 212.h,
-                          child: allRestaurants(restoran)),
-                    ),
-                  )
-                  .toList(),
+                );
+              },
             ),
           ],
         ),
       ),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
     );
   }
 
@@ -265,19 +205,11 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 builder: (BuildContext context) => RestaurantInfosPage()));
           },
           child: Container(
-<<<<<<< HEAD
-            padding: EdgeInsets.only(bottom: 10),
-            height: SizeConfig.screenHeight! / 6,
-            width: double.infinity,
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-=======
             padding: const EdgeInsets.only(bottom: 10),
             height: 150.h,
             width: double.infinity,
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   topLeft: Radius.circular(8), topRight: Radius.circular(8)),
               child: Image.network(
                 restaurants.restaurantImage,
@@ -295,39 +227,17 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-<<<<<<< HEAD
-                  Container(
-                    height: SizeConfig.blockSizeHorizontal! * 5,
-                    child: FittedBox(
-                      child: Text(
-                        restaurants.restaurantName,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-=======
                   Text(
                     restaurants.restaurantName,
                     style:
                         TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   ),
                   const SizedBox(
                     height: 7,
                   ),
-<<<<<<< HEAD
-                  Container(
-                    height: SizeConfig.blockSizeHorizontal! * 3.5,
-                    child: FittedBox(
-                      child: Text(
-                        restaurants.restaurantsFoodType,
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    ),
-=======
                   Text(
                     restaurants.restaurantsFoodType,
                     style: TextStyle(color: Colors.grey, fontSize: 13.sp),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   ),
                 ],
               ),
@@ -335,11 +245,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 children: [
                   Icon(
                     Icons.star,
-<<<<<<< HEAD
-                    size: 15,
-=======
                     size: 15.w,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                     color: Colors.amber,
                   ),
                   const SizedBox(
@@ -347,12 +253,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   ),
                   Text(
                     "${restaurants.restaurantFeedback}",
-<<<<<<< HEAD
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-=======
                     style:
                         TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   )
                 ],
               )
@@ -367,11 +269,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     return Center(
       child: Text(
         categoriesRest.category,
-<<<<<<< HEAD
-        style: TextStyle(fontWeight: FontWeight.bold),
-=======
         style: TextStyle(fontWeight: FontWeight.w600),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
       ),
     );
   }
@@ -386,11 +284,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 builder: (BuildContext context) => RestaurantInfosPage()));
           },
           child: Container(
-<<<<<<< HEAD
-            height: SizeConfig.screenWidth! / 2.2,
-=======
             height: 155.h,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
             width: double.infinity,
             child: ClipRRect(
               child: Hero(
@@ -416,22 +310,15 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 children: [
                   Text(
                     restaurants.restaurantName,
-<<<<<<< HEAD
-                    style: TextStyle(fontWeight: FontWeight.bold),
-=======
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
+                    style:
+                        TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
                   ),
                   const SizedBox(
                     height: 5,
                   ),
                   Text(
                     restaurants.restaurantsFoodType,
-<<<<<<< HEAD
-                    style: TextStyle(color: Colors.grey.shade800),
-=======
                     style: TextStyle(color: Colors.grey, fontSize: 13.sp),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   ),
                 ],
               ),
@@ -439,11 +326,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 children: [
                   Icon(
                     Icons.star,
-<<<<<<< HEAD
-                    size: 15,
-=======
                     size: 15.w,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                     color: Colors.amber,
                   ),
                   const SizedBox(
@@ -451,22 +334,14 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   ),
                   Text(
                     "${restaurants.restaurantFeedback}",
-<<<<<<< HEAD
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-=======
                     style:
                         TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   )
                 ],
               )
             ],
           ),
-<<<<<<< HEAD
-        )
-=======
         ),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
       ],
     );
   }

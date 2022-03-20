@@ -11,7 +11,7 @@ class Meal {
   String? descriptionEn;
   String? price;
   String? imagePath;
-  Null? deletedAt;
+  String? deletedAt;
   String? createdAt;
   String? updatedAt;
 

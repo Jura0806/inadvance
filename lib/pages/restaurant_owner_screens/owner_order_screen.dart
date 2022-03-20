@@ -3,10 +3,7 @@ import 'package:inadvance/pages/restaurant_owner_screens/client_profile_page.dar
 import 'package:inadvance/pages/restaurant_owner_screens/client_story_profile_page.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
-<<<<<<< HEAD
-=======
 import 'package:flutter_screenutil/flutter_screenutil.dart';
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
 
 import 'client_story_profile_page.dart';
 
@@ -79,17 +76,6 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Padding(
-<<<<<<< HEAD
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Stack(
-              children: [
-                Container(
-                  height: 40,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(8),
-=======
             padding:  EdgeInsets.symmetric(horizontal: 10.w),
             child: Stack(
               children: [
@@ -99,7 +85,6 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                   decoration: BoxDecoration(
                     color: Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(8.w),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   ),
                 ),
                 Row(
@@ -114,20 +99,12 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
           ),
         ),
         body: Padding(
-<<<<<<< HEAD
-          padding: const EdgeInsets.all(8.0),
-=======
           padding: EdgeInsets.all(8.w),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
           child: isNowOrder == 1
               ? clients.isEmpty
                   ? Padding(
                       padding: EdgeInsets.symmetric(
-<<<<<<< HEAD
-                          horizontal: 50,
-=======
                           horizontal: 50.w,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                           vertical: SizeConfig.screenWidth! / 1.5),
                       child: Text(
                         "Sizda aktiv holatdagi buyurtmalar yo'q!",
@@ -147,15 +124,9 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                         child: Card(
                           elevation: 4,
                           shape: RoundedRectangleBorder(
-<<<<<<< HEAD
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Container(
-                            height: 90,
-=======
                               borderRadius: BorderRadius.circular(15.w)),
                           child: Container(
                             height: 80.h,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                             width: double.infinity,
                             child: Center(
                               child: ListTile(
@@ -163,21 +134,12 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                                   transitionOnUserGestures: true,
                                   tag: i,
                                   child: Container(
-<<<<<<< HEAD
-                                    height: 55,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          width: 2,
-=======
                                     height: 55.h,
                                     width: 55.w,
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(
                                           width: 2.w,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                                           color: MainColors.greenColor,
                                         ),
                                         image: DecorationImage(
@@ -190,11 +152,7 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                                   clients[i]['fullName'],
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-<<<<<<< HEAD
-                                      fontSize: 18),
-=======
                                       fontSize: 15.sp),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                                 ),
                                 subtitle: Text(
                                   clients[i]['atTheTime'],
@@ -210,11 +168,7 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
               : storyClients.isEmpty
                   ? Padding(
                       padding: EdgeInsets.symmetric(
-<<<<<<< HEAD
-                          horizontal: 50,
-=======
                           horizontal: 50.w,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                           vertical: SizeConfig.screenWidth! / 1.5),
                       child: Text(
                         "Tarixda buyurtmalar mavjud emas!",
@@ -235,11 +189,7 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15)),
                           child: Container(
-<<<<<<< HEAD
-                            height: 90,
-=======
                             height: 80.h,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                             width: double.infinity,
                             child: Center(
                               child: ListTile(
@@ -247,21 +197,12 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                                   transitionOnUserGestures: true,
                                   tag: i,
                                   child: Container(
-<<<<<<< HEAD
-                                    height: 55,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          width: 2,
-=======
                                     height: 55.h,
                                     width: 55.w,
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(
                                           width: 2.w,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                                           color: MainColors.redColor,
                                         ),
                                         image: DecorationImage(
@@ -273,11 +214,7 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                                 title: Text(
                                   storyClients[i]['fullName'],
                                   style: TextStyle(
-<<<<<<< HEAD
-                                      fontWeight: FontWeight.bold, fontSize: 18),
-=======
                                       fontWeight: FontWeight.bold, fontSize: 15.sp),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                                 ),
                                 subtitle: Text(
                                   storyClients[i]['atTheTime'],
@@ -300,19 +237,11 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
         });
       },
       child: Container(
-<<<<<<< HEAD
-        height: 40,
-        width: SizeConfig.screenWidth! / 2 - 30,
-        decoration: BoxDecoration(
-            color:isNowOrder == x ? MainColors.greenColor : Colors.grey.shade200,
-            borderRadius: BorderRadius.circular(8)),
-=======
         height: 40.h,
         width: SizeConfig.screenWidth! / 2 - 30,
         decoration: BoxDecoration(
             color:isNowOrder == x ? MainColors.greenColor : Colors.grey.shade200,
             borderRadius: BorderRadius.circular(8.w)),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
         child: Center(
           child: Text(
             categoryName,
@@ -320,11 +249,7 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                 color: isNowOrder == x
                     ? MainColors.whiteColor
                     : MainColors.blackColor,
-<<<<<<< HEAD
-                fontSize: 17),
-=======
                 fontSize: 15.sp),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
           ),
         ),
       ),

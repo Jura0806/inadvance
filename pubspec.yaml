@@ -19,8 +19,9 @@ dependencies:
   hive: ^2.0.6
   hive_flutter: ^1.1.0
   image_picker: ^0.8.4+1
-  cached_network_image: ^3.2.0
   flutter_screenutil: ^5.3.1
+  cached_network_image: ^3.2.0
+  yandex_mapkit: ^2.0.2
 
 dev_dependencies:
   flutter_test:
@@ -33,10 +34,6 @@ flutter:
   assets:
      - assets/images/
 #     - assets/fonts
-  fonts:
-    - family: Gilroy
-      fonts:
-        - asset: assets/fonts/Gilroy-Regular.ttf
 #  fonts:
 #     - family: Gilroy
 #       fonts:

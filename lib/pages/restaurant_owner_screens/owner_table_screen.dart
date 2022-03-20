@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-
-
-import 'package:flutter/material.dart';
-
-class OwnerTableScreen extends StatefulWidget {
-  const OwnerTableScreen({Key? key}) : super(key: key);
-=======
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/restaurant_owner_screens/owner_draw_scheme.dart';
 import 'package:inadvance/utils/colors.dart';
@@ -28,23 +20,12 @@ class OwnerTableScreen extends StatefulWidget {
     this.endTable,
     this.isDrawTables,
   }) : super(key: key);
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
 
   @override
   _OwnerTableScreenState createState() => _OwnerTableScreenState();
 }
 
 class _OwnerTableScreenState extends State<OwnerTableScreen> {
-<<<<<<< HEAD
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Table"),
-      ),
-    );
-  }
-=======
   int indexPage = 0;
   bool isDrawTable = false;
   final tableNumber = List.generate(20, (index) => "$index");
@@ -244,5 +225,4 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
       ],
     );
   }
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
 }

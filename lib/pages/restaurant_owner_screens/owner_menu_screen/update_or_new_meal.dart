@@ -1,12 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inadvance/models/meal_model.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/formfield.dart';
-import 'package:inadvance/utils/responsive_size.dart';
 
-double _height = 40;
 bool icon = true;
 String choose = "";
 List<String> categories = [
@@ -33,8 +32,17 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
 
   @override
   void initState() {
+    initFieldValues();
     super.initState();
     choose = 'Fast foods';
+  }
+
+  initFieldValues() {
+    if (widget.meal != null) {
+      _nameController.text = widget.meal!.nameEn.toString();
+      _priceController.text = widget.meal!.price.toString();
+      _descController.text = widget.meal!.descriptionEn.toString();
+    }
   }
 
   @override
@@ -42,7 +50,7 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
-        title: Text("Add new"),
+        title: widget.meal == null ? Text("Add new") : Text("Edit"),
       ),
       body: Container(
         height: double.infinity,
@@ -51,7 +59,7 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                height: getHeight(175.0),
+                height: 175.0.h,
                 width: double.infinity,
                 decoration: widget.meal != null
                     ? BoxDecoration(
@@ -84,7 +92,7 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(getWidth(16)),
+                padding: EdgeInsets.all(16.w),
                 child: Column(
                   children: [
                     CustomFormField(
@@ -116,9 +124,11 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  
+                },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: getWidth(16)),
+                  margin: EdgeInsets.symmetric(horizontal: 16.w),
                   height: 55,
                   width: double.infinity,
                   decoration: BoxDecoration(

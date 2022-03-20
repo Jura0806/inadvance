@@ -4,10 +4,7 @@ import 'package:inadvance/pages/restaurant_owner_screens/restaurant_profile_page
 import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'dart:io' show Platform;
-<<<<<<< HEAD
-=======
 import 'package:flutter_screenutil/flutter_screenutil.dart';
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
 
 import '../about_app_page.dart';
 import '../choose_language_page.dart';
@@ -84,13 +81,8 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
             child: Column(
               children: [
                 Container(
-<<<<<<< HEAD
-                  height: 115,
-                  width: 115,
-=======
                   height: 105.h,
                   width: 105.w,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(
@@ -99,11 +91,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                     color: Colors.grey,
                     shape: BoxShape.circle,
                     border:
-<<<<<<< HEAD
-                    Border.all(width: 2.5, color: MainColors.greenColor),
-=======
                     Border.all(width: 2.5.w, color: MainColors.greenColor),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                   ),
                   child: Container(
                     decoration: BoxDecoration(
@@ -121,11 +109,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                       child: Text(
                         "Rayhon"[0],
                         style: TextStyle(
-<<<<<<< HEAD
-                            color: MainColors.whiteColor, fontSize: 40),
-=======
                             color: MainColors.whiteColor, fontSize: 35.sp),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                       ),
                     ),
                   ),
@@ -135,11 +119,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                 ),
                 Text(
                   "Rayhon",
-<<<<<<< HEAD
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-=======
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                 ),
               ],
             ),
@@ -177,26 +157,18 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
               onPressed: (){
                 HiveOwnerSignIn().removeOwner();
               },
-<<<<<<< HEAD
-              child: Text("Remove_Owner's_SignIn_Data")),
-=======
               child: const Text("Remove_Owner's_SignIn_Data")),
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
           TextButton(
               onPressed: (){
                 print(OwnerToken().loadToken());
               },
               child: Text("Print_Owner_Token")),
-<<<<<<< HEAD
-          Spacer(
-=======
           TextButton(
               onPressed: (){
                 print(OwnerProfile().loadProfile());
               },
               child: Text("Owner_PROFILE_LOCALDATA_PRINT")),
          const Spacer(
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
             flex: 50,
           ),
 
@@ -208,11 +180,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
     return Column(
       children: [
         Divider(
-<<<<<<< HEAD
-          thickness: 0.5,
-=======
           thickness: 0.5.w,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
           height: 0,
           color: Colors.grey,
         ),
@@ -220,11 +188,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
           title: Text(
             nameInfo,
             style: TextStyle(
-<<<<<<< HEAD
-                fontSize: 17,
-=======
                 fontSize: 15.sp,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
                 fontWeight: FontWeight.bold,
                 color: nameInfo == "Log Out"
                     ? Colors.redAccent
@@ -235,11 +199,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
             color: nameInfo == "Log Out"
                 ? Colors.redAccent
                 : MainColors.blackColor,
-<<<<<<< HEAD
-            size: 30,
-=======
             size: 25.w,
->>>>>>> 2be8253e065da0f756269568305e32588bacb7e1
           ),
           tileColor: MainColors.whiteColor,
         ),
