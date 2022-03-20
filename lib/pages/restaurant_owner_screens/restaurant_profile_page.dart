@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inadvance/models/restaurant_profile_model.dart';
+import 'package:inadvance/pages/location_page/location_page.dart';
 import 'package:inadvance/provider_views/owner_views_provider/profile_post_view.dart';
 import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:inadvance/services/hive_db_user_service.dart';
@@ -90,13 +91,12 @@ class _RestProfilePageState extends State<RestProfilePage> {
         setState(() {
           isLoading = false;
         });
-       Navigator.of(context).pop();
+        Navigator.of(context).pop();
       }
 
       print("New User Restaurant => $response");
     }
   }
-
 
   Future getImage() async {
     try {
@@ -228,7 +228,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
 
   Widget textField(
       {required String labelText,
-      IconData? icon,
+      Widget? suffixIcon,
       required TextEditingController controller,
       required String initialValue}) {
     return Padding(
@@ -249,7 +249,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
           decoration: InputDecoration(
               labelText: labelText,
               alignLabelWithHint: true,
-              // suffixIcon: suffixIcon,
+              suffixIcon: suffixIcon,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.w),
                 borderSide: BorderSide(
@@ -372,8 +372,8 @@ class _RestProfilePageState extends State<RestProfilePage> {
                             : Hive.box("Restaurant_id").isEmpty
                                 ? defaultLogo()
                                 : getLogoNetwork(),
-                        border: Border.all(
-                            width: 3, color: MainColors.greenColor)),
+                        border:
+                            Border.all(width: 3, color: MainColors.greenColor)),
                   ),
                 ),
                 Positioned(
@@ -443,7 +443,20 @@ class _RestProfilePageState extends State<RestProfilePage> {
             //createProfile.profileResponse["phone"]),
             textField(
                 labelText: "Shahar va lokatsiya",
-                icon: Icons.location_on,
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LocationPage(),
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.location_on,
+                    color: MainColors.greenColor,
+                  ),
+                ),
                 controller: locationController,
                 initialValue: ""),
             SizedBox(
