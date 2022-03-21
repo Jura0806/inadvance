@@ -214,7 +214,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
           ),
         ],
       ),
-      body: Hive.box("Restaurant_id").isEmpty
+      body: Hive.box("Restaurant_id").isEmpty || HiveSignIn().loadOwner().id == null
           ? profileBody()
           : isLoadingGet
               ? Center(

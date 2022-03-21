@@ -27,15 +27,6 @@ class OwnerSettingScreen extends StatefulWidget {
 class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
   // CreateProfile createProfile = new CreateProfile();
   Map<String, dynamic> profile ={
-    "data": {
-      "logo_path": "https://anitekh.ru/wp-content/uploads/2019/10/wallpaper.jpg.png",
-      "full_name": "",
-      "phone": "",
-      "open_time": "",
-      "close_time": "",
-      "bank_number": "",
-
-    }
   };
   void _iosDialog() {
     showDialog(
@@ -67,9 +58,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                     HiveRestId().removeId();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                            builder: (BuildContext context) => OwnerSignUp(
-                                  roleId: 1,
-                                )),
+                            builder: (BuildContext context) => ChooseLanguage()),
                         (route) => false);
                   },
                   child: Text(
@@ -104,9 +93,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                   HiveRestId().removeId();
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                          builder: (BuildContext context) => OwnerSignUp(
-                                roleId: 1,
-                              )),
+                          builder: (BuildContext context) => ChooseLanguage()),
                       (route) => false);
                 },
               ),
@@ -115,22 +102,22 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
         });
   }
 
-  Future getProfile() async {
-    var response =
-    await OwnerNetwork.ownerProfileGet(OwnerNetwork.Api_Restaurant_Profile);
-
-    if (jsonDecode(response)["data"] != null) {
-      setState(() {
-        profile = jsonDecode(response);
-      });
-    }
-  }
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getProfile();
-  }
+  // Future getProfile() async {
+  //   var response =
+  //   await OwnerNetwork.ownerProfileGet(OwnerNetwork.Api_Restaurant_Profile);
+  //
+  //   if (jsonDecode(response)["data"] != null) {
+  //     setState(() {
+  //       profile = jsonDecode(response)["data"];
+  //     });
+  //   }
+  // }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   getProfile();
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -205,6 +192,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
             child: settingInfos(nameInfo: "Restaurant profili"),
             onTap: () {
               // print(HiveRestId().loadId());
+              // getProfile();
               // RestProfilePage().createState().getProfile();
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => RestProfilePage()));
@@ -237,11 +225,11 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
               child: settingInfos(nameInfo: "Log Out")),
           TextButton(
               onPressed: () {
-                var token = HiveSignUp().loadOwner();
-                print(token.password);
-                // print(OwnerToken().loadToken());
+                var restaurantData = HiveSignIn().loadOwner();
+                print("Restoran id => ${restaurantData.id}");
+                print("token => ${restaurantData.token}");
               },
-              child: Text("Print_Owner_Token")),
+              child: Text("Print_Owner_Restaurant's_Data")),
           const Spacer(
             flex: 50,
           ),
