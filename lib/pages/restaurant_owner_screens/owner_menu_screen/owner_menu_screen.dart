@@ -172,10 +172,8 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
                 child: IconButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => NewOrUpdateMeal(
-                              type: 'Edit',
-                              meal: meal,
-                            )));
+                        builder: (BuildContext context) =>
+                            NewOrUpdateMeal(type: 'Edit', meal: meal)));
                   },
                   icon: Container(
                     width: 40.0.w,

@@ -2,24 +2,26 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:inadvance/models/category_model.dart';
 import 'package:inadvance/models/meal_model.dart';
+import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/formfield.dart';
 
 bool icon = true;
 String choose = "";
-List<String> categories = [
-  "Salads",
-  "Fast foods",
-  "Drinks",
-  "Foods",
-];
+List<String> categoriesTitle = [];
 
 class NewOrUpdateMeal extends StatefulWidget {
   final Meal? meal;
   final String type;
-  const NewOrUpdateMeal({Key? key, this.meal, required this.type})
-      : super(key: key);
+  // final List<Category> categories;
+  const NewOrUpdateMeal({
+    Key? key,
+    this.meal,
+    required this.type,
+    // required this.categories,
+  }) : super(key: key);
 
   @override
   _NewOrUpdateMealState createState() => _NewOrUpdateMealState();
@@ -110,23 +112,22 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
                       line: 4,
                     ),
                     Container(
-                      height: categories.length * 45 + 2,
+                      height: categoriesTitle.length * 45 + 2,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
                               width: 1, color: MainColors.greenColor)),
                       child: Column(
-                        children:
-                            categories.map((e) => chooseCategory(e)).toList(),
+                        children: categoriesTitle
+                            .map((c) => chooseCategory(categoryName: c))
+                            .toList(),
                       ),
                     ),
                   ],
                 ),
               ),
               InkWell(
-                onTap: () {
-                  
-                },
+                onTap: updateMeals,
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 16.w),
                   height: 55,
@@ -144,9 +145,7 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              )
+              SizedBox(height: 10.h)
             ],
           ),
         ),
@@ -154,12 +153,10 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
     );
   }
 
-  Widget chooseCategory(String category) {
+  Widget chooseCategory({required String categoryName}) {
     return InkWell(
       onTap: () {
-        setState(() {
-          choose = category;
-        });
+        setState(() => choose = categoryName);
       },
       child: Column(
         children: [
@@ -169,19 +166,19 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
             width: double.infinity,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: choose == category
+                color: choose == categoryName
                     ? MainColors.greenColor
                     : MainColors.whiteColor),
             child: Text(
-              category,
+              categoryName,
               style: TextStyle(
                   fontSize: 17,
-                  color: choose == category
+                  color: choose == categoryName
                       ? MainColors.whiteColor
                       : MainColors.blackColor),
             ),
           ),
-          categories.last != category
+          categoriesTitle.last != categoryName
               ? Divider(
                   color: MainColors.greenColor,
                   height: 0,
@@ -190,6 +187,21 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
               : SizedBox.shrink(),
         ],
       ),
+    );
+  }
+
+  void updateMeals() async {
+    await OwnerNetwork.updateMeals(
+      restaurantId: '',
+      categoryId: '',
+      mealId: widget.meal!.id.toString(),
+      nameUz: _nameController.text,
+      nameRu: _nameController.text,
+      nameEn: _nameController.text,
+      descUz: _descController.text,
+      descRu: _descController.text,
+      descEn: _descController.text,
+      price: _priceController.text,
     );
   }
 }

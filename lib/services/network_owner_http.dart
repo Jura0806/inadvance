@@ -241,10 +241,37 @@ class OwnerNetwork {
   }
 
   // Update Meals APIS
-  static Future<List<Meal>> updateMeals(String id) async {
+  static Future<List<Meal>> updateMeals(
+      {required String mealId,
+      required String restaurantId,
+      required String categoryId,
+      required String nameUz,
+      required String nameRu,
+      required String nameEn,
+      required String descUz,
+      required String descRu,
+      required String descEn,
+      required String price}) async {
     try {
-      var uri = Uri.https(BASE, '/api/owner/meal/$id');
-      var response = await post(uri, headers: headersWithToken);
+      var uri = Uri.https(BASE, '/api/owner/meal/$mealId');
+      var response = await post(
+        uri,
+        headers: headersWithToken,
+        body: jsonEncode(
+          {
+            "_method": "POST",
+            "restaurant_id": restaurantId,
+            "category_id": categoryId,
+            "name_uz": nameUz,
+            "name_ru": nameRu,
+            "name_en": nameEn,
+            "description_uz": descUz,
+            "description_ru": descRu,
+            "description_en": descEn,
+            "price": price,
+          },
+        ),
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         return (jsonDecode(response.body)['data']['data'] as List)
             .map((e) => Meal.fromJson(e))
@@ -277,7 +304,6 @@ class OwnerNetwork {
       throw Exception(e.toString());
     }
   }
-
 
   //<< http params >>//
 
@@ -372,7 +398,35 @@ class OwnerNetwork {
     return params;
   }
 
-//<< Parsing response >>//
+  //<< Update meal parametres >>//
+  static Map<String, String> paramsUpdateMeal(
+      String id,
+      String restaurantId,
+      String categoryId,
+      String nameUz,
+      String nameRu,
+      String nameEn,
+      String descUz,
+      String descRu,
+      String descEn,
+      String price) {
+    Map<String, String> params = new Map();
+    params.addAll({
+      "_method": "POST",
+      "restaurant_id": restaurantId,
+      "category_id": categoryId,
+      "name_uz": nameUz,
+      "name_ru": nameRu,
+      "name_en": nameEn,
+      "description_uz": descUz,
+      "description_ru": descRu,
+      "description_en": descEn,
+      "price": price,
+    });
+    return params;
+  }
+
+  //<< Parsing response >>//
   static RestaurantProfileModel profileParse(String body) {
     dynamic json = jsonDecode(body);
     RestaurantProfileModel data = RestaurantProfileModel.fromJson(json);
