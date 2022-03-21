@@ -55,13 +55,13 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   ];
 
   List<Color> colors = [
+    MainColors.categoryPink,
     MainColors.categoryBlue,
     MainColors.categoryGreen,
-    MainColors.categoryLightGreen,
     MainColors.categoryPurple,
     MainColors.categoryLime,
-    MainColors.categoryPink,
     MainColors.dimRedColor,
+    MainColors.categoryLightGreen,
   ];
 
   Color colorRandom() {

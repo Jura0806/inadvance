@@ -37,14 +37,12 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
               CupertinoDialogAction(
                   isDefaultAction: true,
                   onPressed: () {
-                    HiveSignUp().removeOwner();
-                    HiveSignIn().removeOwner();
+                    HiveClientSignUp().removeClient();
+                    HiveClientSignIn().removeClient();
                     HiveToken().removeToken();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                            builder: (BuildContext context) => OwnerSignUp(
-                                  roleId: 2,
-                                )),
+                            builder: (BuildContext context) => ChooseLanguage()),
                         (route) => false);
                   },
                   child: Text(
@@ -73,14 +71,12 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
               TextButton(
                 child: Text('Confirm'),
                 onPressed: () {
-                  HiveSignUp().removeOwner();
-                  HiveSignIn().removeOwner();
+                  HiveClientSignUp().removeClient();
+                  HiveClientSignIn().removeClient();
                   HiveToken().removeToken();
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                          builder: (BuildContext context) => OwnerSignUp(
-                                roleId: 2,
-                              )),
+                          builder: (BuildContext context) => ChooseLanguage()),
                       (route) => false);
                 },
               ),

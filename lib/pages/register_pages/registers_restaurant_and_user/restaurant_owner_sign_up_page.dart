@@ -80,7 +80,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
   }
 
   void doSignUp() {
-    var ownerAccount = SignUpAccount(
+    var account = SignUpAccount(
       full_name: restName,
       phone: int.parse(adminNumber),
       login: login,
@@ -90,7 +90,8 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
       id: id,
       token: token,
     );
-    HiveSignUp().storeOwner(ownerAccount);
+    widget.roleId == 1?
+    HiveSignUp().storeOwner(account) : HiveClientSignUp().storeClient(account);
 
     var account2 = HiveSignUp().loadOwner();
     //
@@ -149,6 +150,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                       ),
                       TextFormField(
                         controller: restaurantNameController,
+                        cursorColor: MainColors.greenColor,
                         validator: (input) {
                           if (input!.isEmpty) {
                             return "Iltimos Restoran nomini kiriting";
@@ -165,6 +167,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                         height: 10,
                       ),
                       TextFormField(
+                        cursorColor: MainColors.greenColor,
                         controller: adminPhoneController,
                         keyboardType: TextInputType.number,
                         validator: (input) {
@@ -188,6 +191,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                         height: 10,
                       ),
                       TextFormField(
+                        cursorColor: MainColors.greenColor,
                         validator: (input) {
                           if (input!.isEmpty) {
                             return "Iltimos LOgIn kiriting!";
@@ -207,6 +211,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                       ),
                       TextFormField(
                         controller: passwordController,
+                        cursorColor: MainColors.greenColor,
                         validator: (input) {
                           password = input!;
                           if (input.isEmpty) {
@@ -233,6 +238,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                       ),
                       TextFormField(
                         controller: confirmPasswordController,
+                        cursorColor: MainColors.greenColor,
                         validator: (input) =>
                             (input!.isEmpty || input != password)
                                 ? "Parol to'g'ri kirtilmadi"

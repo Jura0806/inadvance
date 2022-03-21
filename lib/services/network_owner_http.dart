@@ -10,6 +10,7 @@ import 'package:inadvance/models/restaurant_tables_model.dart';
 import 'package:inadvance/models/sign_in_model.dart';
 import 'package:inadvance/models/sign_up_account_model.dart';
 import 'package:inadvance/models/restaurant_profile_model.dart';
+import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:inadvance/services/hive_db_user_service.dart';
 
 class OwnerNetwork {
@@ -89,7 +90,7 @@ class OwnerNetwork {
       String api, Map<String, dynamic> params) async {
     try {
       var uri = Uri.parse(
-          "https://in-advance.bingo99.uz/api/owner/restaurant/${HiveRestId().loadId()}");
+          "https://in-advance.bingo99.uz/api/owner/restaurant/${HiveSignIn().loadOwner().id}");
       var requests = http.MultipartRequest("POST", uri);
       requests.headers.addAll(headersWithToken);
       requests.files.add(await http.MultipartFile.fromPath(
@@ -126,7 +127,7 @@ class OwnerNetwork {
   static Future<String> ownerProfileGet(String api) async {
     try {
       var uri = Uri.parse(
-          "https://in-advance.bingo99.uz/api/owner/restaurant/${HiveRestId().loadId()}");
+          "https://in-advance.bingo99.uz/api/owner/restaurant/${HiveSignIn().loadOwner().id}");
       var response = await get(uri, headers: headersWithToken);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.body;

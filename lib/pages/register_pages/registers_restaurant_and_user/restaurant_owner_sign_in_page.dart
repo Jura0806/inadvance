@@ -28,7 +28,7 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
   late bool isLoading = true;
   String notAvialableLogin = '';
 
-  String? id;
+  int? id;
   String? token;
 
   var logInController = TextEditingController();
@@ -49,8 +49,10 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
       setState(() {
         if (response != null) {
           HiveToken().storeToken(jsonDecode(response)["token"]);
-          // id = jsonDecode(response)["data"]["id"];
-          //token = jsonDecode(response)["data"]["token"];
+          id = widget.roleId == 1
+              ? jsonDecode(response)["user"]["restaurant"]["id"]
+              : jsonDecode(response)["user"]["id"];
+          token = jsonDecode(response)["token"];
           doSignIn();
         } else {
           setState(() {
@@ -66,9 +68,10 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
   }
 
   void doSignIn() {
-    var ownerSignIn =
-        SignIn(login: login, password: password, id: id, token: token);
-    HiveSignIn().storeOwner(ownerSignIn);
+    var signIn = SignIn(login: login, password: password, id: id, token: token);
+    widget.roleId == 1
+        ? HiveSignIn().storeOwner(signIn)
+        : HiveClientSignIn().storeClient(signIn);
 
     // var loginAccount = HiveOwnerSignIn().loadOwner();
     // var loginClient = HiveClientSignIn().loadClient();
@@ -126,6 +129,7 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
               ),
               TextFormField(
                   controller: logInController,
+                  cursorColor: MainColors.greenColor,
                   validator: (input) {
                     if (input!.isEmpty) {
                       return "Iltimos  login kiriting!";
@@ -139,6 +143,7 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
               ),
               TextFormField(
                   controller: passwordController,
+                  cursorColor: MainColors.greenColor,
                   validator: (input) {
                     if (input!.isEmpty) {
                       return "Iltimos  login kiriting!";

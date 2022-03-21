@@ -2,7 +2,7 @@ class SignIn {
   late String login;
   late String password;
   String? token;
-  String? id;
+  int? id;
 
   SignIn({required this.login, required this.password, this.token, this.id});
 
