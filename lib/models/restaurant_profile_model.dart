@@ -3,7 +3,8 @@ import 'dart:convert';
 
 class RestaurantProfileModel {
   // final int userId;
-  String imagePath;
+  String? imagePath;
+  String? logoPath;
   String name;
   String phone;
   String mapLn;
@@ -11,10 +12,10 @@ class RestaurantProfileModel {
   String openTime;
   String closeTime;
   String bankNumber;
-  String logo;
+  String? logo;
   RestaurantProfileModel({
     // this.userId,
-    required this.imagePath,
+    this.imagePath,
     required this.name,
     required this.phone,
     required this.mapLn,
@@ -22,7 +23,7 @@ class RestaurantProfileModel {
     required this.openTime,
     required this.closeTime,
     required this.bankNumber,
-    required this.logo
+    this.logo
   });
 
   factory RestaurantProfileModel.fromJson(Map<String, dynamic> json) =>

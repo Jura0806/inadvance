@@ -43,9 +43,6 @@ class _DrawSchemeState extends State<DrawScheme> {
           floor: floorValue,
           index: _countTableController.text.toString().trim());
 
-      setState(() {
-        isLoading = true;
-      });
       var response = await OwnerNetwork.ownersTable(
           OwnerNetwork.Api_Restaurant_Table,
           OwnerNetwork.paramsOwnerTable(tableData));
@@ -188,6 +185,7 @@ class _DrawSchemeState extends State<DrawScheme> {
                   ? InkWell(
                       onTap: () {
                         widget.id == null ? _createTables() : _updateTable();
+                        isLoading? Navigator.of(context).pop(): SizedBox.shrink();
                       },
                       child: Container(
                         height: 45.h,
