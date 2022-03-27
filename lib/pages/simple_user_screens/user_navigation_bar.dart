@@ -8,6 +8,7 @@ import 'package:inadvance/pages/simple_user_screens/user_savatcha_screen.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/user_navigation_bar_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserNavigationBar extends StatefulWidget {
   const UserNavigationBar({Key? key}) : super(key: key);
@@ -47,23 +48,23 @@ class _UserNavigationBarState extends State<UserNavigationBar> {
         items: [
           BottomNavigationBarItem(
             icon: bottomBarIcon(0),
-            label: "Asosiy",
+            label: "Home".tr(),
           ),
           BottomNavigationBarItem(
             icon: bottomBarIcon(1),
-            label: "Qidiruv",
+            label: "search".tr(),
           ),
           BottomNavigationBarItem(
             icon: bottomBarIcon(2),
-            label: "Savatcha",
+            label: "shopping".tr(),
           ),
           BottomNavigationBarItem(
             icon: bottomBarIcon(3),
-            label: "Buyurtma",
+            label: "Orders".tr(),
           ),
           BottomNavigationBarItem(
             icon: bottomBarIcon(4),
-            label: "Sozlama",
+            label: "Settings".tr(),
           ),
         ],
       ),

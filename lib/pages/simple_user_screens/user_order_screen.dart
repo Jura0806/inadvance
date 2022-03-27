@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserOrderScreen extends StatefulWidget {
   const UserOrderScreen({Key? key}) : super(key: key);
@@ -35,8 +36,8 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  categoryOrders(categoryName: "Hozirgi", x: 1),
-                  categoryOrders(categoryName: "Tarix", x: 2),
+                  categoryOrders(categoryName: "today", x: 1),
+                  categoryOrders(categoryName: "story", x: 2),
                 ],
               ),
             ],
@@ -75,7 +76,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
                     ? MainColors.whiteColor
                     : MainColors.blackColor,
                 fontSize: 15.sp),
-          ),
+          ).tr(),
         ),
       ),
     );
@@ -87,12 +88,12 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
         data == null ? Padding(
           padding:  EdgeInsets.symmetric(horizontal: 50.h,vertical: SizeConfig.screenWidth!/1.5),
           child: Text(
-            "Sizda aktiv holatdagi buyurtmalar yo'q!",
+            "emptyOrder",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: SizeConfig.screenWidth! / 20,
             ),
-          ),
+          ).tr(),
         ) :  Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Card(
@@ -176,7 +177,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
                       Text(" 9:00 "),
                       const SizedBox(width: 5,),
                       Icon(Icons.table_chart, size: 15.sp,),
-                      Text(" 5-stol "),
+                      Text(" 5- " + "table".tr()),
                       const SizedBox(width: 5,),
                       Icon(Icons.date_range, size: 15.sp,),
                       Text(" 15.02.2022 ")

@@ -5,6 +5,7 @@ import 'package:inadvance/models/restaurant_tables_model.dart';
 import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class DrawScheme extends StatefulWidget {
   String floor;
@@ -96,7 +97,7 @@ class _DrawSchemeState extends State<DrawScheme> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.id == null ? "Add tables" : "Update table ${widget.index}",
+          widget.id == null ? "addTablesAppBAr".tr() : "updateAppBar".tr() + " ${widget.index}",
         ),
         actions: [
           widget.id == null
@@ -123,9 +124,9 @@ class _DrawSchemeState extends State<DrawScheme> {
                 height: 50.h,
               ),
               Text(
-                "Select floor",
+                "selectFloor",
                 style: TextStyle(color: MainColors.blackColor, fontSize: 15.sp),
-              ),
+              ).tr(),
               SizedBox(
                 height: 5.h,
               ),
@@ -134,9 +135,9 @@ class _DrawSchemeState extends State<DrawScheme> {
                 height: 30.h,
               ),
               Text(
-                "Necha kishilik stol",
+                  "tableNumber",
                 style: TextStyle(color: MainColors.blackColor, fontSize: 15.sp),
-              ),
+              ).tr(),
               SizedBox(
                 height: 5.h,
               ),
@@ -145,9 +146,9 @@ class _DrawSchemeState extends State<DrawScheme> {
                 height: 30.h,
               ),
               Text(
-                "Stol narxini kiriting",
+                "costTable",
                 style: TextStyle(color: MainColors.blackColor, fontSize: 15.sp),
-              ),
+              ).tr(),
               SizedBox(
                 height: 5.h,
               ),
@@ -157,7 +158,7 @@ class _DrawSchemeState extends State<DrawScheme> {
                   hintText: "10000",
                   validator: (input) {
                     if (input!.isEmpty) {
-                      return "Iltimos narxni yozing! Agar narx mavjud bo'lmasa 0 kiriting";
+                      return "validateCost".tr();
                     }
                   },
                   initialText: widget.price ?? ""),
@@ -165,9 +166,9 @@ class _DrawSchemeState extends State<DrawScheme> {
                 height: 30.h,
               ),
               Text(
-                "Stollar sonini kiriting",
+                widget.id == null ? "countTable" : "indexTable",
                 style: TextStyle(fontSize: 15.sp),
-              ),
+              ).tr(),
               SizedBox(
                 height: 5.h,
               ),
@@ -176,7 +177,7 @@ class _DrawSchemeState extends State<DrawScheme> {
                   hintText: "10",
                   validator: (input) {
                     if (input!.isEmpty) {
-                      return "Iltimos stollar sonini kiriting!";
+                      return "validateTableNumber".tr();
                     }
                   },
                   initialText: widget.index ?? ""),
@@ -188,7 +189,7 @@ class _DrawSchemeState extends State<DrawScheme> {
                         isLoading? Navigator.of(context).pop(): SizedBox.shrink();
                       },
                       child: Container(
-                        height: 45.h,
+                        height: 40.h,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: MainColors.greenColor,
@@ -196,10 +197,10 @@ class _DrawSchemeState extends State<DrawScheme> {
                         ),
                         child: Center(
                           child: Text(
-                            widget.id == null ? "Add tables" : "Update",
+                            widget.id == null ? "add" : "update",
                             style: TextStyle(
                                 color: MainColors.whiteColor, fontSize: 17.sp),
-                          ),
+                          ).tr(),
                         ),
                       ),
                     )

@@ -9,6 +9,7 @@ import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 import 'package:inadvance/widgets/restaurant_owner_widgets/owner_menu_bottomSheet.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OwnerMenuScreen extends StatefulWidget {
   const OwnerMenuScreen({Key? key}) : super(key: key);
@@ -51,7 +52,7 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
             fontSize: 24.sp,
             color: MainColors.blackColor,
           ),
-        ),
+        ).tr(),
         actions: [
           InkWell(
               onTap: () {
@@ -199,10 +200,10 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Add new category",
+                          "addCategory",
                           style: TextStyle(
                               color: MainColors.whiteColor, fontSize: 17),
-                        ),
+                        ).tr(),
                         Image.asset(
                           'assets/images/Vector.png',
                           color: MainColors.whiteColor,

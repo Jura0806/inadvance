@@ -14,6 +14,7 @@ import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'dart:io' show Platform;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserSettingScreen extends StatefulWidget {
   const UserSettingScreen({Key? key}) : super(key: key);
@@ -24,8 +25,8 @@ class UserSettingScreen extends StatefulWidget {
 }
 
 class _UserSettingScreenState extends State<UserSettingScreen> {
-
   Map<String, dynamic> data = {};
+
   void getProfile() async {
     var ownerSignIn = SignIn(
         login: HiveClientSignIn().loadClient().login,
@@ -40,21 +41,22 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
     }
     print(response);
   }
+
   void _iosDialog() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
             title: Text('Logout'),
-            content: Text('Are you sure you want to logout?'),
+            content: Text("logoutQuestion").tr(),
             actions: [
               CupertinoDialogAction(
                   isDefaultAction: true,
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Cancel',
-                      style: TextStyle(color: MainColors.greenColor))),
+                  child: Text('cancel',
+                      style: TextStyle(color: MainColors.greenColor)).tr()),
               CupertinoDialogAction(
                   isDefaultAction: true,
                   onPressed: () {
@@ -63,13 +65,14 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                     HiveToken().removeToken();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                            builder: (BuildContext context) => ChooseLanguage()),
+                            builder: (BuildContext context) =>
+                                ChooseLanguage()),
                         (route) => false);
                   },
                   child: Text(
-                    'Confirm',
+                    'confirm',
                     style: TextStyle(color: Colors.redAccent),
-                  )),
+                  ).tr()),
             ],
           );
         });
@@ -105,15 +108,17 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
           );
         });
   }
+
   DecorationImage defaultLogo() {
     return DecorationImage(
         image: AssetImage("assets/images/default_image.png"),
         fit: BoxFit.cover);
   }
+
   DecorationImage getLogoNetwork() {
     return DecorationImage(
-        image: NetworkImage(
-            "https://in-advance.bingo99.uz${data["image_path"]}"),
+        image:
+            NetworkImage("https://in-advance.bingo99.uz${data["image_path"]}"),
         fit: BoxFit.cover);
   }
 
@@ -128,7 +133,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-        title: Text("Sozlamalar"),
+        title: Text("Settings").tr(),
       ),
       body: Column(
         children: [
@@ -142,7 +147,9 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                   height: 105.h,
                   width: 105.w,
                   decoration: BoxDecoration(
-                    image: Hive.box("ClientSignIn").isEmpty  ? defaultLogo() : getLogoNetwork() ,
+                    image: Hive.box("ClientSignIn").isEmpty?
+                         defaultLogo()
+                        : getLogoNetwork(),
                     color: Colors.grey,
                     shape: BoxShape.circle,
                     border:
@@ -162,7 +169,8 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        data["full_name"][0]?? "F",
+                        data["full_name"][0] ??
+                            "F",
                         style: TextStyle(
                             color: MainColors.whiteColor, fontSize: 25.sp),
                       ),
@@ -173,7 +181,8 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                   height: 10,
                 ),
                 Text(
-                  data["full_name"] ?? "FullName",
+                  data["full_name"] ??
+                      "FullName",
                   style:
                       TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
                 ),
@@ -184,15 +193,15 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
             flex: 15,
           ),
           InkWell(
-            child: settingInfos(nameInfo: "Profile"),
+            child: settingInfos(nameInfo: "profile"),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => UserProfilePage()));
             },
           ),
-          settingInfos(nameInfo: "To'lov tarixi"),
+          settingInfos(nameInfo: "storyPayment"),
           InkWell(
-            child: settingInfos(nameInfo: "Ilova haqida"),
+            child: settingInfos(nameInfo: "aboutApp"),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => AboutAppPage()));
@@ -200,7 +209,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
           ),
           settingInfos(nameInfo: "Contact"),
           InkWell(
-            child: settingInfos(nameInfo: "Languages"),
+            child: settingInfos(nameInfo: "languages"),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => ChooseLanguage()));
@@ -214,7 +223,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                   _iosDialog();
                 }
               },
-              child: settingInfos(nameInfo: "Log Out")),
+              child: settingInfos(nameInfo: "logOut")),
           const Spacer(
             flex: 50,
           ),
@@ -237,13 +246,13 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
             style: TextStyle(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
-                color: nameInfo == "Log Out"
+                color: nameInfo == "logOut"
                     ? Colors.redAccent
                     : MainColors.blackColor),
-          ),
+          ).tr(),
           trailing: Icon(
             Icons.navigate_next,
-            color: nameInfo == "Log Out"
+            color: nameInfo == "logOut"
                 ? Colors.redAccent
                 : MainColors.blackColor,
             size: 25.sp,

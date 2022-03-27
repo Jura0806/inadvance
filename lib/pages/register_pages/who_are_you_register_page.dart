@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inadvance/pages/register_pages/registers_restaurant_and_user/restaurant_owner_sign_up_page.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FirstRegister extends StatefulWidget {
   const FirstRegister({Key? key}) : super(key: key);
@@ -39,28 +40,32 @@ class _FirstRegisterState extends State<FirstRegister> {
               flex: 2,
             ),
             Text(
-              "Siz kimsiz?",
+              "UserTypeQuestion",
               style: TextStyle(
-                fontSize: 25.sp,
+                fontSize: 22.sp,
                 fontWeight: FontWeight.w600,
               ),
-            ),
+              textAlign: TextAlign.center,
+            ).tr(),
            const Spacer(
               flex: 4,
             ),
-            chooseButton(userType: "Restoran egasi", x: 1),
+            chooseButton(userType: "UserRestaurant", x: 1),
             SizedBox(
               height: 30.h,
             ),
-            chooseButton(userType: "Oddiy foydalanuvchi", x: 2),
+            chooseButton(userType: "UserClient", x: 2),
             const Spacer(
               flex: 20,
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => OwnerSignUp(roleId: isChoose,)));
-                print(isChoose);
+                if(isChoose == 1 || isChoose == 2) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          OwnerSignUp(roleId: isChoose,)));
+                  print(isChoose);
+                }
                 // if (isChoose == 2) {
                 //   Navigator.of(context).push(MaterialPageRoute(
                 //       builder: (BuildContext context) => UserSignUp()));
@@ -78,10 +83,10 @@ class _FirstRegisterState extends State<FirstRegister> {
                 ),
                 child: Center(
                   child: Text(
-                    "Davom etish",
+                    "Next",
                     style:
                         TextStyle(color: MainColors.whiteColor, fontSize: 17.sp),
-                  ),
+                  ).tr(),
                 ),
               ),
             ),
@@ -111,12 +116,12 @@ class _FirstRegisterState extends State<FirstRegister> {
           child: Text(
             userType,
             style: TextStyle(
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w600,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500,
                 color: isChoose == x
                     ? MainColors.whiteColor
                     : MainColors.blackColor),
-          ),
+          ).tr(),
         ),
       ),
     );

@@ -8,7 +8,7 @@ import 'owner_order_screen.dart';
 import 'owner_setting_screen.dart';
 import 'owner_table_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class OwnerNavigationBar extends StatefulWidget {
   OwnerNavigationBar({Key? key}) : super(key: key);
   static final String id = "owner_navigation_bar";
@@ -49,23 +49,23 @@ class _OwnerNavigationBarState extends State<OwnerNavigationBar> {
         items: [
           BottomNavigationBarItem(
             icon: bottomBarIcon(0),
-            label: "Asosiy",
+            label: "Home".tr(),
           ),
           BottomNavigationBarItem(
             icon: bottomBarIcon(1),
-            label: "Menyu",
+            label: "Menu".tr(),
           ),
           BottomNavigationBarItem(
             icon: bottomBarIcon(2),
-            label: "Stollar",
+            label: "Tables".tr(),
           ),
           BottomNavigationBarItem(
             icon: bottomBarIcon(3),
-            label: "Buyurtma",
+            label: "Orders".tr(),
           ),
           BottomNavigationBarItem(
             icon: bottomBarIcon(4),
-            label: "Sozlama",
+            label: "Settings".tr(),
           ),
         ],
       ),

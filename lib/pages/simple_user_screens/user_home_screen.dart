@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:inadvance/models/categories_restaurant.dart';
@@ -112,12 +112,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           children: [
             SizedBox(height: 20.h),
             Text(
-              "Recomment",
+              "recommend",
               style: TextStyle(
                 fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
-            ),
+            ).tr(),
             SizedBox(height: 10.h),
 
             // << Top Restaurants List Horizontall>>
@@ -144,7 +144,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               height: 15,
             ),
             Text(
-              "All Categories",
+              "allCategories".tr(),
               style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
             ),
             const SizedBox(
@@ -294,7 +294,14 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => RestaurantInfosPage()));
+                builder: (BuildContext context) => RestaurantInfosPage(
+                      restId: restaurant.id.toString(),
+                      restName: restaurant.name,
+                  phone: restaurant.phone,
+                  openTime: restaurant.openTime,
+                  closeTime: restaurant.closeTime,
+                  image: NetworkImage('https://in-advance.bingo99.uz${restaurant.imagePath}'),
+                    )));
           },
           child: Container(
             height: 155.h,
@@ -328,9 +335,9 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     height: 5,
                   ),
                   Text(
-                    "National Food",
+                    "foodType",
                     style: TextStyle(color: Colors.grey, fontSize: 13.sp),
-                  ),
+                  ).tr(),
                 ],
               ),
               Row(

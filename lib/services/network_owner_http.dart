@@ -153,15 +153,15 @@ class OwnerNetwork {
       }
       print(response.statusCode);
     } catch (e) {
-      return "BUG Network => $e";
+      return "BUG Network table list=> $e";
     }
   }
 
   // Get Restaurant's tables list  //
-  static Future<String?> ownersGetTableList(String? nextPage) async {
+  static Future<String?> ownersGetTableList() async {
     try {
       var uri = Uri.parse(
-          "https://in-advance.bingo99.uz/api/owner/table/${nextPage ?? ""}");
+          "https://in-advance.bingo99.uz/api/owner/table");
       var response = await get(uri, headers: headersWithToken);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.body;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inadvance/pages/simple_user_screens/user_payment_page.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserShopScreen extends StatefulWidget {
   const UserShopScreen({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _UserShopScreenState extends State<UserShopScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Savatcha"),
+        title: Text("shopping").tr(),
         actions: [
           Icon(
             Icons.delete,
@@ -35,9 +36,9 @@ class _UserShopScreenState extends State<UserShopScreen> {
       body: data == null
           ? Center(
               child: Text(
-                "Savatcha bo'sh",
+                "emptyShopping",
                 style: TextStyle(fontSize: 17.sp),
-              ),
+              ).tr(),
             )
           : ListView(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -58,9 +59,9 @@ class _UserShopScreenState extends State<UserShopScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Jami summa",
+                      "totalSumma",
                       style: TextStyle(fontSize: 17.sp),
-                    ),
+                    ).tr(),
                     Text(
                       "94 000 UZS",
                       style:
@@ -85,10 +86,10 @@ class _UserShopScreenState extends State<UserShopScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        "Davom etish",
+                        "Next",
                         style: TextStyle(
                             color: MainColors.whiteColor, fontSize: 17.sp),
-                      ),
+                      ).tr(),
                     ),
                   ),
                 ),
