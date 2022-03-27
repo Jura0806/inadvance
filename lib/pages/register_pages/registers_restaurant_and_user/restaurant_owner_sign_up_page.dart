@@ -80,6 +80,12 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
   }
 
   void doSignUp() {
+    widget.roleId == 1
+        ? Navigator.pushNamedAndRemoveUntil(
+        context, OwnerNavigationBar.id, (route) => false)
+        : Navigator.pushNamedAndRemoveUntil(
+        context, UserNavigationBar.id, (route) => false);
+
     var account = SignUpAccount(
       full_name: restName,
       phone: int.parse(adminNumber),
@@ -95,17 +101,12 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
 
     var account2 = HiveSignUp().loadOwner();
     //
-    print(account2);
+    //print(account2);
     print(account2.token);
 
     print(HiveToken().loadToken());
 
 
-    widget.roleId == 1
-        ? Navigator.pushNamedAndRemoveUntil(
-            context, OwnerNavigationBar.id, (route) => false)
-        : Navigator.pushNamedAndRemoveUntil(
-            context, UserNavigationBar.id, (route) => false);
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inadvance/models/sign_in_model.dart';
 import 'package:inadvance/models/user_profile_model.dart';
@@ -43,6 +44,14 @@ class _UserProfilePageState extends State<UserProfilePage> {
       setState(() {
         isLoading = false;
       });
+      var signIn = SignIn(
+        login: jsonDecode(response)["data"]["login"],
+        password: jsonDecode(response)["data"]["password"],
+        id: jsonDecode(response)["data"]["id"],
+      );
+      Hive.box("ClientSignIn").isEmpty
+          ? HiveClientSignIn().storeClient(signIn)
+          : SizedBox();
       Navigator.of(context).pop();
     }
 
@@ -61,6 +70,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     if (response != null) {
       setState(() {
         data = jsonDecode(response)["user"];
+        isLoading = false;
       });
     }
     print(response);
@@ -71,13 +81,30 @@ class _UserProfilePageState extends State<UserProfilePage> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       setState(() {
-        // checkRestImg = 1;
+        checkImg = 1;
         final imageTemporary = File(image.path);
         this.imageUser = imageTemporary;
       });
     } on PlatformException catch (e) {
       print("Failed to pick image: $e");
     }
+  }
+
+  DecorationImage getLogoNetwork() {
+    return DecorationImage(
+        image: CachedNetworkImageProvider(
+            "https://in-advance.bingo99.uz${data["image_path"]}"),
+        fit: BoxFit.cover);
+  }
+
+  DecorationImage defaultLogo() {
+    return DecorationImage(
+        image: AssetImage("assets/images/default_image.png"),
+        fit: BoxFit.cover);
+  }
+
+  DecorationImage imagePicker() {
+    return DecorationImage(image: FileImage(imageUser!), fit: BoxFit.cover);
   }
 
   @override
@@ -95,6 +122,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
       ),
       body: Stack(
         children: [
+          isLoading == true
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: MainColors.greenColor,
+                  ),
+                )
+              : SizedBox.shrink(),
           Column(
             children: [
               const Spacer(
@@ -103,23 +137,19 @@ class _UserProfilePageState extends State<UserProfilePage> {
               Center(
                 child: Stack(
                   children: [
-                    InkWell(
-                      onTap: () => getProfile(),
-                      child: Container(
-                        height: 105.h,
-                        width: 105.w,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: CachedNetworkImageProvider(
-                            "https://in-advance.bingo99.uz${data["image_path"]}",
-                          ),
-                            fit: BoxFit.cover
-                          ),
-                          color: Colors.grey,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              width: 2.5, color: MainColors.greenColor),
-                        ),
+                    Container(
+                      height: 105.h,
+                      width: 105.w,
+                      decoration: BoxDecoration(
+                        image: checkImg == 1
+                            ? imagePicker()
+                            : Hive.box("ClientSignIn").isEmpty
+                                ? defaultLogo()
+                                : getLogoNetwork(),
+                        color: Colors.grey,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            width: 2.5, color: MainColors.greenColor),
                       ),
                     ),
                     Positioned(
@@ -215,13 +245,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
               )
             ],
           ),
-          isLoading != true
-              ? Center(
-                  child: CircularProgressIndicator(
-                    color: MainColors.greenColor,
-                  ),
-                )
-              : SizedBox.shrink(),
         ],
       ),
     );
@@ -238,10 +261,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
         children: [
           TextFormField(
               controller: controller..text = initialText,
-              cursorColor: MainColors.greenColor,
               onChanged: (text) {
-                controller.text = text;
+                 text = controller.text;
               },
+              cursorColor: MainColors.greenColor,
               decoration: InputDecoration(
                   prefixText: prefixText,
                   prefixStyle: TextStyle(color: Colors.black, fontSize: 15.sp),

@@ -27,6 +27,11 @@ class OwnerSettingScreen extends StatefulWidget {
 class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
   // CreateProfile createProfile = new CreateProfile();
   Map<String, dynamic> profile ={
+    "data": {
+
+      "name": "Restaurant Name",
+
+    }
   };
   void _iosDialog() {
     showDialog(
@@ -102,22 +107,22 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
         });
   }
 
-  // Future getProfile() async {
-  //   var response =
-  //   await OwnerNetwork.ownerProfileGet(OwnerNetwork.Api_Restaurant_Profile);
-  //
-  //   if (jsonDecode(response)["data"] != null) {
-  //     setState(() {
-  //       profile = jsonDecode(response)["data"];
-  //     });
-  //   }
-  // }
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   getProfile();
-  // }
+  Future getProfile() async {
+    var response =
+    await OwnerNetwork.ownerProfileGet(OwnerNetwork.Api_Restaurant_Profile);
+
+    if (jsonDecode(response)["data"] != null) {
+      setState(() {
+        profile = jsonDecode(response);
+      });
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfile();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,16 +143,16 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                   width: 105.w,
                   decoration: BoxDecoration(
                     image:
-                    // Hive.box("Restaurant_id").isEmpty
-                    //     ?
+                    Hive.box("Restaurant_id").isEmpty
+                        ?
                     DecorationImage(
                             image:
                                 AssetImage("assets/images/default_image.png"),
+                            fit: BoxFit.fill)
+                        : DecorationImage(
+                            image:
+                                NetworkImage("https://in-advance.bingo99.uz${profile["data"]["logo_path"]}"),
                             fit: BoxFit.fill),
-                        // : DecorationImage(
-                        //     image:
-                        //         NetworkImage("https://in-advance.bingo99.uz${profile["data"]["logo_path"]}"),
-                        //     fit: BoxFit.fill),
                     color: Colors.grey,
                     shape: BoxShape.circle,
                     border:
@@ -167,7 +172,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        "Rayhon"[0],
+                         profile["data"]["name"][0]??"R",
                         style: TextStyle(
                             color: MainColors.whiteColor, fontSize: 35.sp),
                       ),
@@ -178,7 +183,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                   height: 10,
                 ),
                 Text(
-                  "Rayhon",
+                  profile["data"]["name"]??"Restaurant's Name",
                   style:
                       TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
                 ),
@@ -224,10 +229,12 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
               },
               child: settingInfos(nameInfo: "Log Out")),
           TextButton(
-              onPressed: () {
+              onPressed: ()  {
                 var restaurantData = HiveSignIn().loadOwner();
-                print("Restoran id => ${restaurantData.id}");
-                print("token => ${restaurantData.token}");
+              // print("Restoran id => ${restaurantData.id}");
+              //  print("token => ${restaurantData.token}");
+                print("login => ${restaurantData.login}");
+
               },
               child: Text("Print_Owner_Restaurant's_Data")),
           const Spacer(

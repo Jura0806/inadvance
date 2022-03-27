@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,17 +8,12 @@ import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inadvance/models/restaurant_profile_model.dart';
 import 'package:inadvance/pages/location_page/location_page.dart';
-import 'package:inadvance/provider_views/owner_views_provider/profile_post_view.dart';
-import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:inadvance/services/hive_db_user_service.dart';
 import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 import 'dart:io';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:path_provider/path_provider.dart';
-
-import 'owner_navigation_bar.dart';
 
 class RestProfilePage extends StatefulWidget {
   const RestProfilePage({Key? key}) : super(key: key);
@@ -41,8 +34,10 @@ class _RestProfilePageState extends State<RestProfilePage> {
   bool isLoadingGet = true;
   Map<String, dynamic> profile = {
     "data": {
-      "full_name": "",
+      "name": "",
       "phone": "",
+      "map_ln": "",
+      "map_lt": "",
       "open_time": "",
       "close_time": "",
       "bank_number": "",
@@ -87,7 +82,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
       if (response != null) {
         Hive.box("Restaurant_id").isEmpty
             ? HiveRestId().storeId(jsonDecode(response)["data"]["id"])
-            : SizedBox();
+            : null;
         setState(() {
           isLoading = false;
         });
@@ -155,7 +150,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
     var response =
         await OwnerNetwork.ownerProfileGet(OwnerNetwork.Api_Restaurant_Profile);
 
-    if (jsonDecode(response)["data"] != null) {
+    if (response != null) {
       setState(() {
         getResponse = response;
         profile = jsonDecode(response);
@@ -166,7 +161,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
 
   DecorationImage getLogoNetwork() {
     return DecorationImage(
-        image: NetworkImage(
+        image: CachedNetworkImageProvider(
             "https://in-advance.bingo99.uz${profile["data"]["logo_path"]}"),
         fit: BoxFit.cover);
   }
@@ -194,8 +189,6 @@ class _RestProfilePageState extends State<RestProfilePage> {
     super.dispose();
   }
 
-  bool isEmptyHive = Hive.box("Restaurant_id").isEmpty;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -205,7 +198,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
           IconButton(
             onPressed: () {
               createProfile();
-              getProfile();
+              // getProfile();
             },
             icon: SvgPicture.asset(
               "assets/images/vector_ok.svg",
@@ -214,8 +207,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
           ),
         ],
       ),
-      body: Hive.box("Restaurant_id").isEmpty ||
-              HiveSignIn().loadOwner().id == null
+      body: Hive.box("Restaurant_id").isEmpty
           ? profileBody()
           : isLoadingGet
               ? Center(
@@ -231,7 +223,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
       {required String labelText,
       Widget? suffixIcon,
       required TextEditingController controller,
-      required String initialValue}) {
+      required String? initialValue}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
       child: TextFormField(
@@ -240,7 +232,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
               return "Iltimos ma'lumotlarni to'liq kiriting!";
             }
           },
-          controller: controller..text = initialValue,
+          controller: controller..text = initialValue!,
           onChanged: (text) {
             if (text != null || text.isNotEmpty) {
               text = controller.toString();
@@ -272,7 +264,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
       {required String isOpen,
       required String time,
       required TextEditingController controller,
-      required String initialValue}) {
+      required String? initialValue}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -294,7 +286,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
                 return "Iltimos ma'lumotlarni to'liq kiriting!";
               }
             },
-            controller: controller..text = initialValue,
+            controller: controller..text = initialValue!,
             onChanged: (text) {
               if (text != null || text.isNotEmpty) {
                 text = controller.toString();
@@ -370,7 +362,8 @@ class _RestProfilePageState extends State<RestProfilePage> {
                         color: MainColors.dimRedColor,
                         image: checkRestLogo == 1
                             ? imagePicker()
-                            : Hive.box("Restaurant_id").isEmpty
+                            : Hive.box("Restaurant_id").isEmpty &&
+                                    Hive.box("OwnerSignIn").isEmpty
                                 ? defaultLogo()
                                 : getLogoNetwork(),
                         border:
@@ -404,8 +397,8 @@ class _RestProfilePageState extends State<RestProfilePage> {
                   top: 145.h,
                   left: SizeConfig.screenWidth! / 1.8,
                   child: Container(
-                    height: 40.h,
-                    width: 40.w,
+                    height: 35.h,
+                    width: 35.w,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: MainColors.whiteColor,
@@ -421,7 +414,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
                         icon: Icon(
                           Icons.camera_alt_outlined,
                           color: MainColors.greenColor,
-                          size: 20.w,
+                          size: 16.w,
                         ),
                       ),
                     ),

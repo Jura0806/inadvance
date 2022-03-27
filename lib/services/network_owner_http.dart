@@ -90,7 +90,7 @@ class OwnerNetwork {
       String api, Map<String, dynamic> params) async {
     try {
       var uri = Uri.parse(
-          "https://in-advance.bingo99.uz/api/owner/restaurant/${HiveSignIn().loadOwner().id}");
+          "https://in-advance.bingo99.uz/api/owner/restaurant/${HiveSignIn().loadOwner().id??HiveRestId().loadId()}");
       var requests = http.MultipartRequest("POST", uri);
       requests.headers.addAll(headersWithToken);
       requests.files.add(await http.MultipartFile.fromPath(
@@ -128,7 +128,7 @@ class OwnerNetwork {
   static Future<String> ownerProfileGet(String api) async {
     try {
       var uri = Uri.parse(
-          "https://in-advance.bingo99.uz/api/owner/restaurant/${HiveSignIn().loadOwner().id}");
+          "https://in-advance.bingo99.uz/api/owner/restaurant/${HiveSignIn().loadOwner().id??HiveRestId().loadId()}");
       var response = await get(uri, headers: headersWithToken);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.body;

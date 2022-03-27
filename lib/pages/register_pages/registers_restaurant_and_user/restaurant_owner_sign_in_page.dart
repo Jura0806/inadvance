@@ -28,7 +28,7 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
   late bool isLoading = true;
   String notAvialableLogin = '';
 
-  int? id;
+  String? id;
   String? token;
 
   var logInController = TextEditingController();
@@ -49,16 +49,16 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
       setState(() {
         if (response != null) {
           HiveToken().storeToken(jsonDecode(response)["token"]);
-          id = widget.roleId == 1
-              ? jsonDecode(response)["user"]["restaurant"]["id"]
-              : jsonDecode(response)["user"]["id"];
-          token = jsonDecode(response)["token"];
           doSignIn();
+          token = jsonDecode(response)["token"];
         } else {
           setState(() {
             notAvialableLogin = "Bu login mavjud emas";
           });
         }
+        id = widget.roleId == 1
+            ? jsonDecode(response!)["user"]["restaurant"]["id"].toString()
+            : jsonDecode(response!)["user"]["id"].toString();
         isLoading = false;
       });
       print("Login Restaurant => $response");

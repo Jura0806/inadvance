@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:inadvance/models/sign_in_model.dart';
 import 'package:inadvance/pages/about_app_page.dart';
 import 'package:inadvance/pages/choose_language_page.dart';
 import 'package:inadvance/pages/register_pages/registers_restaurant_and_user/restaurant_owner_sign_up_page.dart';
 import 'package:inadvance/pages/simple_user_screens/user_profile_page.dart';
 import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:inadvance/services/hive_db_user_service.dart';
+import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'dart:io' show Platform;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +24,22 @@ class UserSettingScreen extends StatefulWidget {
 }
 
 class _UserSettingScreenState extends State<UserSettingScreen> {
+
+  Map<String, dynamic> data = {};
+  void getProfile() async {
+    var ownerSignIn = SignIn(
+        login: HiveClientSignIn().loadClient().login,
+        password: HiveClientSignIn().loadClient().password);
+    var response = await OwnerNetwork.ownerRegister(
+        OwnerNetwork.Api_LogIn, OwnerNetwork.paramsSignIn(ownerSignIn));
+
+    if (response != null) {
+      setState(() {
+        data = jsonDecode(response)["user"];
+      });
+    }
+    print(response);
+  }
   void _iosDialog() {
     showDialog(
         context: context,
@@ -84,6 +105,23 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
           );
         });
   }
+  DecorationImage defaultLogo() {
+    return DecorationImage(
+        image: AssetImage("assets/images/default_image.png"),
+        fit: BoxFit.cover);
+  }
+  DecorationImage getLogoNetwork() {
+    return DecorationImage(
+        image: NetworkImage(
+            "https://in-advance.bingo99.uz${data["image_path"]}"),
+        fit: BoxFit.cover);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getProfile();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,10 +142,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                   height: 105.h,
                   width: 105.w,
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(
-                            "https://i.pinimg.com/originals/9c/bd/87/9cbd87199859155a3012b19c51a508cd.jpg"),
-                        fit: BoxFit.fill),
+                    image: Hive.box("ClientSignIn").isEmpty  ? defaultLogo() : getLogoNetwork() ,
                     color: Colors.grey,
                     shape: BoxShape.circle,
                     border:
@@ -118,18 +153,18 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                       gradient: LinearGradient(
                         begin: Alignment.center,
                         colors: [
-                          Colors.black.withOpacity(.5),
-                          Colors.black.withOpacity(.5),
-                          Colors.black.withOpacity(.5),
+                          Colors.black.withOpacity(.4),
+                          Colors.black.withOpacity(.4),
+                          Colors.black.withOpacity(.4),
                         ],
                       ),
                       shape: BoxShape.circle,
                     ),
                     child: Center(
                       child: Text(
-                        "Feruza"[0],
+                        data["full_name"][0]?? "F",
                         style: TextStyle(
-                            color: MainColors.whiteColor, fontSize: 35.sp),
+                            color: MainColors.whiteColor, fontSize: 25.sp),
                       ),
                     ),
                   ),
@@ -138,7 +173,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                   height: 10,
                 ),
                 Text(
-                  "Feruza Ergasheva",
+                  data["full_name"] ?? "FullName",
                   style:
                       TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
                 ),

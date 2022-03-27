@@ -19,7 +19,7 @@ class OwnerTableScreen extends StatefulWidget {
 
 class _OwnerTableScreenState extends State<OwnerTableScreen> {
   int indexPage = 0;
-  bool isDrawTable = true;
+  var getResponse;
   final tableNumber = List.generate(20, (index) => "$index");
   late PageController pageController;
 
@@ -38,6 +38,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
     var response = await OwnerNetwork.ownersGetTableList(nextPage);
     if (response != null) {
       setState(() {
+        getResponse = response;
         listTables2 = jsonDecode(response)["data"]["data"];
         isLoading = false;
         List.generate(listTables2.length, (index) {
@@ -96,7 +97,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: isDrawTable
+      appBar: getResponse != null
           ? AppBar(
               title: GestureDetector(
                 onTap: () {
@@ -180,21 +181,28 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
               ),
               backgroundColor: MainColors.greenColor,
             ),
-      body: isDrawTable
+      body: getResponse != null
           ? isLoading
               ? Center(
                   child: CircularProgressIndicator(
                   color: MainColors.greenColor,
                 ))
-              : PageView.builder(
-                  controller: pageController,
-                  onPageChanged: (int page) {
-                    setState(() {
-                      indexPage = page;
-                    });
+              : RefreshIndicator(
+                  onRefresh: () async {
+                    await Future.delayed(Duration(seconds: 1));
+                    apiTableList("");
+                    setState(() {});
                   },
-                  itemCount: floors.length,
-                  itemBuilder: (ctx, item) => buildGridView(floors[item]),
+                  child: PageView.builder(
+                    controller: pageController,
+                    onPageChanged: (int page) {
+                      setState(() {
+                        indexPage = page;
+                      });
+                    },
+                    itemCount: floors.length,
+                    itemBuilder: (ctx, item) => buildGridView(floors[item]),
+                  ),
                 )
           : noScheme(),
     );
@@ -203,6 +211,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
   Widget buildTableCard(int number, List floor) {
     return InkWell(
       onTap: () {
+        print(floor[number]["orders"].toString()=="[]");
         number != floor.length
             ? Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => DrawScheme(
