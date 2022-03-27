@@ -62,7 +62,7 @@
   "drawScheme": "Sxema tuzish",
   "noScheme": "Stollar sxemasi mavjud emas",
   "person" : "kishilik",
-  "floor": "qavat",
+  "floor": "этаж",
 
   "updateAppBar": "Изменить стол",
   "indexTable": "Обновить индекс стола",
@@ -97,7 +97,7 @@
   "new": "Новое",
   "Popular": "Популярное",
   "Location": "Локация",
-  "foodType": "Chet el taomlari",
+  "foodType": "Иностранные блюда",
   "isOpenRestaurant": "Пока это ресторан закрыто!",
   "money": "Сум",
   "searchRestWithName": "Поиск по названием ресторана",
@@ -117,6 +117,7 @@
   "CardName": "Имя отправителя",
   "transferSumma": "Сумма перевода",
   "total": "Всего",
+  "confirmTransfer": "Подтверждение",
 
   "emptyOrder": "У вас нет активных заказов",
   "table": "стол"

@@ -43,14 +43,14 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
-                            color: MainColors.greenColor,
+                            color: MainColors.greyColor,
                             width: 1,
                             style: BorderStyle.solid),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
-                            color: MainColors.textFieldColor,
+                            color: MainColors.greenColor,
                             width: 1,
                             style: BorderStyle.solid),
                       )),
@@ -70,14 +70,14 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
-                            color: MainColors.greenColor,
+                            color: MainColors.greyColor,
                             width: 1,
                             style: BorderStyle.solid),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
-                            color: MainColors.textFieldColor,
+                            color: MainColors.greenColor,
                             width: 1,
                             style: BorderStyle.solid),
                       )),
@@ -102,7 +102,7 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
                               color: sendSms? MainColors.greenColor : Colors.grey,
                             )
                         ),
-                        child: Icon(Icons.ac_unit, size: 10.w, color: sendSms ? MainColors.whiteColor : Colors.transparent,),
+                        child: Icon(Icons.done, size: 10.w, color: sendSms ? MainColors.whiteColor : Colors.transparent,),
                       ),
                     ),
                    const SizedBox(width: 10,),
@@ -124,14 +124,14 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
-                            color: MainColors.greenColor,
+                            color: MainColors.greyColor,
                             width: 1,
                             style: BorderStyle.solid),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
-                            color: MainColors.textFieldColor,
+                            color: MainColors.greenColor,
                             width: 1,
                             style: BorderStyle.solid),
                       )),

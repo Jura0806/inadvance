@@ -179,7 +179,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                   ),
                 ),
               ),
-              categoryName("menu".tr(), 25),
+              categoryName("Menu".tr(), 25),
               SizedBox(
                 height: 35.h,
                 child: ListView.builder(

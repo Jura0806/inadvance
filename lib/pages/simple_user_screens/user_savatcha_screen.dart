@@ -63,7 +63,7 @@ class _UserShopScreenState extends State<UserShopScreen> {
                       style: TextStyle(fontSize: 17.sp),
                     ).tr(),
                     Text(
-                      "94 000 UZS",
+                      "92 000 UZS",
                       style:
                           TextStyle(fontSize: 17.sp, color: MainColors.greenColor),
                     )

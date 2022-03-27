@@ -117,6 +117,7 @@
   "CardName": "Yuboruvchining ismi",
   "transferSumma": "O'tkazma summasi",
   "total": "Jami",
+  "confirmTransfer": "Tasdiq",
 
   "emptyOrder": "Sizda aktiv holatdagi buyurtmalar yo'q",
   "table": "table"
