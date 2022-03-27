@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inadvance/models/category_model.dart';
 import 'package:inadvance/models/meal_model.dart';
@@ -17,14 +18,24 @@ class OwnerMenuScreen extends StatefulWidget {
 }
 
 class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
-  late Future<List<Category>> _categories;
-  late Future<List<Meal>> _meals;
-
+  late List<Category> _categories;
+  late List<Meal> _meals;
+  TextEditingController _storeCategoryController = TextEditingController();
   @override
   void initState() {
-    _categories = OwnerNetwork.getCategories();
-    _meals = OwnerNetwork.getMeals();
     super.initState();
+    initValues();
+  }
+
+  Future initValues() async {
+    _categories = await OwnerNetwork.getCategories();
+    _meals = await OwnerNetwork.getMeals();
+  }
+
+  @override
+  void dispose() {
+    _storeCategoryController.dispose();
+    super.dispose();
   }
 
   @override
@@ -47,7 +58,7 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        NewOrUpdateMeal(type: 'Add'),
+                        NewOrUpdateMeal(type: 'Add', categories: _categories),
                   ),
                 );
               },
@@ -57,9 +68,10 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
+          _categories.clear();
+          _meals.clear();
           await Future.delayed(Duration(seconds: 1));
-          _categories = OwnerNetwork.getCategories();
-          _meals = OwnerNetwork.getMeals();
+          await initValues();
           setState(() {});
         },
         child: SingleChildScrollView(
@@ -67,31 +79,41 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
               AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           child: Column(
             children: [
-              FutureBuilder<List<Category>>(
-                future: _categories,
-                builder: (ctx, AsyncSnapshot<List<Category>> snapshot) {
-                  List<Category>? _categories = snapshot.data;
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SizedBox();
-                  } else if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasError) {
+              FutureBuilder(
+                future: initValues(),
+                builder: (ctx, AsyncSnapshot snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
                       return SizedBox();
-                    } else if (snapshot.hasData) {
+                    case ConnectionState.done:
                       return ListView.separated(
-                        itemCount: _categories!.length,
+                        itemCount: _categories.length,
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemBuilder: (ctx, i) {
-                          Category _category = _categories[0];
-                          return foodCategoryListItem(category: _category);
+                          Category _category = _categories[i];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 15.0.w),
+                                child: Text(
+                                  _category.nameUz!,
+                                  style: TextStyle(
+                                    color: MainColors.blackColor,
+                                    fontSize: 20.0.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              foodCategoryListItem(category: _category),
+                            ],
+                          );
                         },
                         separatorBuilder: (ctx, i) => SizedBox(height: 15.0.h),
                       );
-                    } else {
+                    default:
                       return SizedBox();
-                    }
-                  } else {
-                    return SizedBox();
                   }
                 },
               ),
@@ -101,7 +123,70 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: InkWell(
                   onTap: () {
-                    showModelSheet(context);
+                    _storeCategoryController.clear();
+                    showModelSheet(
+                      context,
+                      controller: _storeCategoryController,
+                      onSave: () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Container(
+                                width: 15.w,
+                                height: 15.w,
+                                child: CircularProgressIndicator(
+                                  backgroundColor: Colors.white,
+                                  color: MainColors.greenColor,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                        var res = await OwnerNetwork.storeCategories(
+                          params: {
+                            "name_uz": _storeCategoryController.text,
+                            "name_ru": _storeCategoryController.text,
+                            "name_en": _storeCategoryController.text,
+                            "description_uz": _storeCategoryController.text,
+                            "description_ru": _storeCategoryController.text,
+                            "description_en": _storeCategoryController.text,
+                          },
+                        );
+                        await Future.delayed(Duration(seconds: 1));
+                        if (res.id != null) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Container(
+                                  child: Text("Category qo'shildi"),
+                                ),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      "ok",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      primary: MainColors.greenColor,
+                                    ),
+                                  )
+                                ],
+                                actionsAlignment: MainAxisAlignment.center,
+                              );
+                            },
+                          );
+                        }
+                      },
+                    );
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 20),
@@ -172,8 +257,10 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
                 child: IconButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            NewOrUpdateMeal(type: 'Edit', meal: meal)));
+                        builder: (BuildContext context) => NewOrUpdateMeal(
+                            type: 'Edit',
+                            meal: meal,
+                            categories: _categories)));
                   },
                   icon: Container(
                     width: 40.0.w,
@@ -207,7 +294,7 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
                     SizedBox(
                       width: 150.w,
                       child: Text(
-                        meal.nameEn!,
+                        meal.nameUz!,
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 18.0.sp,
@@ -244,49 +331,45 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
   }
 
   Widget foodCategoryListItem({required Category category}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 15.0.w),
-          child: Text(
-            category.nameUz!,
-            style: TextStyle(
-              color: MainColors.blackColor,
-              fontSize: 20.0.sp,
-              fontWeight: FontWeight.w600,
-            ),
+    bool isCategoryHaveMeals = false;
+    for (var meal in _meals) {
+      if (category.id.toString() == meal.categoryId) {
+        isCategoryHaveMeals = true;
+        break;
+      } else {
+        isCategoryHaveMeals = false;
+      }
+    }
+    switch (isCategoryHaveMeals) {
+      case true:
+        return Container(
+          height: 230.h,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            physics:
+                AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+            itemCount: _meals.length,
+            padding: EdgeInsets.symmetric(vertical: 10.0.w, horizontal: 15.0.w),
+            itemBuilder: (ctx, i) {
+              Meal _meal = _meals[i];
+              if (category.id.toString() == _meal.categoryId) {
+                return foodListItem(meal: _meal);
+              } else {
+                return SizedBox();
+              }
+            },
+            separatorBuilder: (ctx, i) {
+              Meal _meal = _meals[i];
+              if (category.id.toString() == _meal.categoryId) {
+                return SizedBox(width: 15.0.w);
+              } else {
+                return SizedBox();
+              }
+            },
           ),
-        ),
-        FutureBuilder<List<Meal>>(
-          future: _meals,
-          builder: (ctx, AsyncSnapshot<List<Meal>> snapshot) {
-            List<Meal>? meals = snapshot.data;
-            if (snapshot.hasError) {
-              return SizedBox();
-            } else if (snapshot.hasData) {
-              return Container(
-                height: 230.0.h,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  physics: AlwaysScrollableScrollPhysics(
-                      parent: BouncingScrollPhysics()),
-                  itemCount: meals!.length,
-                  padding: EdgeInsets.symmetric(
-                      vertical: 10.0.w, horizontal: 15.0.w),
-                  itemBuilder: (ctx, i) {
-                    Meal _meal = meals[i];
-                    return foodListItem(meal: _meal);
-                  },
-                  separatorBuilder: (ctx, index) => SizedBox(width: 15.0.w),
-                ),
-              );
-            } else {
-              return SizedBox();
-            }
-          },
-        ),
-      ],
-    );
+        );
+      default:
+        return SizedBox();
+    }
   }
 }

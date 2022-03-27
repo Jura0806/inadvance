@@ -100,7 +100,8 @@ class OwnerNetwork {
       requests.files.add(await http.MultipartFile.fromPath(
         "logo_path",
         params["logo_path"],
-        // filename: "images"
+        // filename: "image
+        // s"
       ));
       requests.fields["name"] = params["name"];
       requests.fields["phone"] = params["phone"];
@@ -222,6 +223,39 @@ class OwnerNetwork {
     }
   }
 
+  // Store Category APIS
+  static Future<Category> storeCategories(
+      {required Map<String, dynamic> params}) async {
+    try {
+      var uri = Uri.https(BASE, '/api/owner/category');
+      var response = await post(
+        uri,
+        headers: headersWithToken,
+        body: jsonEncode(
+          {
+            "name_uz": params["name_uz"],
+            "name_ru": params["name_ru"],
+            "name_en": params["name_en"],
+            "description_uz": params["description_uz"],
+            "description_ru": params["description_ru"],
+            "description_en": params["description_en"]
+          },
+        ),
+      );
+      print(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return Category.fromJson(jsonDecode(response.body)['data']);
+      } else {
+        print(response.statusCode);
+        throw Exception('Failed to load categories');
+      }
+    } catch (e) {
+      print(e.toString());
+      throw Exception(e.toString());
+      // return "BUG Network => $e";
+    }
+  }
+
   // Meals APIS
   static Future<List<Meal>> getMeals() async {
     try {
@@ -242,44 +276,66 @@ class OwnerNetwork {
   }
 
   // Update Meals APIS
-  static Future<List<Meal>> updateMeals(
-      {required String mealId,
-      required String restaurantId,
-      required String categoryId,
-      required String nameUz,
-      required String nameRu,
-      required String nameEn,
-      required String descUz,
-      required String descRu,
-      required String descEn,
-      required String price}) async {
+  static Future<Meal> updateMeal({required Map<String, dynamic> params}) async {
     try {
-      var uri = Uri.https(BASE, '/api/owner/meal/$mealId');
-      var response = await post(
-        uri,
-        headers: headersWithToken,
-        body: jsonEncode(
-          {
-            "_method": "POST",
-            "restaurant_id": restaurantId,
-            "category_id": categoryId,
-            "name_uz": nameUz,
-            "name_ru": nameRu,
-            "name_en": nameEn,
-            "description_uz": descUz,
-            "description_ru": descRu,
-            "description_en": descEn,
-            "price": price,
-          },
-        ),
-      );
+      var uri = Uri.https(BASE, '/api/owner/meal/${params['meal_id']}');
+      var requests = MultipartRequest("POST", uri);
+      requests.headers.addAll(headersWithToken);
+      params["image_path"] != null
+          ? requests.files.add(await http.MultipartFile.fromPath(
+              "image_path", params['image_path']))
+          : print('');
+      requests.fields["restaurant_id"] = params['restaurant_id'];
+      requests.fields["category_id"] = params['category_id'];
+      requests.fields["name_uz"] = params['name_uz'];
+      requests.fields["name_ru"] = params['name_ru'];
+      requests.fields["name_en"] = params['name_en'];
+      requests.fields["description_uz"] = params['description_uz'];
+      requests.fields["description_ru"] = params['description_ru'];
+      requests.fields["description_en"] = params['description_en'];
+      requests.fields["price"] = params['price'];
+      requests.fields["_method"] = params['_method'];
+      var streamedResponse = await requests.send();
+      var response = await http.Response.fromStream(streamedResponse);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return (jsonDecode(response.body)['data']['data'] as List)
-            .map((e) => Meal.fromJson(e))
-            .toList();
+        return Meal.fromJson(jsonDecode(response.body)['data']);
       } else {
         print(response.statusCode);
-        throw Exception('Failed to load meals');
+        print(response.body);
+        throw Exception('Failed to update meal');
+      }
+    } catch (e) {
+      print(e.toString());
+      throw Exception(e.toString());
+    }
+  }
+
+  // Store Meals APIS
+  static Future<Meal> storeMeals({required Map<String, dynamic> params}) async {
+    try {
+      var uri = Uri.https(BASE, '/api/owner/meal');
+      var requests = MultipartRequest("POST", uri);
+      requests.headers.addAll(headersWithToken);
+      requests.files.add(await http.MultipartFile.fromPath(
+          'image_path', params['image_path']));
+      requests.fields["restaurant_id"] = params['restaurant_id'];
+      requests.fields["category_id"] = params['category_id'];
+      requests.fields["name_uz"] = params['name_uz'];
+      requests.fields["name_ru"] = params['name_ru'];
+      requests.fields["name_en"] = params['name_en'];
+      requests.fields["description_uz"] = params['description_uz'];
+      requests.fields["description_ru"] = params['description_ru'];
+      requests.fields["description_en"] = params['description_en'];
+      requests.fields["price"] = params['price'];
+      var streamedResponse = await requests.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      print(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return Meal.fromJson(jsonDecode(response.body)['data']);
+      } else {
+        print(response.statusCode);
+        print(response.body);
+        throw Exception('Failed to add meal');
       }
     } catch (e) {
       print(e.toString());

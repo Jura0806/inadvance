@@ -1,6 +1,6 @@
 class Meal {
   int? id;
-  String? userId;
+  int? userId;
   String? restaurantId;
   String? categoryId;
   String? nameUz;
@@ -34,7 +34,9 @@ class Meal {
 
   Meal.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    userId = json['user_id'];
+    userId = json['user_id'].runtimeType == String
+        ? int.parse(json['user_id'])
+        : json['user_id'];
     restaurantId = json['restaurant_id'];
     categoryId = json['category_id'];
     nameUz = json['name_uz'];
