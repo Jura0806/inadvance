@@ -24,6 +24,7 @@ dependencies:
   provider: ^6.0.2
   cached_network_image: ^3.2.0
   yandex_mapkit: ^2.0.2
+  easy_localization: ^3.0.0
   #path_provider: ^2.0.4
 
 dev_dependencies:
@@ -36,6 +37,7 @@ flutter:
 
   assets:
      - assets/images/
+     - assets/translations/
 #     - assets/fonts
 #  fonts:
 #     - family: Gilroy

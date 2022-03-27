@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/utils/colors.dart';
 
-void showModelSheet(BuildContext context) {
+void showModelSheet(BuildContext context, {required TextEditingController controller, required Future<Null> Function() onSave}) {
   showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {

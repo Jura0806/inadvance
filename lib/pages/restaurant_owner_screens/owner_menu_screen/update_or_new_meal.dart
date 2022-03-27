@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:inadvance/models/category_model.dart';
 import 'package:inadvance/models/meal_model.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/formfield.dart';
@@ -18,7 +19,7 @@ List<String> categories = [
 class NewOrUpdateMeal extends StatefulWidget {
   final Meal? meal;
   final String type;
-  const NewOrUpdateMeal({Key? key, this.meal, required this.type})
+  const NewOrUpdateMeal({Key? key, this.meal, required this.type, required List<Category> categories})
       : super(key: key);
 
   @override

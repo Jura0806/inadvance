@@ -48,34 +48,34 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
   List<RestaurantFood> foods = [
     RestaurantFood(
         foodName: "Grechiski",
-        foodCost: 20000,
+        foodCost: 15000,
         foodImage:
-            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+            "https://img.delicious.com.au/H0MSQwaC/del/2020/08/poached-chicken-with-warm-spiced-couscous-salad-137656-2.jpg"),
     RestaurantFood(
         foodName: "Grechiski",
         foodCost: 20000,
         foodImage:
-            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+            "https://img.delicious.com.au/Ud0mhYtk/del/2020/11/tuna-steak-with-green-beans-anchovy-and-butter-lettuce-141842-2.jpg"),
     RestaurantFood(
         foodName: "Grechiski",
-        foodCost: 20000,
+        foodCost: 22000,
         foodImage:
-            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+            "https://kristineskitchenblog.com/wp-content/uploads/2017/02/taco-salad-lunch-bowls-1200-1593-1.jpg"),
     RestaurantFood(
         foodName: "Grechiski",
-        foodCost: 20000,
+        foodCost: 17000,
         foodImage:
-            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+            "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F9%2F2022%2F03%2F18%2Fshaved-beet-and-carrot-salad-with-citrus-scallion-dressing-FT-RECIPE0422.jpg"),
     RestaurantFood(
         foodName: "Grechiski",
-        foodCost: 20000,
+        foodCost: 10000,
         foodImage:
-            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+            "https://i.guim.co.uk/img/media/4ed22e3177d1826535de49c3073e91b312441d9b/0_953_3723_3723/master/3723.jpg?width=465&quality=45&auto=format&fit=max&dpr=2&s=b97f836b23ea7bd4393283ffe42862af"),
     RestaurantFood(
         foodName: "Grechiski",
-        foodCost: 20000,
+        foodCost: 22000,
         foodImage:
-            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+            "https://kristineskitchenblog.com/wp-content/uploads/2017/02/taco-salad-lunch-bowls-1200-1593-1.jpg"),
   ];
 
   int isCategory = 0;
@@ -215,7 +215,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Card(
-                        child: foodInfos(),
+                        child: foodInfos(foods[index]),
                       );
                     },
                     itemCount: foods.length,
@@ -285,7 +285,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
     );
   }
 
-  Widget foodInfos() {
+  Widget foodInfos(RestaurantFood restaurantFood) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -303,7 +303,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
               image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
-                      "https://restaurantengine.com/wp-content/uploads/2013/12/Restaurant-Trends-Local-Foods-660x440.jpg")),
+                      restaurantFood.foodImage)),
             ),
           ),
         ),
@@ -313,7 +313,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Grechiski",
+                restaurantFood.foodName,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
               ),
@@ -321,7 +321,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                 height: 5,
               ),
               Text(
-                "$foodCost UZS",
+                "${restaurantFood.foodCost} UZS",
                 style: TextStyle(fontSize: 12.sp),
               )
             ],
