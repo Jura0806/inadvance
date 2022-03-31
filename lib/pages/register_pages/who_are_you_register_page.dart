@@ -42,7 +42,7 @@ class _FirstRegisterState extends State<FirstRegister> {
             Text(
               "UserTypeQuestion",
               style: TextStyle(
-                fontSize: 22.sp,
+                fontSize: 20.sp,
                 fontWeight: FontWeight.w600,
               ),
               textAlign: TextAlign.center,

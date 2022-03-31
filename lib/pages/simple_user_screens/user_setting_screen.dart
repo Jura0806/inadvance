@@ -150,7 +150,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                     image: Hive.box("ClientSignIn").isEmpty?
                          defaultLogo()
                         : getLogoNetwork(),
-                    color: Colors.grey,
+                    color: MainColors.greyColor,
                     shape: BoxShape.circle,
                     border:
                         Border.all(width: 2.5, color: MainColors.greenColor),
@@ -181,7 +181,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                   height: 10,
                 ),
                 Text(
-                  data["full_name"] ??
+                 data["full_name"] ??
                       "FullName",
                   style:
                       TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),

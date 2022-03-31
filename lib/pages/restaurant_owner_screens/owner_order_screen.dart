@@ -19,26 +19,38 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
     {
       "image":
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0aZ_qZ41uKX9HA5EQsxP6tdrUUZBA1auZQ&usqp=CAU",
-      "fullName": "Rayhon Safarova",
+      "fullName": "Zulfizar Abdug'aniyeva",
+      "atTheTime": "15:00"
+    },
+    {
+      "image":
+          "https://static.vecteezy.com/system/resources/previews/003/450/410/original/muslim-girl-wearing-hijab-illustration-vector.jpg",
+      "fullName": "Hurmatoy Abdunabiyeva",
+      "atTheTime": "19:20"
+    },
+    {
+      "image":
+          "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "fullName": "Quvonchbek Rojiboyev",
+      "atTheTime": "13:30"
+    },
+    {
+      "image":
+          "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+      "fullName": "Shodiyorbek Nuraliyev",
       "atTheTime": "19:00"
     },
     {
       "image":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0aZ_qZ41uKX9HA5EQsxP6tdrUUZBA1auZQ&usqp=CAU",
-      "fullName": "Rayhon Safarova",
-      "atTheTime": "19:00"
+          "https://qph.fs.quoracdn.net/main-qimg-bc847cf82072a3e6083f036214ade670-lq",
+      "fullName": "Zuxra Makhmudova",
+      "atTheTime": "17:00"
     },
     {
       "image":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0aZ_qZ41uKX9HA5EQsxP6tdrUUZBA1auZQ&usqp=CAU",
-      "fullName": "Rayhon Safarova",
-      "atTheTime": "19:00"
-    },
-    {
-      "image":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0aZ_qZ41uKX9HA5EQsxP6tdrUUZBA1auZQ&usqp=CAU",
-      "fullName": "Rayhon Safarova",
-      "atTheTime": "19:00"
+          "https://live.staticflickr.com/7224/26267591894_396a916ac3_z.jpg",
+      "fullName": "Mahliyo Abdug'aniyeva",
+      "atTheTime": "18:30"
     },
   ];
   List<Map<String, dynamic>> storyClients = [
@@ -76,7 +88,7 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 10.w),
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Stack(
               children: [
                 Container(
@@ -119,7 +131,12 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                       itemBuilder: (context, i) => GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) => ClientProfilePage(item: i,)));
+                              builder: (BuildContext context) =>
+                                  ClientProfilePage(
+                                    item: i,
+                                    name: clients[i]["fullName"],
+                                    image: clients[i]["image"],
+                                  )));
                         },
                         child: Card(
                           elevation: 4,
@@ -143,9 +160,9 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                                           color: MainColors.greenColor,
                                         ),
                                         image: DecorationImage(
-                                          image:
-                                              NetworkImage(clients[i]["image"]),
-                                        )),
+                                            image: NetworkImage(
+                                                clients[i]["image"]),
+                                            fit: BoxFit.cover)),
                                   ),
                                 ),
                                 title: Text(
@@ -181,8 +198,12 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                   : ListView.builder(
                       itemCount: storyClients.length,
                       itemBuilder: (context, i) => GestureDetector(
-                        onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ClientStoryPage(item: i,)));
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  ClientStoryPage(
+                                    item: i,
+                                  )));
                         },
                         child: Card(
                           elevation: 4,
@@ -214,7 +235,8 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                                 title: Text(
                                   storyClients[i]['fullName'],
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 15.sp),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.sp),
                                 ),
                                 subtitle: Text(
                                   storyClients[i]['atTheTime'],
@@ -240,7 +262,8 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
         height: 40.h,
         width: SizeConfig.screenWidth! / 2 - 30,
         decoration: BoxDecoration(
-            color:isNowOrder == x ? MainColors.greenColor : Colors.grey.shade200,
+            color:
+                isNowOrder == x ? MainColors.greenColor : Colors.grey.shade200,
             borderRadius: BorderRadius.circular(8.w)),
         child: Center(
           child: Text(

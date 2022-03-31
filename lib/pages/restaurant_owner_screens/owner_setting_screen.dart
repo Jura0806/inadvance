@@ -109,7 +109,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
     var response =
     await OwnerNetwork.ownerProfileGet(OwnerNetwork.Api_Restaurant_Profile);
 
-    if (jsonDecode(response)["data"] != null) {
+    if (response != null) {
       setState(() {
         profile = jsonDecode(response);
       });
@@ -226,15 +226,15 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                 }
               },
               child: settingInfos(nameInfo: "logOut")),
-          TextButton(
-              onPressed: ()  {
-                var restaurantData = HiveSignIn().loadOwner();
-               print("Restoran id => ${restaurantData.id}");
-              //  print("token => ${restaurantData.token}");
-                print("login => ${restaurantData.login}");
-
-              },
-              child: Text("Print_Owner_Restaurant's_Data")),
+          // TextButton(
+          //     onPressed: ()  {
+          //       var restaurantData = HiveSignIn().loadOwner();
+          //      print("Restoran id => ${restaurantData.id}");
+          //     //  print("token => ${restaurantData.token}");
+          //       print("login => ${restaurantData.login}");
+          //
+          //     },
+          //     child: Text("Print_Owner_Restaurant's_Data")),
           const Spacer(
             flex: 50,
           ),

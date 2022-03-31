@@ -51,7 +51,7 @@ class HiveToken{
     box.put("token", token);
   }
 
-  String loadToken() {
+  String? loadToken() {
     var tokenUrl = box.get("token");
     return tokenUrl;
   }
@@ -68,7 +68,7 @@ class HiveRestId{
     box.put("Restaurant_id", id);
   }
 
-  int loadId() {
+  int? loadId() {
     var id = box.get("Restaurant_id");
     return id;
   }

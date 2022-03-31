@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inadvance/pages/register_pages/who_are_you_register_page.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class IntroPage extends StatefulWidget {
   static final String id = 'intro_page';
@@ -45,22 +46,20 @@ class _IntroPageState extends State<IntroPage> {
             controller: _pageController,
             children: [
               makePage(
-                title: "Learn from expert",
-                content: "Select from top instructors around the world",
-                image: "assets/images/sign_in_vector.svg",
-              ),
+                  title: "titleIntro1",
+                  content: "contentIntro1",
+                  image: "assets/images/introoo1.svg",
+                  sizedBox: 0),
               makePage(
-                title: "Go at your own pace",
-                content:
-                    "Enjoy lifetime  access to courses on PDP's website  and app",
-                image: "assets/images/sign_up_vector.svg",
-              ),
+                  title: "titleIntro2",
+                  content: "contentIntro2",
+                  image: "assets/images/introo2.svg",
+                  sizedBox: 25),
               makePage(
-                title: "Find video courses",
-                content:
-                    "Build your library for your carer and personal  growth",
-                image: "assets/images/sign_in_vector.svg",
-              ),
+                  title: "titleIntro3",
+                  content: "contentIntro3",
+                  image: "assets/images/intro3.svg",
+                  sizedBox: 25),
             ],
           ),
           Container(
@@ -80,7 +79,7 @@ class _IntroPageState extends State<IntroPage> {
     );
   }
 
-  Widget makePage({title, content, image}) {
+  Widget makePage({title, content, image, required int sizedBox}) {
     return Container(
       padding: const EdgeInsets.only(left: 50, right: 50, bottom: 50),
       child: Column(
@@ -88,11 +87,12 @@ class _IntroPageState extends State<IntroPage> {
         children: [
           Text(
             title,
+            textAlign: TextAlign.center,
             style: TextStyle(
                 color: MainColors.greenColor,
-                fontSize: 25.sp,
+                fontSize: 20.sp,
                 fontWeight: FontWeight.bold),
-          ),
+          ).tr(),
           const SizedBox(
             height: 20,
           ),
@@ -100,6 +100,9 @@ class _IntroPageState extends State<IntroPage> {
             content,
             style: TextStyle(color: Colors.grey, fontSize: 17.sp),
             textAlign: TextAlign.center,
+          ).tr(),
+          SizedBox(
+            height: sizedBox.sp,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
@@ -138,18 +141,18 @@ class _IntroPageState extends State<IntroPage> {
 
   Widget _button() {
     return Container(
-      padding: const EdgeInsets.only(bottom: 70, left: 320),
+      padding: const EdgeInsets.only(bottom: 70, left: 300, right: 5),
       child: GestureDetector(
         onTap: () {
           Navigator.pushReplacementNamed(context, FirstRegister.id);
         },
         child: Text(
-          'Skip',
+          'skip',
           style: TextStyle(
               color: MainColors.greenColor,
               fontSize: 17.sp,
               fontWeight: FontWeight.bold),
-        ),
+        ).tr(),
       ),
     );
   }

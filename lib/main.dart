@@ -14,6 +14,7 @@ import 'package:inadvance/pages/restaurant_owner_screens/owner_setting_screen.da
 import 'package:inadvance/pages/simple_user_screens/user_navigation_bar.dart';
 import 'package:inadvance/pages/simple_user_screens/user_setting_screen.dart';
 import 'package:inadvance/pages/splash_page.dart';
+import 'dart:io' show Platform;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,9 +47,7 @@ class MyApp extends StatelessWidget {
         title: 'inAdvance',
         theme: ThemeData(
           primarySwatch: Colors.grey,
-          textTheme: TextTheme(
-            headline1: TextStyle(fontFamily: "Gilroy"),
-          ),
+          fontFamily: Platform.isAndroid? "Roboto" : "SFUIText",
           appBarTheme: AppBarTheme(
             backgroundColor: Colors.white,
             elevation: 0,

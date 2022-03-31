@@ -133,127 +133,129 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   ),
                 )
               : SizedBox.shrink(),
-          Column(
-            children: [
-              const Spacer(
-                flex: 1,
-              ),
-              Center(
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 105.h,
-                      width: 105.w,
-                      decoration: BoxDecoration(
-                        image: checkImg == 1
-                            ? imagePicker()
-                            : Hive.box("ClientSignIn").isEmpty
-                                ? defaultLogo()
-                                : getLogoNetwork(),
-                        color: Colors.grey,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            width: 2.5, color: MainColors.greenColor),
-                      ),
-                    ),
-                    Positioned(
-                      left: 70.w,
-                      child: GestureDetector(
-                        onTap: () => getImage(),
-                        child: Container(
-                          height: 30.h,
-                          width: 30.w,
-                          child: Center(
-                            child: Icon(
-                              Icons.camera_alt_outlined,
-                              color: MainColors.greenColor,
-                              size: 17.sp,
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: MainColors.whiteColor,
-                              border: Border.all(
-                                  width: 2, color: MainColors.greenColor)),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              const Spacer(
-                flex: 5,
-              ),
-              userInfo(
-                  info: "fullNameClient".tr(),
-                  controller: fullNameController,
-                  initialText: data["full_name"] ?? ""),
-              userInfo(
-                info: "phoneClient".tr(),
-                controller: phoneController,
-                prefixText: "+998",
-                initialText: data["phone"] ?? "",
-              ),
-              const Spacer(
-                flex: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
-                        elevation: MaterialStateProperty.all(0),
-                        backgroundColor:
-                            MaterialStateProperty.all(MainColors.dimRedColor),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "cancel",
-                          style: TextStyle(
-                              color: Colors.red.shade900, fontSize: 15.sp),
-                        ).tr(),
-                      ),
-                    ),
-                    Spacer(),
-                    ElevatedButton(
-                      onPressed: () {
-                        _updateProfile();
-                      },
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
-                        elevation: MaterialStateProperty.all(0),
-                        backgroundColor: MaterialStateProperty.all(
-                          MainColors.greenColor,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "confirmation",
-                          style: TextStyle(
-                              color: MainColors.whiteColor, fontSize: 15.sp),
-                        ).tr(),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Spacer(
-                flex: 5,
-              )
-            ],
-          ),
+          body()
         ],
       ),
     );
   }
-
+  Widget body(){
+    return  Column(
+      children: [
+        const Spacer(
+          flex: 1,
+        ),
+        Center(
+          child: Stack(
+            children: [
+              Container(
+                height: 105.h,
+                width: 105.w,
+                decoration: BoxDecoration(
+                  image: checkImg == 1
+                      ? imagePicker()
+                      : Hive.box("ClientSignIn").isEmpty && Hive.box("ClientSignUp").isEmpty
+                      ? defaultLogo()
+                      : getLogoNetwork(),
+                  color: Colors.grey,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      width: 2.5, color: MainColors.greenColor),
+                ),
+              ),
+              Positioned(
+                left: 70.w,
+                child: GestureDetector(
+                  onTap: () => getImage(),
+                  child: Container(
+                    height: 30.h,
+                    width: 30.w,
+                    child: Center(
+                      child: Icon(
+                        Icons.camera_alt_outlined,
+                        color: MainColors.greenColor,
+                        size: 17.sp,
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: MainColors.whiteColor,
+                        border: Border.all(
+                            width: 2, color: MainColors.greenColor)),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        const Spacer(
+          flex: 5,
+        ),
+        userInfo(
+            info: "fullNameClient".tr(),
+            controller: fullNameController,
+            initialText: data["full_name"] ?? ""),
+        userInfo(
+          info: "phoneClient".tr(),
+          controller: phoneController,
+          prefixText: "+998",
+          initialText: data["phone"] ?? "",
+        ),
+        const Spacer(
+          flex: 20,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(
+                      EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
+                  elevation: MaterialStateProperty.all(0),
+                  backgroundColor:
+                  MaterialStateProperty.all(MainColors.dimRedColor),
+                ),
+                child: Center(
+                  child: Text(
+                    "cancel",
+                    style: TextStyle(
+                        color: Colors.red.shade900, fontSize: 15.sp),
+                  ).tr(),
+                ),
+              ),
+              Spacer(),
+              ElevatedButton(
+                onPressed: () {
+                  _updateProfile();
+                },
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(
+                      EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
+                  elevation: MaterialStateProperty.all(0),
+                  backgroundColor: MaterialStateProperty.all(
+                    MainColors.greenColor,
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    "confirmation",
+                    style: TextStyle(
+                        color: MainColors.whiteColor, fontSize: 15.sp),
+                  ).tr(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const Spacer(
+          flex: 5,
+        )
+      ],
+    );
+  }
   Widget userInfo(
       {required String info,
       required TextEditingController controller,

@@ -72,14 +72,14 @@ class _RestProfilePageState extends State<RestProfilePage> {
       setState(() {
         isLoading = true;
       });
-
-      var response = Hive.box("Restaurant_id").isEmpty
-          ? await OwnerNetwork.ownerProfilePost(
-              OwnerNetwork.Api_Restaurant_Profile,
-              OwnerNetwork.paramsOwnerProfile(profile))
-          : await OwnerNetwork.ownerProfilePut(
-              OwnerNetwork.Api_Restaurant_Profile,
-              OwnerNetwork.paramsOwnerProfilePut(profile));
+      var response =
+          Hive.box("Restaurant_id").isEmpty && Hive.box("OwnerSignIn").isEmpty
+              ? await OwnerNetwork.ownerProfilePost(
+                  OwnerNetwork.Api_Restaurant_Profile,
+                  OwnerNetwork.paramsOwnerProfile(profile))
+              : await OwnerNetwork.ownerProfilePut(
+                  OwnerNetwork.Api_Restaurant_Profile,
+                  OwnerNetwork.paramsOwnerProfilePut(profile));
 
       if (response != null) {
         Hive.box("Restaurant_id").isEmpty
@@ -200,7 +200,6 @@ class _RestProfilePageState extends State<RestProfilePage> {
           IconButton(
             onPressed: () {
               createProfile();
-              // getProfile();
             },
             icon: SvgPicture.asset(
               "assets/images/vector_ok.svg",
@@ -209,7 +208,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
           ),
         ],
       ),
-      body: Hive.box("Restaurant_id").isEmpty && HiveSignIn().loadOwner().id == null
+      body: Hive.box("Restaurant_id").isEmpty
           ? profileBody()
           : isLoadingGet
               ? Center(
@@ -224,6 +223,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
   Widget textField(
       {required String labelText,
       Widget? suffixIcon,
+        String? prefixText,
       required TextEditingController controller,
       required String? initialValue}) {
     return Padding(
@@ -242,6 +242,8 @@ class _RestProfilePageState extends State<RestProfilePage> {
           },
           cursorColor: MainColors.greenColor,
           decoration: InputDecoration(
+            prefixText: prefixText,
+              prefixStyle: TextStyle(color: MainColors.blackColor, fontSize: 15.sp) ,
               labelText: labelText.tr(),
               alignLabelWithHint: true,
               suffixIcon: suffixIcon,
@@ -312,179 +314,191 @@ class _RestProfilePageState extends State<RestProfilePage> {
   }
 
   Widget profileBody() {
-    return SingleChildScrollView(
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            Stack(
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Form(
+            key: formKey,
+            child: Column(
               children: [
-                Container(
-                  height: 190.h,
-                  margin: EdgeInsets.only(
-                    bottom: 50.h,
-                  ),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.w),
-                  ),
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.w),
-                        child: checkRestImg == 1
-                            ? imgPicker()
-                            : Hive.box("Restaurant_id").isEmpty &&
-                            Hive.box("OwnerSignIn").isEmpty
-                                ? defaultImg()
-                                : networkGetImg(),
+                Stack(
+                  children: [
+                    Container(
+                      height: 190.h,
+                      margin: EdgeInsets.only(
+                        bottom: 50.h,
                       ),
-                      Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.w),
+                      ),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8.w),
+                            child: checkRestImg == 1
+                                ? imgPicker()
+                                : Hive.box("Restaurant_id").isEmpty &&
+                                        Hive.box("OwnerSignIn").isEmpty
+                                    ? defaultImg()
+                                    : networkGetImg(),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.w),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.black.withOpacity(.2),
+                                  Colors.black.withOpacity(.2),
+                                  Colors.black.withOpacity(.2),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      left: 140.w,
+                      top: 145.h,
+                      child: Container(
+                        height: 95.h,
+                        width: 95.w,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.w),
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.black.withOpacity(.2),
-                              Colors.black.withOpacity(.2),
-                              Colors.black.withOpacity(.2),
-                            ],
+                            shape: BoxShape.circle,
+                            color: MainColors.dimRedColor,
+                            image: checkRestLogo == 1
+                                ? imagePicker()
+                                : Hive.box("Restaurant_id").isEmpty &&
+                                        Hive.box("OwnerSignIn").isEmpty
+                                    ? defaultLogo()
+                                    : getLogoNetwork(),
+                            border: Border.all(
+                                width: 3, color: MainColors.greenColor)),
+                      ),
+                    ),
+                    Positioned(
+                      top: 145.h,
+                      left: SizeConfig.screenWidth! / 1.15,
+                      child: GestureDetector(
+                        onTap: () => getImage(),
+                        child: Container(
+                          height: 40.h,
+                          width: 40.w,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: LinearGradient(colors: [
+                              Colors.white.withOpacity(.3),
+                              Colors.white.withOpacity(.3),
+                              Colors.white.withOpacity(.3)
+                            ]),
+                          ),
+                          child: Icon(
+                            Icons.camera_alt_outlined,
+                            color: Colors.white,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  left: 140.w,
-                  top: 145.h,
-                  child: Container(
-                    height: 95.h,
-                    width: 95.w,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: MainColors.dimRedColor,
-                        image: checkRestLogo == 1
-                            ? imagePicker()
-                            : Hive.box("Restaurant_id").isEmpty &&
-                                    Hive.box("OwnerSignIn").isEmpty
-                                ? defaultLogo()
-                                : getLogoNetwork(),
-                        border:
-                            Border.all(width: 3, color: MainColors.greenColor)),
-                  ),
-                ),
-                Positioned(
-                  top: 145.h,
-                  left: SizeConfig.screenWidth! / 1.15,
-                  child: GestureDetector(
-                    onTap: () => getImage(),
-                    child: Container(
-                      height: 40.h,
-                      width: 40.w,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(colors: [
-                          Colors.white.withOpacity(.3),
-                          Colors.white.withOpacity(.3),
-                          Colors.white.withOpacity(.3)
-                        ]),
-                      ),
-                      child: Icon(
-                        Icons.camera_alt_outlined,
-                        color: Colors.white,
-                      ),
                     ),
-                  ),
-                ),
-                Positioned(
-                  top: 145.h,
-                  left: SizeConfig.screenWidth! / 1.8,
-                  child: Container(
-                    height: 35.h,
-                    width: 35.w,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: MainColors.whiteColor,
-                        border: Border.all(
-                          width: 3,
-                          color: MainColors.greenColor,
-                        )),
-                    child: Center(
-                      child: IconButton(
-                        onPressed: () {
-                          getImgLogo();
-                        },
-                        icon: Icon(
-                          Icons.camera_alt_outlined,
-                          color: MainColors.greenColor,
-                          size: 16.w,
+                    Positioned(
+                      top: 145.h,
+                      left: SizeConfig.screenWidth! / 1.8,
+                      child: Container(
+                        height: 35.h,
+                        width: 35.w,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: MainColors.whiteColor,
+                            border: Border.all(
+                              width: 3,
+                              color: MainColors.greenColor,
+                            )),
+                        child: Center(
+                          child: IconButton(
+                            onPressed: () {
+                              getImgLogo();
+                            },
+                            icon: Icon(
+                              Icons.camera_alt_outlined,
+                              color: MainColors.greenColor,
+                              size: 16.w,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            SizedBox(
-              height: 15.h,
-            ),
-            textField(
-                labelText: "restaurantName".tr(),
-                controller: nameController,
-                initialValue: profile["data"]["name"] ?? ""),
-            //createProfile.profileResponse["data"]["name"]),
-            textField(
-                labelText: "adminNumber".tr(),
-                controller: phoneController,
-                initialValue: profile["data"]["phone"] ?? ""),
-            //createProfile.profileResponse["phone"]),
-            textField(
-                labelText: "location".tr(),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LocationPage(),
+                SizedBox(
+                  height: 15.h,
+                ),
+                textField(
+                    labelText: "restaurantName".tr(),
+                    controller: nameController,
+                    initialValue: profile["data"]["name"] ?? ""),
+                //createProfile.profileResponse["data"]["name"]),
+                textField(
+                    labelText: "adminNumber".tr(),
+                    controller: phoneController,
+                    prefixText: "+998",
+                    initialValue: profile["data"]["phone"] ?? ""),
+                //createProfile.profileResponse["phone"]),
+                textField(
+                    labelText: "location".tr(),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LocationPage(),
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.location_on,
+                        color: MainColors.greenColor,
                       ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.location_on,
-                    color: MainColors.greenColor,
-                  ),
+                    ),
+                    controller: locationController,
+                    initialValue: "112.23, 233.2333"),
+                SizedBox(
+                  height: 15.h,
                 ),
-                controller: locationController,
-                initialValue: ""),
-            SizedBox(
-              height: 15.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                timeInput(
-                    isOpen: "openTime".tr(),
-                    time: "8:00",
-                    controller: openTimeController,
-                    initialValue: profile["data"]["open_time"] ?? ""),
-                // createProfile.profileResponse["open_time"]),
-                timeInput(
-                    isOpen: "closeTime".tr(),
-                    time: "21:00",
-                    controller: closeTimeController,
-                    initialValue: profile["data"]["close_time"] ?? ""),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    timeInput(
+                        isOpen: "openTime".tr(),
+                        time: "8:00",
+                        controller: openTimeController,
+                        initialValue: profile["data"]["open_time"] ?? ""),
+                    // createProfile.profileResponse["open_time"]),
+                    timeInput(
+                        isOpen: "closeTime".tr(),
+                        time: "21:00",
+                        controller: closeTimeController,
+                        initialValue: profile["data"]["close_time"] ?? ""),
+                  ],
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                textField(
+                    labelText: "bunkNumber",
+                    controller: bankNumberController,
+                    initialValue: profile["data"]["bank_number"] ?? ""),
               ],
             ),
-            SizedBox(
-              height: 15.h,
-            ),
-            textField(
-                labelText: "bunkNumber",
-                controller: bankNumberController,
-                initialValue: profile["data"]["bank_number"] ?? ""),
-          ],
+          ),
         ),
-      ),
+        isLoading
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: MainColors.greenColor,
+                ),
+              )
+            : SizedBox(),
+      ],
     );
   }
 }

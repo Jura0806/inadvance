@@ -26,25 +26,25 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         restaurantImage:
             "https://media-cdn.tripadvisor.com/media/photo-s/1a/18/3a/cb/restaurant-le-47.jpg",
         restaurantFeedback: 4.9,
-        restaurantsFoodType: "National Food"),
+        restaurantsFoodType: "Foreign cuisine"),
     Restaurants(
-        restaurantName: "Rayhon",
+        restaurantName: "TheFork",
         restaurantImage:
-            "https://media-cdn.tripadvisor.com/media/photo-s/1a/18/3a/cb/restaurant-le-47.jpg",
+            "https://media.blogto.com/articles/20211009-1Hotel-15.jpg?w=2048&cmd=resize_then_crop&height=1365&quality=70",
         restaurantFeedback: 4.9,
         restaurantsFoodType: "National Food"),
     Restaurants(
-        restaurantName: "Rayhon",
+        restaurantName: "FoodTime",
         restaurantImage:
-            "https://media-cdn.tripadvisor.com/media/photo-s/1a/18/3a/cb/restaurant-le-47.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR-y5DHzl80LUYbmm-ZqEReSxL2D9hKB6vf6_HPTxmGi5bEIW4-5K0cYHkOT5gkwdR7YM&usqp=CAU",
         restaurantFeedback: 4.9,
-        restaurantsFoodType: "National Food"),
+        restaurantsFoodType: "Foreign cuisine"),
     Restaurants(
-        restaurantName: "Rayhon",
+        restaurantName: "Mosse",
         restaurantImage:
-            "https://media-cdn.tripadvisor.com/media/photo-s/1a/18/3a/cb/restaurant-le-47.jpg",
+            "https://media-cdn.tripadvisor.com/media/photo-s/12/74/2e/25/about-our-lovely-place.jpg",
         restaurantFeedback: 4.9,
-        restaurantsFoodType: "National Food"),
+        restaurantsFoodType: "Foreign cuisine"),
   ];
   List<CategoriesRest> categories = [
     CategoriesRest(category: "Favourites"),
@@ -66,6 +66,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
 
   Color colorRandom() {
     return colors[Random().nextInt(colors.length)];
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  //  print(OwnerNetwork.getRestaurants());
   }
 
   @override
@@ -211,15 +217,15 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
 
   Widget topRestaurants(Restaurants restaurants) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         InkWell(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => RestaurantInfosPage()));
+            // Navigator.of(context).push(MaterialPageRoute(
+            //     builder: (BuildContext context) => RestaurantInfosPage()));
           },
           child: Container(
-            padding: const EdgeInsets.only(bottom: 10),
-            height: 150.h,
+            height: 140.h,
             width: double.infinity,
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
@@ -232,7 +238,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 8, right: 12),
+          padding: const EdgeInsets.only(left: 8, right: 12, bottom: 7),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,

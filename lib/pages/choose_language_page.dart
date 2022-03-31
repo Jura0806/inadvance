@@ -94,7 +94,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
         }else if(x == 2){
           context.setLocale(Locale('ru', 'RU'));
         }else if(x == 3){
-          context.setLocale(Locale('en', 'EN'));
+          context.setLocale(Locale('en', 'US'));
         }
         Navigator.pushReplacementNamed(context, IntroPage.id);
       },

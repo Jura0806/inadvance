@@ -74,6 +74,7 @@ class OwnerNetwork {
       requests.fields["bank_number"] = params["bank_number"];
       requests.fields["map_ln"] = params["map_ln"];
       requests.fields["map_lt"] = params["map_lt"];
+      requests.fields["type"] = params['type'];
       var streamedResponse = await requests.send();
       var response = await http.Response.fromStream(streamedResponse);
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -86,11 +87,11 @@ class OwnerNetwork {
     }
   }
 
-  static Future<String> ownerProfilePut(
+  static Future<String?> ownerProfilePut(
       String api, Map<String, dynamic> params) async {
     try {
       var uri = Uri.parse(
-          "https://in-advance.bingo99.uz/api/owner/restaurant/${HiveSignIn().loadOwner().id??HiveRestId().loadId()}");
+          "https://in-advance.bingo99.uz/api/owner/restaurant/${HiveRestId().loadId()}");
       var requests = http.MultipartRequest("POST", uri);
       requests.headers.addAll(headersWithToken);
       requests.files.add(await http.MultipartFile.fromPath(
@@ -112,29 +113,29 @@ class OwnerNetwork {
       requests.fields["map_lt"] = params["map_lt"];
       // requests.fields["user_id"] = params["user_id"];
       requests.fields["_method"] = params["_method"];
-
+      requests.fields["type"] = params['type'];
       var streamedResponse = await requests.send();
       var response = await http.Response.fromStream(streamedResponse);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.body;
-      } else {
-        return response.statusCode.toString();
       }
+        print( response.statusCode.toString());
+
     } catch (e) {
       return "BUG Network => $e";
     }
   }
 
-  static Future<String> ownerProfileGet(String api) async {
+  static Future<String?> ownerProfileGet(String api) async {
     try {
       var uri = Uri.parse(
-          "https://in-advance.bingo99.uz/api/owner/restaurant/${HiveSignIn().loadOwner().id??HiveRestId().loadId()}");
+          "https://in-advance.bingo99.uz/api/owner/restaurant/${HiveRestId().loadId()}");
       var response = await get(uri, headers: headersWithToken);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.body;
-      } else {
-        return response.statusCode.toString();
       }
+        print( response.statusCode.toString());
+
       print(response.statusCode);
     } catch (e) {
       return "BUG Network => $e";
@@ -167,6 +168,7 @@ class OwnerNetwork {
         return response.body;
       }
       print(response.statusCode);
+      print(response.body);
     } catch (e) {
       return "BUG Network => $e";
     }
@@ -406,6 +408,7 @@ class OwnerNetwork {
       "bank_number": profileModel.bankNumber,
       "map_ln": "112.1122",
       "map_lt": "112.1222",
+      "type" : "1",
     });
     return params;
   }
@@ -424,6 +427,7 @@ class OwnerNetwork {
       "map_ln": profileModel.mapLn,
       "map_lt": profileModel.mapLt,
       "user_id": "27",
+      "type" : "1",
       "_method": "PUT",
     });
     return params;

@@ -24,7 +24,7 @@ class Restaurant {
   });
 
   int? id;
-  String? userId;
+  int? userId;
   String? imagePath;
   String? logoPath;
   String? name;

@@ -41,6 +41,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
     if (response != null) {
       setState(() {
         getResponse = jsonDecode(response)["data"].toString();
+        if( getResponse  == "[]") getResponse = null;
         listTables2 = jsonDecode(response)["data"];
         isLoading = false;
         List.generate(listTables2.length, (index) {
@@ -60,7 +61,8 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
         checkFloorList(floorss);
       });
     }
-     //print( getResponse  == "[]");
+     print( "GetRESPONSE => $getResponse");
+     print( "RESPONSE => $response");
   }
 
   checkFloorList(List<List> floorr) {
@@ -99,7 +101,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getResponse  != "[]"
+      appBar: getResponse  != null
           ? AppBar(
               title: GestureDetector(
                 onTap: () {
@@ -183,7 +185,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
               ),
               backgroundColor: MainColors.greenColor,
             ),
-      body: getResponse  != "[]"
+      body: getResponse  != null
           ? isLoading
               ? Center(
                   child: CircularProgressIndicator(

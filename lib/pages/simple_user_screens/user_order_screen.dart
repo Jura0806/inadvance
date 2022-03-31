@@ -168,7 +168,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
                 children: [
                   Text("Rayhon", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),),
                   const SizedBox(height: 10,),
-                  Text("56000" + "UZS", style: TextStyle( fontSize: 13.sp, color: MainColors.greenColor),),
+                  Text("56000" + "UZS", style: TextStyle( fontSize: 13.sp, color: MainColors.redColor),),
                   const SizedBox(height: 30,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

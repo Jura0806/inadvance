@@ -62,16 +62,16 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
       var response = await OwnerNetwork.ownerRegister(
           OwnerNetwork.Api_Register, OwnerNetwork.paramsCreate(ownerAccount));
 
-        if (response != null) {
-          setState(() {
+      if (response != null) {
+        setState(() {
           doSignUp();
           HiveToken().storeToken(jsonDecode(response)["data"]["token"]);
-         id = jsonDecode(response)["data"]["id"];
-         token = jsonDecode(response)["data"]["token"];
+          // id = jsonDecode(response)["data"]["id"];
+          // token = jsonDecode(response)["data"]["token"];
 
           isLoading = false;
-          });
-        }
+        });
+      }
       widget.roleId == 1
           ? print("New User Restaurant => $response")
           : print("New User Client => $response");
@@ -83,9 +83,9 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
   void doSignUp() {
     widget.roleId == 1
         ? Navigator.pushNamedAndRemoveUntil(
-        context, OwnerNavigationBar.id, (route) => false)
+            context, OwnerNavigationBar.id, (route) => false)
         : Navigator.pushNamedAndRemoveUntil(
-        context, UserNavigationBar.id, (route) => false);
+            context, UserNavigationBar.id, (route) => false);
 
     var account = SignUpAccount(
       full_name: restName,
@@ -94,20 +94,15 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
       password: password,
       verify_password: confirmPassword,
       role_id: widget.roleId == 1 ? 2 : 3,
-      id: id,
-      token: token,
-    );
-    widget.roleId == 1?
-    HiveSignUp().storeOwner(account) : HiveClientSignUp().storeClient(account);
 
-    var account2 = HiveSignUp().loadOwner();
-    //
-    //print(account2);
-    print(account2.token);
+    );
+    widget.roleId == 1
+        ? HiveSignUp().storeOwner(account)
+        : HiveClientSignUp().storeClient(account);
+
+    //var account2 = HiveSignUp().loadOwner();
 
     print(HiveToken().loadToken());
-
-
   }
 
   @override
@@ -183,7 +178,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                         },
                         decoration: buildDecorate(
                           labelText: widget.roleId == 2
-                              ?  "phoneClient".tr()
+                              ? "phoneClient".tr()
                               : "Phone".tr(),
                           hintText: "991234567",
                           prefixText: "+998 ",
