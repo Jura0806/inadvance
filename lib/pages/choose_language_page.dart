@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/pages/about_app_page.dart';
+import 'package:inadvance/pages/register_pages/intro_page.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ChooseLanguage extends StatefulWidget {
   const ChooseLanguage({Key? key}) : super(key: key);
@@ -49,7 +51,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
             ),
             languages(
               imageFlag: "assets/images/uzbFlagg.png",
-              language: "O'zbekcha",
+              language: "Uzbek",
               x: 1,
             ),
            const Spacer(
@@ -87,7 +89,14 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
         setState(() {
           isChoose = x;
         });
-        Navigator.pushReplacementNamed(context, AboutAppPage.id);
+        if(x == 1){
+          context.setLocale(Locale('uz', 'UZ'));
+        }else if(x == 2){
+          context.setLocale(Locale('ru', 'RU'));
+        }else if(x == 3){
+          context.setLocale(Locale('en', 'US'));
+        }
+        Navigator.pushReplacementNamed(context, IntroPage.id);
       },
       child: Container(
         height: 65.h,

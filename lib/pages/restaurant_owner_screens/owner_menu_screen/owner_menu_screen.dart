@@ -18,8 +18,8 @@ class OwnerMenuScreen extends StatefulWidget {
 }
 
 class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
-  late List<Category> _categories;
-  late List<Meal> _meals;
+  List<Category> _categories = [];
+  List<Meal> _meals = [];
   TextEditingController _storeCategoryController = TextEditingController();
   @override
   void initState() {
@@ -78,6 +78,7 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
           physics:
               AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
               FutureBuilder(
                 future: initValues(),
@@ -135,10 +136,7 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
                               content: Container(
                                 width: 15.w,
                                 height: 15.w,
-                                child: CircularProgressIndicator(
-                                  backgroundColor: Colors.white,
-                                  color: MainColors.greenColor,
-                                ),
+                                child: CupertinoActivityIndicator(),
                               ),
                             );
                           },

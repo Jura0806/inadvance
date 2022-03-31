@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inadvance/pages/simple_user_screens/user_payment_confirm.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserPaymentPage extends StatefulWidget {
   const UserPaymentPage({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("To'lov"),
+        title: Text("Payment").tr(),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 40),
@@ -29,9 +30,9 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Karta raqami",
+                  "cardNumber",
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
-                ),
+                ).tr(),
                const SizedBox(
                   height: 15,
                 ),
@@ -42,23 +43,23 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
-                            color: MainColors.greenColor,
+                            color: MainColors.greyColor,
                             width: 1,
                             style: BorderStyle.solid),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
-                            color: MainColors.textFieldColor,
+                            color: MainColors.greenColor,
                             width: 1,
                             style: BorderStyle.solid),
                       )),
                 ),
                const  SizedBox(height: 30,),
                 Text(
-                  "To'lov Summasi",
+                  "costSumma",
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
-                ),
+                ).tr(),
                 const SizedBox(
                   height: 15,
                 ),
@@ -69,14 +70,14 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
-                            color: MainColors.greenColor,
+                            color: MainColors.greyColor,
                             width: 1,
                             style: BorderStyle.solid),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
-                            color: MainColors.textFieldColor,
+                            color: MainColors.greenColor,
                             width: 1,
                             style: BorderStyle.solid),
                       )),
@@ -101,36 +102,36 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
                               color: sendSms? MainColors.greenColor : Colors.grey,
                             )
                         ),
-                        child: Icon(Icons.ac_unit, size: 10.w, color: sendSms ? MainColors.whiteColor : Colors.transparent,),
+                        child: Icon(Icons.done, size: 10.w, color: sendSms ? MainColors.whiteColor : Colors.transparent,),
                       ),
                     ),
                    const SizedBox(width: 10,),
-                    Text("Qabul qiluvchiga SMS yuborish", style: TextStyle(color: sendSms? MainColors.greenColor : Colors.grey),),
+                    Text("smsSend", style: TextStyle(color: sendSms? MainColors.greenColor : Colors.grey),).tr(),
                   ],
                 ),
                 const SizedBox(height: 30,),
                 Text(
-                  "Sharh",
+                  "definition",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.sp),
-                ),
+                ).tr(),
               const  SizedBox(
                   height: 15,
                 ),
                 TextField(
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                      hintText: "Izoh kiritish...",
+                      hintText: "descriptionCard".tr(),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
-                            color: MainColors.greenColor,
+                            color: MainColors.greyColor,
                             width: 1,
                             style: BorderStyle.solid),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
-                            color: MainColors.textFieldColor,
+                            color: MainColors.greenColor,
                             width: 1,
                             style: BorderStyle.solid),
                       )),
@@ -152,10 +153,10 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
                 ),
                 child: Center(
                   child: Text(
-                    "Davom etish",
+                    "Next",
                     style: TextStyle(
                         color: MainColors.whiteColor, fontSize: 17.sp),
-                  ),
+                  ).tr(),
                 ),
               ),
             ),

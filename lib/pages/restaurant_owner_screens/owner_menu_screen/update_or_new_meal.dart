@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inadvance/models/category_model.dart';
 import 'package:inadvance/models/meal_model.dart';
-import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:inadvance/services/hive_db_user_service.dart';
 import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
@@ -41,12 +40,11 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
   TextEditingController _priceController = TextEditingController();
   bool isLoading = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final restaurantId = HiveRestId().loadId();
-
   @override
   void initState() {
     initFieldValues();
     super.initState();
+    choose = widget.categories[0];
   }
 
   Future getImage({tag}) async {
@@ -108,6 +106,8 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
   }
 
   void updateMeal() async {
+    var restaurantId = HiveRestId().loadId();
+
     setState(() => isLoading = true);
     var res = await OwnerNetwork.updateMeal(
       params: mealCoverImg == null
@@ -202,6 +202,8 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
   }
 
   void addMeal() async {
+    var restaurantId = HiveRestId().loadId();
+    print("Restaurant IDD " + restaurantId.toString());
     setState(() => isLoading = true);
     var res = await OwnerNetwork.storeMeals(
       params: {

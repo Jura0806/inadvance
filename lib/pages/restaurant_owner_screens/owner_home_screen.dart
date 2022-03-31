@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inadvance/utils/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OwnerHomeScreen extends StatefulWidget {
   const OwnerHomeScreen({Key? key}) : super(key: key);
@@ -17,17 +18,17 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
     {
       "images": 'assets/images/order_vector.svg',
       "title": '423',
-      "subtitle": "Order recieved "
+      "subtitle": "OrderReceived".tr()
     },
     {
       "images": 'assets/images/new_customer.svg',
       "title": '280',
-      "subtitle": "New customers"
+      "subtitle": "newClients"
     },
     {
       "images": 'assets/images/earning_vector.svg',
       "title": '\$1452',
-      "subtitle": "Earning "
+      "subtitle": "Earning"
     }
   ];
   List<Map<String, dynamic>> foods = [
@@ -85,7 +86,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Restaurant overview"),
+        title: Text("ownerHomeAppBar").tr(),
       ),
       body: Container(
         height: double.infinity,
@@ -123,9 +124,9 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                         title: Text(
                           rate[index]['title'],
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15.sp),
-                        ),
-                        subtitle: Text(rate[index]['subtitle']),
+                              fontWeight: FontWeight.w600, fontSize: 15.sp),
+                        ).tr(),
+                        subtitle: Text(rate[index]['subtitle']).tr(),
                       ),
                     ),
                   ),
@@ -141,10 +142,10 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                 child: Column(
                   children: [
                     Text(
-                      "\nToday's hot menu",
+                     "\n"+ "DayMenu".tr(),
                       textAlign: TextAlign.left,
                       style:
-                          TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
                     ),
                     Divider(
                       thickness: 2,

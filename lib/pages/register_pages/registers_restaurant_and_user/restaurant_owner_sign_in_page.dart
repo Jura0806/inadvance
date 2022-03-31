@@ -11,6 +11,7 @@ import 'package:inadvance/services/hive_db_user_service.dart';
 import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OwnerSignInPage extends StatefulWidget {
   int? roleId;
@@ -41,24 +42,21 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       var ownerSignIn = SignIn(login: login, password: password);
-      setState(() {
-        isLoading = true;
-      });
+
       var response = await OwnerNetwork.ownerRegister(
           OwnerNetwork.Api_LogIn, OwnerNetwork.paramsSignIn(ownerSignIn));
+
+      id = widget.roleId == 1
+          ? jsonDecode(response!)["user"]["restaurant"]["id"].toString()
+          : jsonDecode(response!)["user"]["id"].toString();
       setState(() {
         if (response != null) {
           HiveToken().storeToken(jsonDecode(response)["token"]);
           doSignIn();
           token = jsonDecode(response)["token"];
         } else {
-          setState(() {
-            notAvialableLogin = "Bu login mavjud emas";
-          });
+            notAvialableLogin = "noLogin".tr();
         }
-        id = widget.roleId == 1
-            ? jsonDecode(response!)["user"]["restaurant"]["id"].toString()
-            : jsonDecode(response!)["user"]["id"].toString();
         isLoading = false;
       });
       print("Login Restaurant => $response");
@@ -121,9 +119,9 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
               ),
               Spacer(),
               Text(
-                "Kirish",
-                style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
-              ),
+                "loginInfo",
+                style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),
+              ).tr(),
               const Spacer(
                 flex: 2,
               ),
@@ -132,12 +130,12 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
                   cursorColor: MainColors.greenColor,
                   validator: (input) {
                     if (input!.isEmpty) {
-                      return "Iltimos  login kiriting!";
+                      return "validateLogin".tr();
                     } else {
                       return null;
                     }
                   },
-                  decoration: buildDecorate(labelText: "Login")),
+                  decoration: buildDecorate(labelText: "logIn".tr())),
               const SizedBox(
                 height: 20,
               ),
@@ -146,14 +144,14 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
                   cursorColor: MainColors.greenColor,
                   validator: (input) {
                     if (input!.isEmpty) {
-                      return "Iltimos  login kiriting!";
+                      return ;
                     } else {
                       return null;
                     }
                   },
                   obscureText: isHiddenPassword,
                   decoration: buildDecorate(
-                    labelText: "Parol",
+                    labelText: "password".tr(),
                     icon: InkWell(
                       onTap: () {
                         setState(() {
@@ -172,9 +170,9 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
                     Navigator.pushNamedAndRemoveUntil(
                         context, OwnerSignUp.id, (route) => false);
                   },
-                  child: Text("Akkaunt yaratish",
+                  child: Text("directionSignUp",
                       style: TextStyle(
-                          color: MainColors.greenColor, fontSize: 15.sp)),
+                          color: MainColors.greenColor, fontSize: 15.sp)).tr(),
                 ),
               ),
               SizedBox(
@@ -188,6 +186,9 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
                   ? InkWell(
                       onTap: () {
                         _signInAccount();
+                        setState(() {
+                          isLoading = true;
+                        });
                       },
                       child: Container(
                         height: 45.h,
@@ -198,10 +199,10 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
                         ),
                         child: Center(
                           child: Text(
-                            "Davom etish",
+                            "Next",
                             style: TextStyle(
                                 color: MainColors.whiteColor, fontSize: 17.sp),
-                          ),
+                          ).tr(),
                         ),
                       ),
                     )

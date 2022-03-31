@@ -12,7 +12,7 @@ import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'dart:io' show Platform;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import '../about_app_page.dart';
 import '../choose_language_page.dart';
 
@@ -28,9 +28,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
   // CreateProfile createProfile = new CreateProfile();
   Map<String, dynamic> profile ={
     "data": {
-
       "name": "Restaurant Name",
-
     }
   };
   void _iosDialog() {
@@ -39,7 +37,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
             title: Text('Logout'),
-            content: Text('Are you sure you want to logout?'),
+            content: Text("logoutQuestion").tr(),
             actions: [
               CupertinoDialogAction(
                   isDefaultAction: true,
@@ -52,8 +50,8 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                         OwnerNetwork.Api_Restaurant_Profile);
                     print(response);
                   },
-                  child: Text('Cancel',
-                      style: TextStyle(color: MainColors.greenColor))),
+                  child: Text('cancel',
+                      style: TextStyle(color: MainColors.greenColor)).tr()),
               CupertinoDialogAction(
                   isDefaultAction: true,
                   onPressed: () {
@@ -67,9 +65,9 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                         (route) => false);
                   },
                   child: Text(
-                    'Confirm',
+                    'confirm',
                     style: TextStyle(color: Colors.redAccent),
-                  )),
+                  ).tr()),
             ],
           );
         });
@@ -81,7 +79,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Logout'),
-            content: Text('Are you sure you want to Logout!'),
+            content: Text("logoutQuestion"),
             actions: [
               TextButton(
                 child: Text('Cancel'),
@@ -111,7 +109,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
     var response =
     await OwnerNetwork.ownerProfileGet(OwnerNetwork.Api_Restaurant_Profile);
 
-    if (jsonDecode(response)["data"] != null) {
+    if (response != null) {
       setState(() {
         profile = jsonDecode(response);
       });
@@ -128,7 +126,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-        title: Text("Sozlamalar"),
+        title: Text("Settings").tr(),
       ),
       body: Column(
         children: [
@@ -143,7 +141,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                   width: 105.w,
                   decoration: BoxDecoration(
                     image:
-                    Hive.box("Restaurant_id").isEmpty
+                    Hive.box("Restaurant_id").isEmpty && Hive.box("OwnerSignIn").isEmpty
                         ?
                     DecorationImage(
                             image:
@@ -183,7 +181,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                   height: 10,
                 ),
                 Text(
-                  profile["data"]["name"]??"Restaurant's Name",
+                  profile["data"]["name"]??"restaurantName".tr(),
                   style:
                       TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
                 ),
@@ -194,7 +192,7 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
             flex: 15,
           ),
           InkWell(
-            child: settingInfos(nameInfo: "Restaurant profili"),
+            child: settingInfos(nameInfo: "profileRestaurant"),
             onTap: () {
               // print(HiveRestId().loadId());
               // getProfile();
@@ -203,9 +201,9 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                   builder: (BuildContext context) => RestProfilePage()));
             },
           ),
-          settingInfos(nameInfo: "To'lov tarixi"),
+          settingInfos(nameInfo: "storyPayment"),
           InkWell(
-            child: settingInfos(nameInfo: "Ilova haqida"),
+            child: settingInfos(nameInfo: "aboutApp"),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => AboutAppPage()));
@@ -213,10 +211,10 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
           ),
           settingInfos(nameInfo: "Contact"),
           InkWell(
-            child: settingInfos(nameInfo: "Languages"),
+            child: settingInfos(nameInfo: "languages"),
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => ChooseLanguage()));
+              // Navigator.of(context).push(MaterialPageRoute(
+              //     builder: (BuildContext context) => ChooseLanguage()));
             },
           ),
           InkWell(
@@ -227,16 +225,16 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
                   _iosDialog();
                 }
               },
-              child: settingInfos(nameInfo: "Log Out")),
-          TextButton(
-              onPressed: ()  {
-                var restaurantData = HiveSignIn().loadOwner();
-              // print("Restoran id => ${restaurantData.id}");
-              //  print("token => ${restaurantData.token}");
-                print("login => ${restaurantData.login}");
-
-              },
-              child: Text("Print_Owner_Restaurant's_Data")),
+              child: settingInfos(nameInfo: "logOut")),
+          // TextButton(
+          //     onPressed: ()  {
+          //       var restaurantData = HiveSignIn().loadOwner();
+          //      print("Restoran id => ${restaurantData.id}");
+          //     //  print("token => ${restaurantData.token}");
+          //       print("login => ${restaurantData.login}");
+          //
+          //     },
+          //     child: Text("Print_Owner_Restaurant's_Data")),
           const Spacer(
             flex: 50,
           ),
@@ -259,13 +257,13 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
             style: TextStyle(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.bold,
-                color: nameInfo == "Log Out"
+                color: nameInfo == "logOut"
                     ? Colors.redAccent
                     : MainColors.blackColor),
-          ),
+          ).tr(),
           trailing: Icon(
             Icons.navigate_next,
-            color: nameInfo == "Log Out"
+            color: nameInfo == "logOut"
                 ? Colors.redAccent
                 : MainColors.blackColor,
             size: 25.w,

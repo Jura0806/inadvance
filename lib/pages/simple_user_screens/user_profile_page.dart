@@ -14,6 +14,7 @@ import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -31,6 +32,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
   int checkImg = 0;
 
   void _updateProfile() async {
+    setState(() {
+      isLoading = true;
+    });
     var userProfile = UserProfile(
         fullName: fullNameController.text,
         phone: phoneController.text,
@@ -44,14 +48,14 @@ class _UserProfilePageState extends State<UserProfilePage> {
       setState(() {
         isLoading = false;
       });
-      var signIn = SignIn(
-        login: jsonDecode(response)["data"]["login"],
-        password: jsonDecode(response)["data"]["password"],
-        id: jsonDecode(response)["data"]["id"],
-      );
-      Hive.box("ClientSignIn").isEmpty
-          ? HiveClientSignIn().storeClient(signIn)
-          : SizedBox();
+      // var signIn = SignIn(
+      //   login: jsonDecode(response)["data"]["login"],
+      //   password: jsonDecode(response)["data"]["password"],
+      //   id: jsonDecode(response)["data"]["id"],
+      // );
+      // Hive.box("ClientSignIn").isEmpty
+      //     ? HiveClientSignIn().storeClient(signIn)
+      //     : SizedBox();
       Navigator.of(context).pop();
     }
 
@@ -118,7 +122,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profil"),
+        title: Text("profile").tr(),
       ),
       body: Stack(
         children: [
@@ -129,127 +133,129 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   ),
                 )
               : SizedBox.shrink(),
-          Column(
-            children: [
-              const Spacer(
-                flex: 1,
-              ),
-              Center(
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 105.h,
-                      width: 105.w,
-                      decoration: BoxDecoration(
-                        image: checkImg == 1
-                            ? imagePicker()
-                            : Hive.box("ClientSignIn").isEmpty
-                                ? defaultLogo()
-                                : getLogoNetwork(),
-                        color: Colors.grey,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            width: 2.5, color: MainColors.greenColor),
-                      ),
-                    ),
-                    Positioned(
-                      left: 70.w,
-                      child: GestureDetector(
-                        onTap: () => getImage(),
-                        child: Container(
-                          height: 30.h,
-                          width: 30.w,
-                          child: Center(
-                            child: Icon(
-                              Icons.camera_alt_outlined,
-                              color: MainColors.greenColor,
-                              size: 17.sp,
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: MainColors.whiteColor,
-                              border: Border.all(
-                                  width: 2, color: MainColors.greenColor)),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              const Spacer(
-                flex: 5,
-              ),
-              userInfo(
-                  info: "FullName",
-                  controller: fullNameController,
-                  initialText: data["full_name"] ?? ""),
-              userInfo(
-                info: "Phone Number",
-                controller: phoneController,
-                prefixText: "+998",
-                initialText: data["phone"] ?? "",
-              ),
-              const Spacer(
-                flex: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
-                        elevation: MaterialStateProperty.all(0),
-                        backgroundColor:
-                            MaterialStateProperty.all(MainColors.dimRedColor),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Rad etish",
-                          style: TextStyle(
-                              color: Colors.red.shade900, fontSize: 15.sp),
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    ElevatedButton(
-                      onPressed: () {
-                        _updateProfile();
-                      },
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
-                        elevation: MaterialStateProperty.all(0),
-                        backgroundColor: MaterialStateProperty.all(
-                          MainColors.greenColor,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Saqlash",
-                          style: TextStyle(
-                              color: MainColors.whiteColor, fontSize: 15.sp),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Spacer(
-                flex: 5,
-              )
-            ],
-          ),
+          body()
         ],
       ),
     );
   }
-
+  Widget body(){
+    return  Column(
+      children: [
+        const Spacer(
+          flex: 1,
+        ),
+        Center(
+          child: Stack(
+            children: [
+              Container(
+                height: 105.h,
+                width: 105.w,
+                decoration: BoxDecoration(
+                  image: checkImg == 1
+                      ? imagePicker()
+                      : Hive.box("ClientSignIn").isEmpty && Hive.box("ClientSignUp").isEmpty
+                      ? defaultLogo()
+                      : getLogoNetwork(),
+                  color: Colors.grey,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      width: 2.5, color: MainColors.greenColor),
+                ),
+              ),
+              Positioned(
+                left: 70.w,
+                child: GestureDetector(
+                  onTap: () => getImage(),
+                  child: Container(
+                    height: 30.h,
+                    width: 30.w,
+                    child: Center(
+                      child: Icon(
+                        Icons.camera_alt_outlined,
+                        color: MainColors.greenColor,
+                        size: 17.sp,
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: MainColors.whiteColor,
+                        border: Border.all(
+                            width: 2, color: MainColors.greenColor)),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        const Spacer(
+          flex: 5,
+        ),
+        userInfo(
+            info: "fullNameClient".tr(),
+            controller: fullNameController,
+            initialText: data["full_name"] ?? ""),
+        userInfo(
+          info: "phoneClient".tr(),
+          controller: phoneController,
+          prefixText: "+998",
+          initialText: data["phone"] ?? "",
+        ),
+        const Spacer(
+          flex: 20,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(
+                      EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
+                  elevation: MaterialStateProperty.all(0),
+                  backgroundColor:
+                  MaterialStateProperty.all(MainColors.dimRedColor),
+                ),
+                child: Center(
+                  child: Text(
+                    "cancel",
+                    style: TextStyle(
+                        color: Colors.red.shade900, fontSize: 15.sp),
+                  ).tr(),
+                ),
+              ),
+              Spacer(),
+              ElevatedButton(
+                onPressed: () {
+                  _updateProfile();
+                },
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(
+                      EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
+                  elevation: MaterialStateProperty.all(0),
+                  backgroundColor: MaterialStateProperty.all(
+                    MainColors.greenColor,
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    "confirmation",
+                    style: TextStyle(
+                        color: MainColors.whiteColor, fontSize: 15.sp),
+                  ).tr(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const Spacer(
+          flex: 5,
+        )
+      ],
+    );
+  }
   Widget userInfo(
       {required String info,
       required TextEditingController controller,

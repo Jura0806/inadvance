@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inadvance/pages/simple_user_screens/user_payment_page.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserPaymentConfirm extends StatelessWidget {
   const UserPaymentConfirm({Key? key}) : super(key: key);
@@ -10,7 +11,7 @@ class UserPaymentConfirm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tasdiq"),
+        title: Text("confirmTransfer").tr(),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
@@ -20,24 +21,23 @@ class UserPaymentConfirm extends StatelessWidget {
           children: [
             Column(
               children: [
-                paymentInfo(title: "Sana", body: "02.04.2022"),
+                paymentInfo(title: "date", body: "02.04.2022"),
                 const SizedBox(height: 3,),
-                paymentInfo(title: "Jo'natuvchining kartasi}", body: "8600 00****3123"),
+                paymentInfo(title: "userCard", body: "8600 00****3123"),
                 const SizedBox(height: 3,),
-                paymentInfo(title: "Qabul qiluchining kartasi", body: "8600 00****8987"),
+                paymentInfo(title: "RestCard", body: "8600 00****8987"),
                 const SizedBox(height: 3,),
-                paymentInfo(title: "Yuboruvchi ismi", body: "Feruza Ergasheva"),
+                paymentInfo(title: "CardName", body: "Feruza Ergasheva"),
                 const SizedBox(height: 3,),
-                paymentInfo(title: "O'tkazma summasi", body: "200000 UZS"),
+                paymentInfo(title: "transferSumma", body: "200000 UZS"),
                 const SizedBox(height: 3,),
                 Divider(height: 30,thickness: 2,),
-                paymentInfo(title: "Jami", body: "200000 UZS"),
+                paymentInfo(title: "total", body: "200000 UZS"),
               ],
             ),
             InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => UserPaymentPage()));
+               
               },
               child: Container(
                 height: 45.h,
@@ -48,10 +48,10 @@ class UserPaymentConfirm extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    "Tasdiqlash",
+                    "confirm",
                     style: TextStyle(
                         color: MainColors.whiteColor, fontSize: 17.sp),
-                  ),
+                  ).tr(),
                 ),
               ),
             ),
@@ -64,7 +64,7 @@ class UserPaymentConfirm extends StatelessWidget {
     return  Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: TextStyle(fontSize: 14.sp, color: Colors.grey[700]),),
+        Text(title, style: TextStyle(fontSize: 14.sp, color: Colors.grey[700]),).tr(),
         Text(body, style: TextStyle(fontSize: 14.sp, color: Colors.grey[700]),)
       ],
     );

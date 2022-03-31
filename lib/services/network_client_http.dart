@@ -41,13 +41,28 @@ class NetworkClient {
       var response = await http.Response.fromStream(streamedResponse);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.body;
-      } else {
-        return response.statusCode.toString();
       }
+     print(response.statusCode.toString());
     } catch (e) {
       return "BUG Network => $e";
     }
   }
+
+  static Future<String?> ownerProfileGet(String restId) async {
+    try {
+      var uri = Uri.parse(
+          "https://in-advance.bingo99.uz/api/customer/restaurant/$restId");
+      var response = await get(uri, headers: headersWithToken);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response.body;
+      }
+      print(response.statusCode);
+    } catch (e) {
+      return "BUG Network => $e";
+    }
+  }
+
+
 
 
 
@@ -60,4 +75,6 @@ class NetworkClient {
     });
     return params;
   }
+
+
 }

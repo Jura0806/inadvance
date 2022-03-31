@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:inadvance/models/rest_foods.dart';
 import 'package:inadvance/pages/simple_user_screens/user_savatcha_screen.dart';
+import 'package:inadvance/services/network_client_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RestaurantInfosPage extends StatefulWidget {
-  const RestaurantInfosPage({Key? key}) : super(key: key);
+  String? restId;
+  String? restName;
+  String? openTime;
+  String? closeTime;
+  String? phone;
+  NetworkImage? image;
+
+  RestaurantInfosPage(
+      {Key? key,
+      this.restId,
+      this.restName,
+      this.image,
+      this.openTime,
+      this.closeTime,
+      this.phone})
+      : super(key: key);
 
   @override
   _RestaurantInfosPageState createState() => _RestaurantInfosPageState();
@@ -14,12 +31,16 @@ class RestaurantInfosPage extends StatefulWidget {
 
 class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
   List<String> menuCategories = [
-    "Salatlar",
-    "Fast Food",
-    "Desertlar",
-    "Souslar",
-    "Taomlar",
+    "Salads",
+    "Fast Foods",
+    "Deserts",
+    "Sous",
   ];
+
+  void getRestaurantInfo() async {
+    var response = await NetworkClient.ownerProfileGet("25");
+    print(response);
+  }
 
   String foodDescription =
       "A persistent bottom sheet shows information that supplements the primary content of the app.";
@@ -27,34 +48,34 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
   List<RestaurantFood> foods = [
     RestaurantFood(
         foodName: "Grechiski",
-        foodCost: 20000,
+        foodCost: 15000,
         foodImage:
-            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+            "https://img.delicious.com.au/H0MSQwaC/del/2020/08/poached-chicken-with-warm-spiced-couscous-salad-137656-2.jpg"),
     RestaurantFood(
         foodName: "Grechiski",
         foodCost: 20000,
         foodImage:
-            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+            "https://img.delicious.com.au/Ud0mhYtk/del/2020/11/tuna-steak-with-green-beans-anchovy-and-butter-lettuce-141842-2.jpg"),
     RestaurantFood(
         foodName: "Grechiski",
-        foodCost: 20000,
+        foodCost: 22000,
         foodImage:
-            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+            "https://kristineskitchenblog.com/wp-content/uploads/2017/02/taco-salad-lunch-bowls-1200-1593-1.jpg"),
     RestaurantFood(
         foodName: "Grechiski",
-        foodCost: 20000,
+        foodCost: 17000,
         foodImage:
-            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+            "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F9%2F2022%2F03%2F18%2Fshaved-beet-and-carrot-salad-with-citrus-scallion-dressing-FT-RECIPE0422.jpg"),
     RestaurantFood(
         foodName: "Grechiski",
-        foodCost: 20000,
+        foodCost: 10000,
         foodImage:
-            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+            "https://i.guim.co.uk/img/media/4ed22e3177d1826535de49c3073e91b312441d9b/0_953_3723_3723/master/3723.jpg?width=465&quality=45&auto=format&fit=max&dpr=2&s=b97f836b23ea7bd4393283ffe42862af"),
     RestaurantFood(
         foodName: "Grechiski",
-        foodCost: 20000,
+        foodCost: 22000,
         foodImage:
-            "http://cdn.cnn.com/cnnnext/dam/assets/200120161356-cnn-worlds-best-new-restaurants---madera---simon-brown-photography-1-1.jpg"),
+            "https://kristineskitchenblog.com/wp-content/uploads/2017/02/taco-salad-lunch-bowls-1200-1593-1.jpg"),
   ];
 
   int isCategory = 0;
@@ -64,176 +85,147 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
   bool isAddedFood = false;
   int foodCost = 23000;
 
-  late ScrollController controller;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(widget.restName!),
+      ),
       body: Stack(
         alignment: AlignmentDirectional.bottomStart,
         children: [
-          CustomScrollView(
-            //  controller: controller,
-            slivers: [
-              SliverAppBar(
-                elevation: 0,
-                floating: false,
-                pinned: true,
-                snap: false,
-                backgroundColor: MainColors.whiteColor,
-                expandedHeight: 175.h,
-                actions: [
-                  Center(child: Icon(Icons.search_sharp)),
-                  const SizedBox(
-                    width: 20,
-                  )
-                ],
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Text("Rayhon"),
-                  centerTitle: true,
-                  titlePadding: EdgeInsets.only(left: 15, bottom: 15),
-                  background: Container(
-                    height: 200.h,
-                    width: 35.w,
-                    margin: const EdgeInsets.only(top: 40),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Image.network(
-                        "https://media-cdn.tripadvisor.com/media/photo-s/1a/18/3a/cb/restaurant-le-47.jpg"),
+          ListView(
+            children: [
+              Container(
+                height: 175.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  image: DecorationImage(
+                      image: widget.image!,
+                      fit: BoxFit.cover),
+                ),
+              ),
+              SizedBox(
+                height: 7,
+              ),
+              Container(
+                child: Padding(
+                  padding:  EdgeInsets.symmetric(horizontal: 10.sp),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "foodType",
+                        style:
+                            TextStyle(color: Colors.grey[700], fontSize: 15.sp),
+                      ).tr(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 35.h,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: MainColors.greenColor.withOpacity(.2)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.orangeAccent,
+                                  size: 20.w,
+                                ),
+                                Text(" ${4.9}"),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.watch_later,
+                                  color: MainColors.greenColor,
+                                  size: 20.w,
+                                ),
+                                Text(" ${widget.openTime} - ${widget.closeTime}"),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.phone,
+                                  color: MainColors.greenColor,
+                                  size: 20.w,
+                                ),
+                                SelectableText(
+                                  " +998${widget.phone}",
+                                  onTap: () {},
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "isOpenRestaurant",
+                        style: TextStyle(color: Colors.red),
+                      ).tr(),
+                    ],
                   ),
                 ),
               ),
-              SliverToBoxAdapter(
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "National food",
-                          style: TextStyle(
-                              color: Colors.grey[700], fontSize: 15.sp),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          height: 40.h,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: MainColors.greenColor.withOpacity(.2)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.orangeAccent,
-                                    size: 20.w,
-                                  ),
-                                  Text(" ${4.9}"),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.watch_later,
-                                    color: MainColors.greenColor,
-                                    size: 20.w,
-                                  ),
-                                  Text(" 9:00 - 22:00"),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.phone,
-                                    color: MainColors.greenColor,
-                                    size: 20.w,
-                                  ),
-                                  SelectableText(
-                                    " +998998507504",
-                                    onTap: () {},
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Hozir bu restoran yopiq!",
-                          style: TextStyle(color: Colors.red),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                  ),
+              categoryName("Menu".tr(), 25),
+              SizedBox(
+                height: 35.h,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: menuCategories.length,
+                  itemBuilder: (ctx, category) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isCategory = category;
+                        });
+                      },
+                      child: Container(
+                        //height: 40.h,
+                        width: menuCategories[category].length * 13,
+                        margin: EdgeInsets.only(left: 10.sp),
+                        decoration: BoxDecoration(
+                            color: isCategory == category
+                                ? MainColors.greenColor.withOpacity(.2)
+                                : Colors.grey[300],
+                            borderRadius: BorderRadius.circular(8)),
+                        child: foodCategories(menuCategories[category]),
+                      ),
+                    );
+                  },
                 ),
               ),
-              categoryName("Menu", 25),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 40.h,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: menuCategories.length,
-                    itemBuilder: (ctx, category) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isCategory = category;
-                          });
-                        },
-                        child: Container(
-                          height: 45.h,
-                          width: menuCategories[category].length * 15,
-                          margin: EdgeInsets.only(left: 15),
-                          decoration: BoxDecoration(
-                              color: isCategory == category
-                                  ? MainColors.greenColor.withOpacity(.2)
-                                  : Colors.grey[300],
-                              borderRadius: BorderRadius.circular(8)),
-                          child: foodCategories(menuCategories[category]),
-                        ),
+              categoryName("Salads", 20),
+              Padding(
+                padding:  EdgeInsets.only(left:10.sp, right: 10.sp),
+                child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Card(
+                        child: foodInfos(foods[index]),
                       );
                     },
-                  ),
-                ),
-              ),
-              categoryName("Salatlar", 20),
-              SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                sliver: SliverGrid(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return Card(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            alignment: Alignment.center,
-                            child: foodInfos(),
-                          ),
-                        );
-                      },
-                      childCount: foods.length,
-                    ),
+                    itemCount: foods.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      mainAxisSpacing: 5.h,
-                      crossAxisSpacing: 5.w,
-                      childAspectRatio: 3 / 4,
+                      mainAxisSpacing: 3.h,
+                      crossAxisSpacing: 3.w,
+                      childAspectRatio: 0.75,
                     )),
-              ),
+              )
             ],
           ),
           isAddedFood
@@ -266,7 +258,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                                   width: 5,
                                 ),
                                 Text(
-                                  "Savatcha $foodCount",
+                                  "shopping".tr() + "$foodCount",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15.sp,
@@ -293,7 +285,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
     );
   }
 
-  Widget foodInfos() {
+  Widget foodInfos(RestaurantFood restaurantFood) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -311,7 +303,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
               image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
-                      "https://restaurantengine.com/wp-content/uploads/2013/12/Restaurant-Trends-Local-Foods-660x440.jpg")),
+                      restaurantFood.foodImage)),
             ),
           ),
         ),
@@ -321,7 +313,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Grechiski",
+                restaurantFood.foodName,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
               ),
@@ -329,7 +321,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                 height: 5,
               ),
               Text(
-                "$foodCost UZS",
+                "${restaurantFood.foodCost} UZS",
                 style: TextStyle(fontSize: 12.sp),
               )
             ],
@@ -346,21 +338,12 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
   }
 
   Widget categoryName(String nameCtg, double fontSize) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 15, bottom: 10, top: 10),
-        child: Text(
-          nameCtg,
-          style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w600),
-        ),
+    return Padding(
+      padding:  EdgeInsets.only(left: 10.sp, bottom: 10.sp, top: 10.sp),
+      child: Text(
+        nameCtg,
+        style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w600),
       ),
-    );
-  }
-
-  Widget searching() {
-    return TextField(
-      decoration:
-          InputDecoration(hintText: "Searching", border: InputBorder.none),
     );
   }
 
@@ -385,7 +368,7 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                               fontWeight: FontWeight.w600, fontSize: 17.sp),
                         ),
                         Text(
-                          "23 000 so'm",
+                          "23 000 " + "money".tr(),
                           style: TextStyle(
                               color: MainColors.greenColor, fontSize: 17.sp),
                         )
@@ -419,10 +402,10 @@ class _RestaurantInfosPageState extends State<RestaurantInfosPage> {
                         ),
                         child: Center(
                             child: Text(
-                          "Qo'shish",
+                          "add",
                           style: TextStyle(
                               color: MainColors.whiteColor, fontSize: 15.sp),
-                        )),
+                        ).tr()),
                       ),
                     ),
                     Container(

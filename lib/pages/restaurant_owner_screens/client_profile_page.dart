@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ClientProfilePage extends StatefulWidget {
   int item ;
-  ClientProfilePage({Key? key, required this.item}) : super(key: key);
+  String name;
+  String image;
+  ClientProfilePage({Key? key, required this.item, required this.name, required this.image}) : super(key: key);
 
   @override
   _ClientProfilePageState createState() => _ClientProfilePageState();
@@ -58,7 +61,7 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Buyurtma sahifasi"),
+        title: Text("orderPage").tr(),
       ),
       body: ListView(
         children: [
@@ -82,7 +85,8 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
                                     Border.all(width: 3.w, color: MainColors.greenColor),
                                 image: DecorationImage(
                                     image: NetworkImage(
-                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0aZ_qZ41uKX9HA5EQsxP6tdrUUZBA1auZQ&usqp=CAU"))),
+                                       widget.image),
+                                fit: BoxFit.cover)),
                           ),
                         ),
                       ),
@@ -90,7 +94,7 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Rayhon Safarova",style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),),
+                          Text(widget.name,style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),),
                           SizedBox(height: 10.h,),
                           Text("56 000 UZS", style: TextStyle(color: MainColors.greenColor),)
                         ],
@@ -130,7 +134,7 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
                     ],
                   ),
                   SizedBox(height: 25.h,),
-                  Text("Orders", style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),),
+                  Text("orders", style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),).tr(),
                   SizedBox(height: 15.h,),
                   Container(
                     width: double.infinity,
@@ -152,10 +156,10 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
                       ),
                       child: Center(
                         child: Text(
-                          "Buyurtma bajarildi",
+                          "orderCompleted",
                           style:
                           TextStyle(color: MainColors.whiteColor, fontSize: 17.sp),
-                        ),
+                        ).tr(),
                       ),
                     ),
                   )

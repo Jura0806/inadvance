@@ -29,7 +29,7 @@ class HiveSignIn {
     box.put("OwnerSignIn", ownerLogin.toJson());
   }
 
-  SignIn loadOwner() {
+  SignIn? loadOwner() {
     var owner = SignIn.formJson(box.get("OwnerSignIn"));
     return owner;
   }
