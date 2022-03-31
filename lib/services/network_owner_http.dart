@@ -10,7 +10,6 @@ import 'package:inadvance/models/restaurant_tables_model.dart';
 import 'package:inadvance/models/sign_in_model.dart';
 import 'package:inadvance/models/sign_up_account_model.dart';
 import 'package:inadvance/models/restaurant_profile_model.dart';
-import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:inadvance/services/hive_db_user_service.dart';
 
 class OwnerNetwork {
@@ -212,7 +211,7 @@ class OwnerNetwork {
       var response = await get(uri, headers: headersWithToken);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return (jsonDecode(response.body)['data']['data'] as List)
-            .map((e) => Category.fromJson(e))
+            .map((e) => Category.fromMap(e))
             .toList();
       } else {
         print(response.statusCode);
@@ -246,7 +245,7 @@ class OwnerNetwork {
       );
       print(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return Category.fromJson(jsonDecode(response.body)['data']);
+        return Category.fromMap(jsonDecode(response.body)['data']);
       } else {
         print(response.statusCode);
         throw Exception('Failed to load categories');
