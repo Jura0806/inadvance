@@ -63,6 +63,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                     HiveClientSignUp().removeClient();
                     HiveClientSignIn().removeClient();
                     HiveToken().removeToken();
+                    HiveRestId().removeId();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
@@ -98,6 +99,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                   HiveClientSignUp().removeClient();
                   HiveClientSignIn().removeClient();
                   HiveToken().removeToken();
+                  HiveRestId().removeId();
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                           builder: (BuildContext context) => ChooseLanguage()),
