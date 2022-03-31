@@ -194,7 +194,7 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
                 ),
               )
             ],
-            actionsAlignment: MainAxisAlignment.center,
+            //actionsAlignment: MainAxisAlignment.center,
           );
         },
       );
@@ -207,7 +207,7 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
     setState(() => isLoading = true);
     var res = await OwnerNetwork.storeMeals(
       params: {
-        "restaurant_id": restaurantId,
+        "restaurant_id": restaurantId.toString(),
         "category_id": choose!.id.toString(),
         "image_path": mealCoverImg!.path,
         "name_uz": _nameController.text,
@@ -246,7 +246,7 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
                 ),
               )
             ],
-            actionsAlignment: MainAxisAlignment.center,
+            //actionsAlignment: MainAxisAlignment.center,
           );
         },
       );
