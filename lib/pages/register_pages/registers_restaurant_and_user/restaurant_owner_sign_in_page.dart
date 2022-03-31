@@ -186,6 +186,9 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
                   ? InkWell(
                       onTap: () {
                         _signInAccount();
+                        setState(() {
+                          isLoading = true;
+                        });
                       },
                       child: Container(
                         height: 45.h,

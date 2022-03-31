@@ -96,6 +96,7 @@ class _DrawSchemeState extends State<DrawScheme> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           widget.id == null ? "addTablesAppBAr".tr() : "updateAppBar".tr() + " ${widget.index}",

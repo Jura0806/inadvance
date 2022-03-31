@@ -37,8 +37,7 @@ class UserPaymentConfirm extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => UserPaymentPage()));
+               
               },
               child: Container(
                 height: 45.h,

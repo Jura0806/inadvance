@@ -213,8 +213,8 @@ class _OwnerSettingScreenState extends State<OwnerSettingScreen> {
           InkWell(
             child: settingInfos(nameInfo: "languages"),
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => ChooseLanguage()));
+              // Navigator.of(context).push(MaterialPageRoute(
+              //     builder: (BuildContext context) => ChooseLanguage()));
             },
           ),
           InkWell(
