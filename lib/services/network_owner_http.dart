@@ -121,6 +121,7 @@ class OwnerNetwork {
       print(response.statusCode.toString());
     } catch (e) {
       return "BUG Network => $e";
+      print("Bugg $e");
     }
   }
 
@@ -183,6 +184,8 @@ class OwnerNetwork {
       } else {
         return response.statusCode.toString();
       }
+         print(response.statusCode.toString());
+
     } catch (e) {
       return "BUG Network => $e";
     }

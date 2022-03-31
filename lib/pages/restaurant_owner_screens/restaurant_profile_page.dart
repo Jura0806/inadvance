@@ -73,27 +73,28 @@ class _RestProfilePageState extends State<RestProfilePage> {
         isLoading = true;
       });
       var response =
-          // Hive.box("Restaurant_id").isEmpty || Hive.box("OwnerSignIn").isEmpty
-          // ?
+          Hive.box("Restaurant_id").isEmpty && Hive.box("OwnerSignIn").isEmpty
+          ?
           await OwnerNetwork.ownerProfilePost(
               OwnerNetwork.Api_Restaurant_Profile,
-              OwnerNetwork.paramsOwnerProfile(profile));
-      // : await OwnerNetwork.ownerProfilePut(
-      //     OwnerNetwork.Api_Restaurant_Profile,
-      //     OwnerNetwork.paramsOwnerProfilePut(profile));
+              OwnerNetwork.paramsOwnerProfile(profile))
+      : await OwnerNetwork.ownerProfilePut(
+          OwnerNetwork.Api_Restaurant_Profile,
+          OwnerNetwork.paramsOwnerProfilePut(profile));
 
       if (response != null) {
-        // Hive.box("Restaurant_id").isEmpty
-        // ?
-        // HiveRestId().storeId(jsonDecode(response)["data"]["id"]);
-        // : null;
         setState(() {
           isLoading = false;
         });
         Navigator.of(context).pop();
+        Hive.box("Restaurant_id").isEmpty
+            ?
+        HiveRestId().storeId(jsonDecode(response)["data"]["id"])
+            : SizedBox();
       }
 
       print("New User Restaurant => $response");
+
     }
   }
 
@@ -201,7 +202,9 @@ class _RestProfilePageState extends State<RestProfilePage> {
         actions: [
           IconButton(
             onPressed: () {
+              print(" gggg ${Hive.box("Restaurant_id").isEmpty && Hive.box("OwnerSignIn").isEmpty}");
               createProfile();
+
             },
             icon: SvgPicture.asset(
               "assets/images/vector_ok.svg",
@@ -210,7 +213,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
           ),
         ],
       ),
-      body: Hive.box("Restaurant_id").isEmpty
+      body:  Hive.box("Restaurant_id").isEmpty && Hive.box("OwnerSignIn").isEmpty
           ? profileBody()
           : isLoadingGet
               ? Center(
