@@ -1,8 +1,8 @@
 class Meal {
   int? id;
   int? userId;
-  String? restaurantId;
-  String? categoryId;
+  int? restaurantId;
+  int? categoryId;
   String? nameUz;
   String? nameRu;
   String? nameEn;
