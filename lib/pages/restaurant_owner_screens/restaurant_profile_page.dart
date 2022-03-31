@@ -73,18 +73,20 @@ class _RestProfilePageState extends State<RestProfilePage> {
         isLoading = true;
       });
       var response =
-          Hive.box("Restaurant_id").isEmpty && Hive.box("OwnerSignIn").isEmpty
-              ? await OwnerNetwork.ownerProfilePost(
-                  OwnerNetwork.Api_Restaurant_Profile,
-                  OwnerNetwork.paramsOwnerProfile(profile))
-              : await OwnerNetwork.ownerProfilePut(
-                  OwnerNetwork.Api_Restaurant_Profile,
-                  OwnerNetwork.paramsOwnerProfilePut(profile));
+          // Hive.box("Restaurant_id").isEmpty || Hive.box("OwnerSignIn").isEmpty
+          // ?
+          await OwnerNetwork.ownerProfilePost(
+              OwnerNetwork.Api_Restaurant_Profile,
+              OwnerNetwork.paramsOwnerProfile(profile));
+      // : await OwnerNetwork.ownerProfilePut(
+      //     OwnerNetwork.Api_Restaurant_Profile,
+      //     OwnerNetwork.paramsOwnerProfilePut(profile));
 
       if (response != null) {
-        Hive.box("Restaurant_id").isEmpty
-            ? HiveRestId().storeId(jsonDecode(response)["data"]["id"])
-            : null;
+        // Hive.box("Restaurant_id").isEmpty
+        // ?
+        // HiveRestId().storeId(jsonDecode(response)["data"]["id"]);
+        // : null;
         setState(() {
           isLoading = false;
         });
@@ -223,7 +225,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
   Widget textField(
       {required String labelText,
       Widget? suffixIcon,
-        String? prefixText,
+      String? prefixText,
       required TextEditingController controller,
       required String? initialValue}) {
     return Padding(
@@ -242,8 +244,9 @@ class _RestProfilePageState extends State<RestProfilePage> {
           },
           cursorColor: MainColors.greenColor,
           decoration: InputDecoration(
-            prefixText: prefixText,
-              prefixStyle: TextStyle(color: MainColors.blackColor, fontSize: 15.sp) ,
+              prefixText: prefixText,
+              prefixStyle:
+                  TextStyle(color: MainColors.blackColor, fontSize: 15.sp),
               labelText: labelText.tr(),
               alignLabelWithHint: true,
               suffixIcon: suffixIcon,

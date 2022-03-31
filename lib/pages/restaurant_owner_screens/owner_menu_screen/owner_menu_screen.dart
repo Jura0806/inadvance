@@ -9,7 +9,6 @@ import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 import 'package:inadvance/widgets/restaurant_owner_widgets/owner_menu_bottomSheet.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class OwnerMenuScreen extends StatefulWidget {
   const OwnerMenuScreen({Key? key}) : super(key: key);
@@ -52,7 +51,7 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
             fontSize: 24.sp,
             color: MainColors.blackColor,
           ),
-        ).tr(),
+        ),
         actions: [
           InkWell(
               onTap: () {
@@ -79,6 +78,7 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
           physics:
               AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
               FutureBuilder(
                 future: initValues(),
@@ -136,10 +136,7 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
                               content: Container(
                                 width: 15.w,
                                 height: 15.w,
-                                child: CircularProgressIndicator(
-                                  backgroundColor: Colors.white,
-                                  color: MainColors.greenColor,
-                                ),
+                                child: CupertinoActivityIndicator(),
                               ),
                             );
                           },
@@ -181,7 +178,7 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
                                     ),
                                   )
                                 ],
-                                //actionsAlignment: MainAxisAlignment.center,
+                                actionsAlignment: MainAxisAlignment.center,
                               );
                             },
                           );
@@ -200,10 +197,10 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "addCategory",
+                          "Add new category",
                           style: TextStyle(
                               color: MainColors.whiteColor, fontSize: 17),
-                        ).tr(),
+                        ),
                         Image.asset(
                           'assets/images/Vector.png',
                           color: MainColors.whiteColor,

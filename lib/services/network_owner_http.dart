@@ -51,7 +51,7 @@ class OwnerNetwork {
   }
 
   //<< For restaurant profile post api >> //
-  static Future<String> ownerProfilePost(
+  static Future<String?> ownerProfilePost(
       String api, Map<String, dynamic> params) async {
     try {
       var uri = Uri.parse("https://in-advance.bingo99.uz/api/owner/restaurant");
@@ -79,9 +79,8 @@ class OwnerNetwork {
       var response = await http.Response.fromStream(streamedResponse);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.body;
-      } else {
-        return response.statusCode.toString();
       }
+      print(response.statusCode.toString());
     } catch (e) {
       return "BUG Network => $e";
     }
@@ -119,8 +118,7 @@ class OwnerNetwork {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.body;
       }
-        print( response.statusCode.toString());
-
+      print(response.statusCode.toString());
     } catch (e) {
       return "BUG Network => $e";
     }
@@ -134,7 +132,7 @@ class OwnerNetwork {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.body;
       }
-        print( response.statusCode.toString());
+      print(response.statusCode.toString());
 
       print(response.statusCode);
     } catch (e) {
@@ -161,8 +159,7 @@ class OwnerNetwork {
   // Get Restaurant's tables list  //
   static Future<String?> ownersGetTableList() async {
     try {
-      var uri = Uri.parse(
-          "https://in-advance.bingo99.uz/api/owner/table");
+      var uri = Uri.parse("https://in-advance.bingo99.uz/api/owner/table");
       var response = await get(uri, headers: headersWithToken);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.body;
@@ -336,7 +333,6 @@ class OwnerNetwork {
         return Meal.fromJson(jsonDecode(response.body)['data']);
       } else {
         print(response.statusCode);
-        print(response.body);
         throw Exception('Failed to add meal');
       }
     } catch (e) {
@@ -408,7 +404,7 @@ class OwnerNetwork {
       "bank_number": profileModel.bankNumber,
       "map_ln": "112.1122",
       "map_lt": "112.1222",
-      "type" : "1",
+      "type": "1",
     });
     return params;
   }
@@ -426,8 +422,7 @@ class OwnerNetwork {
       "bank_number": profileModel.bankNumber,
       "map_ln": profileModel.mapLn,
       "map_lt": profileModel.mapLt,
-      "user_id": "27",
-      "type" : "1",
+      "type": "1",
       "_method": "PUT",
     });
     return params;
