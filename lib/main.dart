@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:inadvance/pages/about_app_page.dart';
 import 'package:inadvance/pages/choose_language_page.dart';
+import 'package:inadvance/pages/register_pages/intro_page.dart';
 import 'package:inadvance/pages/register_pages/registers_restaurant_and_user/restaurant_owner_sign_in_page.dart';
 import 'package:inadvance/pages/register_pages/registers_restaurant_and_user/restaurant_owner_sign_up_page.dart';
 import 'package:inadvance/pages/register_pages/who_are_you_register_page.dart';
@@ -14,6 +16,8 @@ import 'package:inadvance/pages/simple_user_screens/user_setting_screen.dart';
 import 'package:inadvance/pages/splash_page.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox("OwnerSignUp");
   await Hive.openBox("OwnerSignIn");
@@ -21,7 +25,12 @@ void main() async {
   await Hive.openBox("Restaurant_id");
   await Hive.openBox("ClientSignUp");
   await Hive.openBox("ClientSignIn");
-  runApp(MyApp());
+  runApp( EasyLocalization(
+      supportedLocales: [Locale('uz', 'UZ'), Locale('en', 'US'), Locale('ru','RU')],
+      path: 'assets/translations', // <-- change the path of the translation files
+      fallbackLocale: Locale('en', 'US'),
+      child: MyApp()
+  ),);
 }
 
 class MyApp extends StatelessWidget {
@@ -53,11 +62,15 @@ class MyApp extends StatelessWidget {
             child: widget!,
           );
         },
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
         home: SplashPage(),
         routes: {
           SplashPage.id: (context) => SplashPage(),
           AboutAppPage.id: (context) => AboutAppPage(),
           ChooseLanguage.id: (context) => ChooseLanguage(),
+          IntroPage.id: (context) => IntroPage(),
           FirstRegister.id: (context) => FirstRegister(),
           OwnerSignUp.id: (context) => OwnerSignUp(),
           OwnerSignInPage.id: (context) => OwnerSignInPage(),
@@ -65,7 +78,6 @@ class MyApp extends StatelessWidget {
           UserSettingScreen.id: (context) => UserSettingScreen(),
           OwnerNavigationBar.id: (context) => OwnerNavigationBar(),
           OwnerSettingScreen.id: (context) => OwnerSettingScreen(),
-
         }
       ),
     );

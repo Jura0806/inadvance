@@ -11,6 +11,7 @@ import 'package:inadvance/services/hive_db_user_service.dart';
 import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OwnerSignUp extends StatefulWidget {
   int? roleId;
@@ -142,10 +143,10 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                         height: 7,
                       ),
                       Text(
-                        "Ro'yxatdan o'tish",
+                        "createAccount",
                         style: TextStyle(
                             fontSize: 20.sp, fontWeight: FontWeight.w600),
-                      ),
+                      ).tr(),
                       const Spacer(
                         flex: 1,
                       ),
@@ -154,14 +155,14 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                         cursorColor: MainColors.greenColor,
                         validator: (input) {
                           if (input!.isEmpty) {
-                            return "Iltimos Restoran nomini kiriting";
+                            return "validateName".tr();
                           }
                         },
                         onSaved: (input) => restName = input!,
                         decoration: buildDecorate(
                           labelText: widget.roleId == 2
-                              ? "FullName"
-                              : "Restoran  nomi",
+                              ? "fullNameClient".tr()
+                              : "fullName".tr(),
                         ),
                       ),
                       const SizedBox(
@@ -182,8 +183,8 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                         },
                         decoration: buildDecorate(
                           labelText: widget.roleId == 2
-                              ? "Telefon raqam"
-                              : "Admin telefon raqami",
+                              ?  "phoneClient".tr()
+                              : "Phone".tr(),
                           hintText: "991234567",
                           prefixText: "+998 ",
                         ),
@@ -195,7 +196,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                         cursorColor: MainColors.greenColor,
                         validator: (input) {
                           if (input!.isEmpty) {
-                            return "Iltimos LOgIn kiriting!";
+                            return "validateLogin".tr();
                           } else if (input.length < 6 || input.length > 20) {
                             return "Bu LogIn tavsiya etilmaydi!";
                           } else {
@@ -204,7 +205,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                         },
                         onSaved: (input) => login = input!,
                         decoration: buildDecorate(
-                          labelText: "Ilovaga kirish uchun login",
+                          labelText: "Login".tr(),
                         ),
                       ),
                       const SizedBox(
@@ -216,13 +217,13 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                         validator: (input) {
                           password = input!;
                           if (input.isEmpty) {
-                            return "Iltimos LogIn uchun parol kiriting";
+                            return "validatePassword".tr();
                           }
                         },
                         onSaved: (input) => password = input!,
                         obscureText: isHiddenPassword1,
                         decoration: buildDecorate(
-                          labelText: "Ilova uchun parol",
+                          labelText: "Password".tr(),
                           suffixIcon: InkWell(
                               onTap: () {
                                 setState(() {
@@ -242,12 +243,12 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                         cursorColor: MainColors.greenColor,
                         validator: (input) =>
                             (input!.isEmpty || input != password)
-                                ? "Parol to'g'ri kirtilmadi"
+                                ? "errorPassword".tr()
                                 : null,
                         onSaved: (input) => confirmPassword = input!,
                         obscureText: isHiddenPassword2,
                         decoration: buildDecorate(
-                          labelText: "Parolni qaytadan yozish",
+                          labelText: "confirmPassword".tr(),
                           suffixIcon: InkWell(
                               onTap: () {
                                 setState(() {
@@ -263,7 +264,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            "Agar Akkauntingiz mavjud bo'lsa  => ",
+                            "directionLogin".tr(),
                             style: TextStyle(color: Colors.grey[700]),
                           ),
                           TextButton(
@@ -309,10 +310,10 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                   ),
                   child: Center(
                     child: Text(
-                      "Davom etish",
+                      "Next",
                       style: TextStyle(
                           color: MainColors.whiteColor, fontSize: 17.sp),
-                    ),
+                    ).tr(),
                   ),
                 ),
               ),

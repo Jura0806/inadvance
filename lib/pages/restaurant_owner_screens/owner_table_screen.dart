@@ -7,6 +7,7 @@ import 'package:inadvance/pages/restaurant_owner_screens/owner_draw_scheme.dart'
 import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OwnerTableScreen extends StatefulWidget {
   const OwnerTableScreen({
@@ -34,12 +35,13 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
   List floor5 = [];
   List<List> floors = [];
 
-  void apiTableList(String? nextPage) async {
-    var response = await OwnerNetwork.ownersGetTableList(nextPage);
+  void apiTableList() async {
+    var response = await OwnerNetwork.ownersGetTableList();
+
     if (response != null) {
       setState(() {
-        getResponse = response;
-        listTables2 = jsonDecode(response)["data"]["data"];
+        getResponse = jsonDecode(response)["data"].toString();
+        listTables2 = jsonDecode(response)["data"];
         isLoading = false;
         List.generate(listTables2.length, (index) {
           if (listTables2[index]["floor"] == "1") {
@@ -58,7 +60,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
         checkFloorList(floorss);
       });
     }
-    // print( response);
+     //print( getResponse  == "[]");
   }
 
   checkFloorList(List<List> floorr) {
@@ -75,7 +77,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
   void initState() {
     pageController = PageController(initialPage: indexPage);
     super.initState();
-    apiTableList("");
+    apiTableList();
     // setState(() {
     //   isDrawTable = true;
     // });
@@ -97,7 +99,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getResponse != null
+      appBar: getResponse  != "[]"
           ? AppBar(
               title: GestureDetector(
                 onTap: () {
@@ -109,7 +111,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
                 child: Text(
                   "Tables",
                   style: TextStyle(color: MainColors.whiteColor),
-                ),
+                ).tr(),
               ),
               actions: [
                 GestureDetector(
@@ -155,7 +157,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
                                     });
                                   },
                                   child: Text(
-                                    "${index + 1} - floor",
+                                    "${index + 1} - "+"floor".tr(),
                                     style: TextStyle(
                                         decoration: index == indexPage
                                             ? TextDecoration.underline
@@ -181,7 +183,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
               ),
               backgroundColor: MainColors.greenColor,
             ),
-      body: getResponse != null
+      body: getResponse  != "[]"
           ? isLoading
               ? Center(
                   child: CircularProgressIndicator(
@@ -190,7 +192,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
               : RefreshIndicator(
                   onRefresh: () async {
                     await Future.delayed(Duration(seconds: 1));
-                    apiTableList("");
+                    apiTableList();
                     setState(() {});
                   },
                   child: PageView.builder(
@@ -221,7 +223,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
                       index: floor[number]["index"],
                       id: floor[number]["id"],
                     )))
-            : apiTableList("?page=2");
+            : apiTableList();
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.w)),
@@ -229,20 +231,20 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
           padding: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
               color:
-                  number == 1 ? MainColors.greenColor : MainColors.whiteColor,
+              floor[number != floor.length? number: number-1]["orders"].toString()!="[]" ? MainColors.greenColor : MainColors.whiteColor,
               border: Border.all(
                 width: 0.3.sp,
                 color:
-                    number == 1 ? MainColors.whiteColor : MainColors.greenColor,
+                floor[number != floor.length? number: number-1]["orders"].toString()!="[]" ? MainColors.whiteColor : MainColors.greenColor,
               ),
               borderRadius: BorderRadius.circular(8.w)),
           child: number != floor.length
               ? GridTile(
                   header: Text(
-                    "${floor[number]["price"]} UZS",
+                    "${floor[number != floor.length? number: number-1]["price"]} UZS",
                     style: TextStyle(
                         fontSize: 10.sp,
-                        color: number == 1
+                        color:  floor[number != floor.length? number: number-1]["orders"].toString()!="[]"
                             ? MainColors.whiteColor
                             : MainColors.blackColor),
                     textAlign: TextAlign.left,
@@ -251,7 +253,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
                     child: Text(
                       "${floor[number]["index"]}",
                       style: TextStyle(
-                          color: number == 1
+                          color:  floor[number != floor.length? number: number-1]["orders"].toString()!="[]"
                               ? MainColors.whiteColor
                               : MainColors.greenColor,
                           fontSize: 25.sp,
@@ -262,14 +264,14 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${floor[number]["set_num"]} kishilik   ${floor[number]["floor"]}",
+                        "${floor[number]["set_num"]}" + "person".tr(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: number == 1
+                            color:  floor[number != floor.length? number: number-1]["orders"].toString()!="[]"
                                 ? MainColors.whiteColor
                                 : MainColors.blackColor),
                       ),
-                      number == 1
+                      floor[number != floor.length? number: number-1]["orders"].toString()!="[]"
                           ? Icon(
                               Icons.lock,
                               size: 15.sp,
@@ -297,7 +299,7 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3, crossAxisSpacing: 3.w, mainAxisSpacing: 3.w),
       padding: EdgeInsets.all(10.w),
-      itemCount: floor.length + 1,
+      itemCount: floor.length+1,
       itemBuilder: (ctx, index) {
         // final item = tableNumber[index];
         return buildTableCard(index, floor);
@@ -312,9 +314,9 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
         Spacer(),
         Center(
             child: Text(
-          "This is no any scheme",
+              "noScheme",
           style: TextStyle(fontSize: 17.sp),
-        )),
+        ).tr()),
         Spacer(),
         InkWell(
           onTap: () {
@@ -334,9 +336,9 @@ class _OwnerTableScreenState extends State<OwnerTableScreen> {
             ),
             child: Center(
               child: Text(
-                "Sxema chizish",
+                "drawScheme",
                 style: TextStyle(color: MainColors.whiteColor, fontSize: 20),
-              ),
+              ).tr(),
             ),
           ),
         ),

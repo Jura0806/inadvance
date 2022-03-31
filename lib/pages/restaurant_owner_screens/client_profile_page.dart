@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ClientProfilePage extends StatefulWidget {
   int item ;
@@ -58,7 +59,7 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Buyurtma sahifasi"),
+        title: Text("orderPage").tr(),
       ),
       body: ListView(
         children: [
@@ -130,7 +131,7 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
                     ],
                   ),
                   SizedBox(height: 25.h,),
-                  Text("Orders", style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),),
+                  Text("orders", style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),).tr(),
                   SizedBox(height: 15.h,),
                   Container(
                     width: double.infinity,
@@ -152,10 +153,10 @@ class _ClientProfilePageState extends State<ClientProfilePage> {
                       ),
                       child: Center(
                         child: Text(
-                          "Buyurtma bajarildi",
+                          "orderCompleted",
                           style:
                           TextStyle(color: MainColors.whiteColor, fontSize: 17.sp),
-                        ),
+                        ).tr(),
                       ),
                     ),
                   )

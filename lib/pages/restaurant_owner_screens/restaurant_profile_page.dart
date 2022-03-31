@@ -8,12 +8,14 @@ import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inadvance/models/restaurant_profile_model.dart';
 import 'package:inadvance/pages/location_page/location_page.dart';
+import 'package:inadvance/services/hive_db_owner_service.dart';
 import 'package:inadvance/services/hive_db_user_service.dart';
 import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 import 'dart:io';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RestProfilePage extends StatefulWidget {
   const RestProfilePage({Key? key}) : super(key: key);
@@ -193,7 +195,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profile"),
+        title: Text("profile").tr(),
         actions: [
           IconButton(
             onPressed: () {
@@ -207,7 +209,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
           ),
         ],
       ),
-      body: Hive.box("Restaurant_id").isEmpty
+      body: Hive.box("Restaurant_id").isEmpty && HiveSignIn().loadOwner().id == null
           ? profileBody()
           : isLoadingGet
               ? Center(
@@ -240,7 +242,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
           },
           cursorColor: MainColors.greenColor,
           decoration: InputDecoration(
-              labelText: labelText,
+              labelText: labelText.tr(),
               alignLabelWithHint: true,
               suffixIcon: suffixIcon,
               enabledBorder: OutlineInputBorder(
@@ -332,7 +334,8 @@ class _RestProfilePageState extends State<RestProfilePage> {
                         borderRadius: BorderRadius.circular(8.w),
                         child: checkRestImg == 1
                             ? imgPicker()
-                            : Hive.box("Restaurant_id").isEmpty
+                            : Hive.box("Restaurant_id").isEmpty &&
+                            Hive.box("OwnerSignIn").isEmpty
                                 ? defaultImg()
                                 : networkGetImg(),
                       ),
@@ -426,17 +429,17 @@ class _RestProfilePageState extends State<RestProfilePage> {
               height: 15.h,
             ),
             textField(
-                labelText: "Restoran nomi",
+                labelText: "restaurantName".tr(),
                 controller: nameController,
                 initialValue: profile["data"]["name"] ?? ""),
             //createProfile.profileResponse["data"]["name"]),
             textField(
-                labelText: "Admin raqami",
+                labelText: "adminNumber".tr(),
                 controller: phoneController,
                 initialValue: profile["data"]["phone"] ?? ""),
             //createProfile.profileResponse["phone"]),
             textField(
-                labelText: "Shahar va lokatsiya",
+                labelText: "location".tr(),
                 suffixIcon: IconButton(
                   onPressed: () {
                     Navigator.push(
@@ -460,13 +463,13 @@ class _RestProfilePageState extends State<RestProfilePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 timeInput(
-                    isOpen: "Ochiladi",
+                    isOpen: "openTime".tr(),
                     time: "8:00",
                     controller: openTimeController,
                     initialValue: profile["data"]["open_time"] ?? ""),
                 // createProfile.profileResponse["open_time"]),
                 timeInput(
-                    isOpen: "Yopiladi",
+                    isOpen: "closeTime".tr(),
                     time: "21:00",
                     controller: closeTimeController,
                     initialValue: profile["data"]["close_time"] ?? ""),
@@ -476,7 +479,7 @@ class _RestProfilePageState extends State<RestProfilePage> {
               height: 15.h,
             ),
             textField(
-                labelText: "Restoran hisob raqami",
+                labelText: "bunkNumber",
                 controller: bankNumberController,
                 initialValue: profile["data"]["bank_number"] ?? ""),
           ],

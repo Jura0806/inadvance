@@ -1,121 +1,112 @@
 import 'package:flutter/material.dart';
-import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 
-void showModelSheet(
-  BuildContext context, {
-  required void Function()? onSave,
-  required TextEditingController controller,
-}) {
+void showModelSheet(BuildContext context, {required TextEditingController controller, required Future<Null> Function() onSave}) {
   showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Padding(
-          padding: MediaQuery.of(context).viewInsets,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          padding: EdgeInsets.only(top: 25, left: 15, right: 15, bottom: 25),
+          height: 220,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Add new category",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
               ),
-            ),
-            padding: EdgeInsets.only(top: 25, left: 15, right: 15, bottom: 25),
-            height: 220,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Add new category",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-                ),
-                TextFormField(
-                  controller: controller,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(
-                        color: MainColors.greenColor,
-                      ),
-                    ),
-                    contentPadding: EdgeInsets.only(
-                      top: 38.0,
-                      left: 25.0,
-                      right: 20.0,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Color(0xFFFFFFFF),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        style: BorderStyle.solid,
-                        color: Colors.red,
-                      ),
-                    ),
-                    hintText: "Title",
-                    hintStyle: TextStyle(
-                      fontSize: 16.0,
-                      color: Color(0xFF677294),
+              TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: BorderSide(
+                      color: MainColors.greenColor,
                     ),
                   ),
-                  keyboardType: TextInputType.text,
-                  cursorColor: Color(0xFF000000),
-                  style: TextStyle(
+                  contentPadding: EdgeInsets.only(
+                    top: 38.0,
+                    left: 25.0,
+                    right: 20.0,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: BorderSide(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  filled: true,
+                  fillColor: Color(0xFFFFFFFF),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      style: BorderStyle.solid,
+                      color: Colors.red,
+                    ),
+                  ),
+                  hintText: "Title",
+                  hintStyle: TextStyle(
                     fontSize: 16.0,
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w400,
-                    fontStyle: FontStyle.normal,
-                    //color: HexColor('#3C3C43'),
+                    color: Color(0xFF677294),
                   ),
-                  expands: false,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: MainColors.dimRedColor,
-                        minimumSize: Size(175, 40),
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        "Rad etish",
-                        style: TextStyle(color: Colors.red[800]),
-                      ),
+                keyboardType: TextInputType.text,
+                cursorColor: Color(0xFF000000),
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w400,
+                  fontStyle: FontStyle.normal,
+                  //color: HexColor('#3C3C43'),
+                ),
+                expands: false,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: MainColors.dimRedColor,
+                      minimumSize: Size(175, 40),
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green,
-                        minimumSize: Size(175, 40),
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                      ),
-                      onPressed: onSave,
-                      child: Text(
-                        "Saqlash",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )
-                  ],
-                )
-              ],
-            ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Rad etish",
+                      style: TextStyle(color: Colors.red[800]),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green,
+                      minimumSize: Size(175, 40),
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                    onPressed: () {},
+                    child: Text(
+                      "Saqlash",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              )
+            ],
           ),
         );
       });

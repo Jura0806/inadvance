@@ -13,7 +13,7 @@ class AboutAppPage extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            height: 300.h,
+            height: 275.h,
             width: double.infinity,
             child: Column(
               children: [
@@ -38,13 +38,13 @@ class AboutAppPage extends StatelessWidget {
                 ),
                 Spacer(
                   flex: 1,
-                )
+                ),
               ],
             ),
             decoration: BoxDecoration(
               color: MainColors.greenColor,
               borderRadius:
-                  BorderRadius.vertical(bottom: Radius.elliptical(200.w, 200.w)),
+                  BorderRadius.vertical(bottom: Radius.elliptical(175.w, 175.w)),
             ),
           ),
          const Spacer(

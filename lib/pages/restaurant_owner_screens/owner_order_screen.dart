@@ -4,7 +4,7 @@ import 'package:inadvance/pages/restaurant_owner_screens/client_story_profile_pa
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'client_story_profile_page.dart';
 
 class OwnerOrderScreen extends StatefulWidget {
@@ -90,8 +90,8 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    categoryOrders(categoryName: "Bugungi", x: 1),
-                    categoryOrders(categoryName: "Tarix", x: 2),
+                    categoryOrders(categoryName: "today", x: 1),
+                    categoryOrders(categoryName: "story", x: 2),
                   ],
                 ),
               ],
@@ -250,7 +250,7 @@ class _OwnerOrderScreenState extends State<OwnerOrderScreen> {
                     ? MainColors.whiteColor
                     : MainColors.blackColor,
                 fontSize: 15.sp),
-          ),
+          ).tr(),
         ),
       ),
     );
