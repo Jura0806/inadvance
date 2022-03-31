@@ -18,8 +18,8 @@ class OwnerMenuScreen extends StatefulWidget {
 }
 
 class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
-  List<Category> _categories = [];
-  List<Meal> _meals = [];
+  late List<Category> _categories;
+  late List<Meal> _meals;
   TextEditingController _storeCategoryController = TextEditingController();
   @override
   void initState() {
@@ -178,7 +178,7 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
                                     ),
                                   )
                                 ],
-                               //actionsAlignment: MainAxisAlignment.center,
+                                //actionsAlignment: MainAxisAlignment.center,
                               );
                             },
                           );
@@ -331,7 +331,7 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
   Widget foodCategoryListItem({required Category category}) {
     bool isCategoryHaveMeals = false;
     for (var meal in _meals) {
-      if (category.id.toString() == meal.categoryId) {
+      if (category.id == meal.categoryId) {
         isCategoryHaveMeals = true;
         break;
       } else {
@@ -350,7 +350,7 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
             padding: EdgeInsets.symmetric(vertical: 10.0.w, horizontal: 15.0.w),
             itemBuilder: (ctx, i) {
               Meal _meal = _meals[i];
-              if (category.id.toString() == _meal.categoryId) {
+              if (category.id == _meal.categoryId) {
                 return foodListItem(meal: _meal);
               } else {
                 return SizedBox();

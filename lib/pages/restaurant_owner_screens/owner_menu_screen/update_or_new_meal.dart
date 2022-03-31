@@ -113,7 +113,7 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
       params: mealCoverImg == null
           ? {
               "meal_id": widget.meal!.id.toString(),
-              "restaurant_id": restaurantId,
+              "restaurant_id": restaurantId.toString(),
               "category_id": choose!.id.toString(),
               "name_uz": _nameController.text.isNotEmpty
                   ? _nameController.text
@@ -140,7 +140,7 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
             }
           : {
               "meal_id": widget.meal!.id.toString(),
-              "restaurant_id": restaurantId,
+              "restaurant_id": restaurantId.toString(),
               "category_id": choose!.id.toString(),
               "image_path": mealCoverImg!.path,
               "name_uz": _nameController.text.isNotEmpty
@@ -255,6 +255,7 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.categories[0].id.toString());
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
