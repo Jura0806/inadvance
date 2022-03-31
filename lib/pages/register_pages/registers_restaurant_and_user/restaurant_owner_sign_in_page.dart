@@ -57,6 +57,7 @@ class _OwnerSignInPageState extends State<OwnerSignInPage> {
         } else {
             notAvialableLogin = "noLogin".tr();
         }
+        id != null? HiveRestId().storeId(int.parse(id!)):null;
         isLoading = false;
       });
       print("Login Restaurant => $response");
