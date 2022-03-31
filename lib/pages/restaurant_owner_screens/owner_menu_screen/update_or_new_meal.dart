@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:inadvance/models/category_model.dart';
 import 'package:inadvance/models/meal_model.dart';
 import 'package:inadvance/services/hive_db_owner_service.dart';
+import 'package:inadvance/services/hive_db_user_service.dart';
 import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/formfield.dart';
@@ -32,7 +33,7 @@ class NewOrUpdateMeal extends StatefulWidget {
 
 class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
   List<String> categoriesTitle = [];
-  late Category choose;
+  Category? choose;
   File? mealCoverImg;
 
   TextEditingController _descController = TextEditingController();
@@ -40,12 +41,12 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
   TextEditingController _priceController = TextEditingController();
   bool isLoading = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final restaurantId = HiveRestId().loadId();
 
   @override
   void initState() {
     initFieldValues();
     super.initState();
-    choose = widget.categories[0];
   }
 
   Future getImage({tag}) async {
@@ -112,8 +113,8 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
       params: mealCoverImg == null
           ? {
               "meal_id": widget.meal!.id.toString(),
-              "restaurant_id": '23',
-              "category_id": choose.id.toString(),
+              "restaurant_id": restaurantId,
+              "category_id": choose!.id.toString(),
               "name_uz": _nameController.text.isNotEmpty
                   ? _nameController.text
                   : widget.meal!.nameUz,
@@ -139,8 +140,8 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
             }
           : {
               "meal_id": widget.meal!.id.toString(),
-              "restaurant_id": '23',
-              "category_id": choose.id.toString(),
+              "restaurant_id": restaurantId,
+              "category_id": choose!.id.toString(),
               "image_path": mealCoverImg!.path,
               "name_uz": _nameController.text.isNotEmpty
                   ? _nameController.text
@@ -204,8 +205,8 @@ class _NewOrUpdateMealState extends State<NewOrUpdateMeal> {
     setState(() => isLoading = true);
     var res = await OwnerNetwork.storeMeals(
       params: {
-        "restaurant_id": "23",
-        "category_id": choose.id.toString(),
+        "restaurant_id": restaurantId,
+        "category_id": choose!.id.toString(),
         "image_path": mealCoverImg!.path,
         "name_uz": _nameController.text,
         "name_ru": _nameController.text,
