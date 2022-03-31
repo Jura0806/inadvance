@@ -19,8 +19,8 @@ class OwnerMenuScreen extends StatefulWidget {
 }
 
 class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
-  late List<Category> _categories;
-  late List<Meal> _meals;
+  List<Category> _categories = [];
+  List<Meal> _meals = [];
   TextEditingController _storeCategoryController = TextEditingController();
   @override
   void initState() {
