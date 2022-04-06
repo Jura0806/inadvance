@@ -374,11 +374,11 @@ class OwnerNetwork {
     Map<String, String> params = new Map();
     params.addAll({
       "full_name": ownerAccount.full_name,
-      "phone": ownerAccount.phone.toString(),
+      "phone": ownerAccount.phone,
       "login": ownerAccount.login,
       "password": ownerAccount.password,
       "verify_password": ownerAccount.verify_password,
-      "role_id": ownerAccount.role_id.toString(),
+      "role_id": ownerAccount.role_id,
     });
     return params;
   }
@@ -424,7 +424,7 @@ class OwnerNetwork {
       "bank_number": profileModel.bankNumber,
       "map_ln": profileModel.mapLn,
       "map_lt": profileModel.mapLt,
-      "type": "1",
+      "type": profileModel.type.toString(),
       "_method": "PUT",
     });
     return params;

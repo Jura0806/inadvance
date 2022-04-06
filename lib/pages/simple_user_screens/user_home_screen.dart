@@ -71,7 +71,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-  //  print(OwnerNetwork.getRestaurants());
+    OwnerNetwork.getRestaurants();
   }
 
   @override

@@ -13,6 +13,7 @@ class RestaurantProfileModel {
   String closeTime;
   String bankNumber;
   String? logo;
+  int? type;
   RestaurantProfileModel({
     // this.userId,
     this.imagePath,
@@ -23,11 +24,13 @@ class RestaurantProfileModel {
     required this.openTime,
     required this.closeTime,
     required this.bankNumber,
-    this.logo
+    this.logo,
+    this.type,
   });
 
   factory RestaurantProfileModel.fromJson(Map<String, dynamic> json) =>
       RestaurantProfileModel(
+        type: json["type"],
         imagePath: json["image_path"],
         logo: json["logo_path"],
         name: json["name"],
@@ -49,6 +52,7 @@ class RestaurantProfileModel {
         "open_time": openTime,
         "close_time": closeTime,
         "bank_number": bankNumber,
+        "type" : type
       };
 
   RestaurantProfileModel restaurantProfileModelFromJson(String str) =>

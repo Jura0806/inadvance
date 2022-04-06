@@ -2,7 +2,7 @@
     package="com.inAdvance.inadvance">
    <application
         android:label="inAdvance"
-        android:="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

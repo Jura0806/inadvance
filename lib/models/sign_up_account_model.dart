@@ -1,7 +1,7 @@
 class SignUpAccount {
-  late int role_id;
+  late String role_id;
   late String full_name;
-  late int phone;
+  late String phone;
   late String login;
   late String password;
   late String verify_password;
@@ -20,7 +20,7 @@ class SignUpAccount {
         this.token,
       });
 
-  SignUpAccount.fromJson(Map<String, dynamic> json)
+  SignUpAccount.fromJson(Map<dynamic, dynamic> json)
       : full_name = json["full_name"],
         phone = json["phone"],
         login = json["login"],
@@ -30,7 +30,7 @@ class SignUpAccount {
         id = json["id"],
         token = json["token"];
 
-  Map<String, dynamic> toJson() => {
+  Map<dynamic, dynamic> toJson() => {
         "full_name": full_name,
         "phone": phone,
         "login": login,
