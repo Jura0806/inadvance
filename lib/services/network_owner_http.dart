@@ -5,7 +5,6 @@ import 'package:http/http.dart';
 import 'package:inadvance/models/category_model.dart';
 import 'package:inadvance/models/meal_model.dart';
 import 'package:inadvance/models/restaurant_ables_model.dart';
-import 'package:inadvance/models/restaurant_model.dart';
 import 'package:inadvance/models/restaurant_tables_model.dart';
 import 'package:inadvance/models/sign_in_model.dart';
 import 'package:inadvance/models/sign_up_account_model.dart';
@@ -183,8 +182,7 @@ class OwnerNetwork {
       } else {
         return response.statusCode.toString();
       }
-         print(response.statusCode.toString());
-
+      print(response.statusCode.toString());
     } catch (e) {
       return "BUG Network => $e";
     }
@@ -344,16 +342,15 @@ class OwnerNetwork {
   }
 
   // Restaurants APIS
-  static Future<List<Restaurant>> getRestaurants() async {
+  static Future getRestaurants(String currentPage) async {
     try {
-      var uri = Uri.https(BASE, '/api/customer/restaurant');
+      var uri = Uri.https(BASE, '/api/customer/restaurant?page=$currentPage');
       var response = await get(uri, headers: headersWithToken);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return (jsonDecode(response.body)['data']['data'] as List)
-            .map((e) => Restaurant.fromMap(e))
-            .toList();
+        return response;
       } else {
         print(response.statusCode.toString());
+        print(response.body.toString());
         throw Exception('Failed to load restaurants');
       }
     } catch (e) {

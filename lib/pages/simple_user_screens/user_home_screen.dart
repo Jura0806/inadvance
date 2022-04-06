@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,6 +11,7 @@ import 'package:inadvance/services/network_owner_http.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:inadvance/utils/responsive_size.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({Key? key}) : super(key: key);
@@ -67,11 +69,47 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   Color colorRandom() {
     return colors[Random().nextInt(colors.length)];
   }
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  //  print(OwnerNetwork.getRestaurants());
+
+  int currentPage = 1;
+
+  late int totalPages;
+
+  List<Restaurant> restaurants = [];
+
+  final RefreshController refreshController =
+      RefreshController(initialRefresh: true);
+
+  Future<bool> getRestaurantsData({bool isRefresh = false}) async {
+    if (isRefresh) {
+      currentPage = 1;
+    } else {
+      if (currentPage >= totalPages) {
+        refreshController.loadNoData();
+        return false;
+      }
+    }
+
+    final response = await OwnerNetwork.getRestaurants(currentPage.toString());
+
+    if (response.statusCode == 200) {
+      final result = restaurantModelFromMap(response.body["data"]);
+
+      if (isRefresh) {
+        restaurants = result.data!;
+      } else {
+        restaurants.addAll(result.data!);
+      }
+
+      currentPage++;
+
+      totalPages = result.total!;
+
+      print(response.body);
+      setState(() {});
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -108,13 +146,28 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: 15.w,
-          right: 15.w,
-          top: 10.h,
-        ),
+      body: SmartRefresher(
+        controller: refreshController,
+        enablePullUp: true,
+        onRefresh: () async {
+          final result = await getRestaurantsData(isRefresh: true);
+          if (result) {
+            refreshController.refreshCompleted();
+          } else {
+            refreshController.refreshFailed();
+          }
+        },
+        onLoading: () async {
+          final result = await getRestaurantsData();
+          if (result) {
+            refreshController.loadComplete();
+          } else {
+            refreshController.loadFailed();
+          }
+        },
         child: ListView(
+          padding: EdgeInsets.only(left: 15.w, right: 15.w, top: 10.h),
+          shrinkWrap: true,
           children: [
             SizedBox(height: 20.h),
             Text(
@@ -146,16 +199,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 },
               ),
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 15),
             Text(
               "allCategories".tr(),
               style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 15),
             SizedBox(
               height: 40.h,
               child: ListView.builder(
@@ -178,37 +227,33 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               ),
             ),
             const SizedBox(height: 15),
-            FutureBuilder<List<Restaurant>>(
-              future: OwnerNetwork.getRestaurants(),
-              builder: (context, AsyncSnapshot<List<Restaurant>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SizedBox();
-                } else if (snapshot.connectionState == ConnectionState.done) {
-                  List<Restaurant> restaurants = snapshot.data!;
-                  if (snapshot.hasError) {
-                    return SizedBox();
-                  } else if (snapshot.hasData) {
-                    return Column(
-                      children: restaurants
-                          .map(
-                            (restaurant) => Card(
-                              margin: EdgeInsets.symmetric(vertical: 10),
-                              child: Container(
-                                height: 212.h,
-                                child: singleRestaurant(restaurant),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    );
-                  } else {
-                    return SizedBox();
-                  }
-                } else {
-                  return SizedBox();
-                }
-              },
+            Column(
+              children: restaurants
+                  .map(
+                    (restaurant) => Card(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        height: 212.h,
+                        child: singleRestaurant(restaurant),
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
+            // ListView.builder(
+            //   shrinkWrap: true,
+            //   physics: BouncingScrollPhysics(),
+            //   itemCount: restaurants.length,
+            //   itemBuilder: (context, index) {
+            //     return Card(
+            //       margin: EdgeInsets.symmetric(vertical: 10),
+            //       child: Container(
+            //         height: 212.h,
+            //         child: singleRestaurant(restaurants[index]),
+            //       ),
+            //     );
+            //   },
+            // )
           ],
         ),
       ),
@@ -303,10 +348,11 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 builder: (BuildContext context) => RestaurantInfosPage(
                       restId: restaurant.id.toString(),
                       restName: restaurant.name,
-                  phone: restaurant.phone,
-                  openTime: restaurant.openTime,
-                  closeTime: restaurant.closeTime,
-                  image: NetworkImage('https://in-advance.bingo99.uz${restaurant.imagePath}'),
+                      phone: restaurant.phone,
+                      openTime: restaurant.openTime,
+                      closeTime: restaurant.closeTime,
+                      image: NetworkImage(
+                          'https://in-advance.bingo99.uz${restaurant.imagePath}'),
                     )));
           },
           child: Container(
