@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:inadvance/services/hive_db_user_service.dart';
 import 'package:inadvance/utils/colors.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -93,10 +95,16 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                         color: MainColors.greenColor,
                       ),
                       child: Center(
-                        child: Text(
-                          "search",
+                        child: TextButton(
+                          onPressed: (){
+                            print( Hive.box("ClientSignIn").isEmpty);
+                            print(HiveClientSignIn().loadClient().login);
+                            print(HiveClientSignIn().loadClient().login);
+                           // print(HiveToken().loadToken());
+                          },
+                          child: Text("search",
                           style: TextStyle(color: MainColors.whiteColor),
-                        ).tr(),
+                        ).tr()),
                       ),
                     )
                   ],

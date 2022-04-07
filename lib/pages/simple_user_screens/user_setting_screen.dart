@@ -25,11 +25,22 @@ class UserSettingScreen extends StatefulWidget {
 }
 
 class _UserSettingScreenState extends State<UserSettingScreen> {
-  Map<String, dynamic> data = {};
+
+  final String defaultLocale = Platform.localHostname;
+  Map<String, dynamic> data = {
+    "user": {
+      "id": 36,
+      "role_id": "3",
+      "full_name": "jhbsdjahb",
+      "phone": "998872334",
+      "login": "loplop",
+      "image_path": null,
+    },
+  };
 
   void getProfile() async {
     var ownerSignIn = SignIn(
-        login: HiveClientSignIn().loadClient().login,
+        login: HiveClientSignIn().loadClient().login ,
         password: HiveClientSignIn().loadClient().password);
     var response = await OwnerNetwork.ownerRegister(
         OwnerNetwork.Api_LogIn, OwnerNetwork.paramsSignIn(ownerSignIn));
@@ -56,7 +67,8 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                     Navigator.of(context).pop();
                   },
                   child: Text('cancel',
-                      style: TextStyle(color: MainColors.greenColor)).tr()),
+                          style: TextStyle(color: MainColors.greenColor))
+                      .tr()),
               CupertinoDialogAction(
                   isDefaultAction: true,
                   onPressed: () {
@@ -149,8 +161,8 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                   height: 105.h,
                   width: 105.w,
                   decoration: BoxDecoration(
-                    image: Hive.box("ClientSignIn").isEmpty?
-                         defaultLogo()
+                    image: Hive.box("ClientSignIn").isEmpty
+                        ? defaultLogo()
                         : getLogoNetwork(),
                     color: MainColors.greyColor,
                     shape: BoxShape.circle,
@@ -171,8 +183,9 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        data["full_name"][0] ??
-                            "F",
+                        Hive.box("ClientSignIn").isEmpty
+                            ? "F"
+                            : data["full_name"][0]??"F",
                         style: TextStyle(
                             color: MainColors.whiteColor, fontSize: 25.sp),
                       ),
@@ -183,8 +196,9 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                   height: 10,
                 ),
                 Text(
-                 data["full_name"] ??
-                      "FullName",
+                  Hive.box("ClientSignIn").isEmpty
+                      ? "FullName"
+                      : data["full_name"]??"FullName",
                   style:
                       TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
                 ),
@@ -213,6 +227,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
           InkWell(
             child: settingInfos(nameInfo: "languages"),
             onTap: () {
+              print(defaultLocale);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => ChooseLanguage()));
             },
@@ -254,9 +269,8 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
           ).tr(),
           trailing: Icon(
             Icons.navigate_next,
-            color: nameInfo == "logOut"
-                ? Colors.redAccent
-                : MainColors.blackColor,
+            color:
+                nameInfo == "logOut" ? Colors.redAccent : MainColors.blackColor,
             size: 25.sp,
           ),
           tileColor: MainColors.whiteColor,

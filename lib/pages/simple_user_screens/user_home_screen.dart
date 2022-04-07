@@ -70,6 +70,11 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     return colors[Random().nextInt(colors.length)];
   }
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   int currentPage = 1;
 
   late int totalPages;
@@ -92,7 +97,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     final response = await OwnerNetwork.getRestaurants(currentPage.toString());
 
     if (response.statusCode == 200) {
-      final result = restaurantModelFromMap(response.body["data"]);
+      final result = RestaurantModel.fromMap(jsonDecode(response.body)["data"]);
 
       if (isRefresh) {
         restaurants = result.data!;

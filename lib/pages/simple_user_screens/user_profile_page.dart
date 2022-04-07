@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,21 +44,20 @@ class _UserProfilePageState extends State<UserProfilePage> {
         NetworkClient.paramsUpdateUser(userProfile));
 
     if (response != null) {
+      print("Profile => $response");
       setState(() {
         isLoading = false;
       });
-      // var signIn = SignIn(
-      //   login: jsonDecode(response)["data"]["login"],
-      //   password: jsonDecode(response)["data"]["password"],
-      //   id: jsonDecode(response)["data"]["id"],
-      // );
-      // Hive.box("ClientSignIn").isEmpty
-      //     ? HiveClientSignIn().storeClient(signIn)
-      //     : SizedBox();
       Navigator.of(context).pop();
+      var signIn = SignIn(
+        login: HiveClientSignUp().loadClient().login,
+        password: HiveClientSignUp().loadClient().password,
+      );
+      Hive.box("ClientSignIn").isEmpty
+          ? HiveClientSignIn().storeClient(signIn)
+          : SizedBox();
     }
 
-    print("Profile => $response");
   }
 
   Map<String, dynamic> data = {};
@@ -124,22 +122,25 @@ class _UserProfilePageState extends State<UserProfilePage> {
       appBar: AppBar(
         title: Text("profile").tr(),
       ),
-      body: Stack(
-        children: [
-          isLoading == true
-              ? Center(
-                  child: CircularProgressIndicator(
-                    color: MainColors.greenColor,
-                  ),
-                )
-              : SizedBox.shrink(),
-          body()
-        ],
-      ),
+      body: Hive.box("ClientSignIn").isEmpty
+          ? body()
+          : Stack(
+              children: [
+                isLoading == true
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: MainColors.greenColor,
+                        ),
+                      )
+                    : SizedBox.shrink(),
+                body()
+              ],
+            ),
     );
   }
-  Widget body(){
-    return  Column(
+
+  Widget body() {
+    return Column(
       children: [
         const Spacer(
           flex: 1,
@@ -153,13 +154,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 decoration: BoxDecoration(
                   image: checkImg == 1
                       ? imagePicker()
-                      : Hive.box("ClientSignIn").isEmpty && Hive.box("ClientSignUp").isEmpty
-                      ? defaultLogo()
-                      : getLogoNetwork(),
+                      : Hive.box("ClientSignIn").isEmpty &&
+                              Hive.box("ClientSignUp").isEmpty
+                          ? defaultLogo()
+                          : getLogoNetwork(),
                   color: Colors.grey,
                   shape: BoxShape.circle,
-                  border: Border.all(
-                      width: 2.5, color: MainColors.greenColor),
+                  border: Border.all(width: 2.5, color: MainColors.greenColor),
                 ),
               ),
               Positioned(
@@ -179,8 +180,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: MainColors.whiteColor,
-                        border: Border.all(
-                            width: 2, color: MainColors.greenColor)),
+                        border:
+                            Border.all(width: 2, color: MainColors.greenColor)),
                   ),
                 ),
               )
@@ -216,13 +217,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
                   elevation: MaterialStateProperty.all(0),
                   backgroundColor:
-                  MaterialStateProperty.all(MainColors.dimRedColor),
+                      MaterialStateProperty.all(MainColors.dimRedColor),
                 ),
                 child: Center(
                   child: Text(
                     "cancel",
-                    style: TextStyle(
-                        color: Colors.red.shade900, fontSize: 15.sp),
+                    style:
+                        TextStyle(color: Colors.red.shade900, fontSize: 15.sp),
                   ).tr(),
                 ),
               ),
@@ -256,6 +257,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
       ],
     );
   }
+
   Widget userInfo(
       {required String info,
       required TextEditingController controller,
@@ -268,7 +270,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           TextFormField(
               controller: controller..text = initialText,
               onChanged: (text) {
-                 text = controller.text;
+                text = controller.text;
               },
               cursorColor: MainColors.greenColor,
               decoration: InputDecoration(

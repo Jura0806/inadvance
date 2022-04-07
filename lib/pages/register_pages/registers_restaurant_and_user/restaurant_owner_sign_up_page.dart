@@ -51,11 +51,11 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
       _formKey.currentState!.save();
       var ownerAccount = SignUpAccount(
           full_name: restName,
-          phone: int.parse(adminNumber),
+          phone: adminNumber ,
           login: login,
           password: password,
           verify_password: confirmPassword,
-          role_id: widget.roleId == 1 ? 2 : 3);
+          role_id: widget.roleId == 1 ? "2" : "3");
       setState(() {
         isLoading = true;
       });
@@ -81,25 +81,25 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
   }
 
   void doSignUp() {
-    widget.roleId == 1
-        ? Navigator.pushNamedAndRemoveUntil(
-            context, OwnerNavigationBar.id, (route) => false)
-        : Navigator.pushNamedAndRemoveUntil(
-            context, UserNavigationBar.id, (route) => false);
 
     var account = SignUpAccount(
       full_name: restName,
-      phone: int.parse(adminNumber),
+      phone: adminNumber,
       login: login,
       password: password,
       verify_password: confirmPassword,
-      role_id: widget.roleId == 1 ? 2 : 3,
+      role_id: widget.roleId == 1 ? "2" : "3",
 
     );
     widget.roleId == 1
         ? HiveSignUp().storeOwner(account)
         : HiveClientSignUp().storeClient(account);
 
+    widget.roleId == 1
+        ? Navigator.pushNamedAndRemoveUntil(
+        context, OwnerNavigationBar.id, (route) => false)
+        : Navigator.pushNamedAndRemoveUntil(
+        context, UserNavigationBar.id, (route) => false);
     //var account2 = HiveSignUp().loadOwner();
 
     print(HiveToken().loadToken());

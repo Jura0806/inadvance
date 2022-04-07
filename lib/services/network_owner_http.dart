@@ -344,13 +344,13 @@ class OwnerNetwork {
   // Restaurants APIS
   static Future getRestaurants(String currentPage) async {
     try {
-      var uri = Uri.https(BASE, '/api/customer/restaurant?page=$currentPage');
+      var uri =
+          Uri.https(BASE, '/api/customer/restaurant' + '?page=$currentPage');
       var response = await get(uri, headers: headersWithToken);
       if (response.statusCode == 200 || response.statusCode == 201) {
+        print(uri.toString());
         return response;
       } else {
-        print(response.statusCode.toString());
-        print(response.body.toString());
         throw Exception('Failed to load restaurants');
       }
     } catch (e) {
@@ -371,11 +371,11 @@ class OwnerNetwork {
     Map<String, String> params = new Map();
     params.addAll({
       "full_name": ownerAccount.full_name,
-      "phone": ownerAccount.phone.toString(),
+      "phone": ownerAccount.phone,
       "login": ownerAccount.login,
       "password": ownerAccount.password,
       "verify_password": ownerAccount.verify_password,
-      "role_id": ownerAccount.role_id.toString(),
+      "role_id": ownerAccount.role_id,
     });
     return params;
   }
@@ -421,7 +421,7 @@ class OwnerNetwork {
       "bank_number": profileModel.bankNumber,
       "map_ln": profileModel.mapLn,
       "map_lt": profileModel.mapLt,
-      "type": "1",
+      "type": profileModel.type.toString(),
       "_method": "PUT",
     });
     return params;

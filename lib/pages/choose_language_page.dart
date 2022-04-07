@@ -6,7 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ChooseLanguage extends StatefulWidget {
-  const ChooseLanguage({Key? key}) : super(key: key);
+
+  String? currentLanguage;
+
+  ChooseLanguage({Key? key, this.currentLanguage}) : super(key: key);
   static final String id = "choose_language_page";
 
   @override
@@ -14,8 +17,8 @@ class ChooseLanguage extends StatefulWidget {
 }
 
 class _ChooseLanguageState extends State<ChooseLanguage> {
-  int isChoose = 4;
-  int? x;
+  String isChoose = "";
+  String? x;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +44,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
             ),
             Text(
               "Please choose which language you want. You can change later in the profile!",
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16.sp,
 
@@ -52,7 +56,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
             languages(
               imageFlag: "assets/images/uzbFlagg.png",
               language: "Uzbek",
-              x: 1,
+              x: "uz-UZ",
             ),
            const Spacer(
               flex: 1,
@@ -60,7 +64,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
             languages(
               imageFlag: "assets/images/rusFlag.png",
               language: "Russian",
-              x: 2
+              x: "ru-RU"
             ),
            const Spacer(
               flex: 1,
@@ -68,11 +72,34 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
             languages(
               imageFlag: "assets/images/englishFlag.png",
               language: "English",
-              x: 3
+              x: "en-US"
             ),
            const Spacer(
               flex: 8,
-            )
+             ),
+            // InkWell(
+            //   onTap: () {
+            //    // _createAccount();
+            //   },
+            //   child: Container(
+            //     height: 45.h,
+            //     width: double.infinity,
+            //     decoration: BoxDecoration(
+            //       color: MainColors.greenColor,
+            //       borderRadius: BorderRadius.circular(8),
+            //     ),
+            //     child: Center(
+            //       child: Text(
+            //         "update",
+            //         style: TextStyle(
+            //             color: MainColors.whiteColor, fontSize: 17.sp),
+            //       ).tr(),
+            //     ),
+            //   ),
+            // ),
+            // const Spacer(
+            //   flex: 3,
+            // ),
           ],
         ),
       ),
@@ -82,18 +109,18 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
   Widget languages({
     required String imageFlag,
     required String language,
-    required int x,
+    required String x,
   }) {
     return InkWell(
       onTap: (){
         setState(() {
           isChoose = x;
         });
-        if(x == 1){
+        if(x == "uz-UZ"){
           context.setLocale(Locale('uz', 'UZ'));
-        }else if(x == 2){
+        }else if(x == "ru-RU"){
           context.setLocale(Locale('ru', 'RU'));
-        }else if(x == 3){
+        }else if(x == "en-US"){
           context.setLocale(Locale('en', 'US'));
         }
         Navigator.pushReplacementNamed(context, IntroPage.id);
