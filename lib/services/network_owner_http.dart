@@ -342,13 +342,12 @@ class OwnerNetwork {
   }
 
   // Restaurants APIS
-  static Future getRestaurants(String currentPage) async {
+  static Future getRestaurants(int currentPage) async {
     try {
       var uri =
-          Uri.https(BASE, '/api/customer/restaurant' + '?page=$currentPage');
+          Uri.https(BASE, '/api/customer/restaurant', {'page': '$currentPage'});
       var response = await get(uri, headers: headersWithToken);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print(uri.toString());
         return response;
       } else {
         throw Exception('Failed to load restaurants');

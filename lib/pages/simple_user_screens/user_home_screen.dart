@@ -75,12 +75,10 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     super.initState();
   }
 
+  // Get Customer's Restaurants
   int currentPage = 1;
-
   late int totalPages;
-
   List<Restaurant> restaurants = [];
-
   final RefreshController refreshController =
       RefreshController(initialRefresh: true);
 
@@ -94,22 +92,17 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       }
     }
 
-    final response = await OwnerNetwork.getRestaurants(currentPage.toString());
-
+    final response = await OwnerNetwork.getRestaurants(currentPage);
     if (response.statusCode == 200) {
       final result = RestaurantModel.fromMap(jsonDecode(response.body)["data"]);
-
       if (isRefresh) {
         restaurants = result.data!;
       } else {
         restaurants.addAll(result.data!);
       }
-
       currentPage++;
-
-      totalPages = result.total!;
-
-      print(response.body);
+      totalPages = (result.total! ~/ 10) + 2;
+      print(totalPages);
       setState(() {});
       return true;
     } else {
@@ -167,7 +160,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           if (result) {
             refreshController.loadComplete();
           } else {
-            refreshController.loadFailed();
+            refreshController.loadNoData();
           }
         },
         child: ListView(
@@ -245,20 +238,6 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   )
                   .toList(),
             ),
-            // ListView.builder(
-            //   shrinkWrap: true,
-            //   physics: BouncingScrollPhysics(),
-            //   itemCount: restaurants.length,
-            //   itemBuilder: (context, index) {
-            //     return Card(
-            //       margin: EdgeInsets.symmetric(vertical: 10),
-            //       child: Container(
-            //         height: 212.h,
-            //         child: singleRestaurant(restaurants[index]),
-            //       ),
-            //     );
-            //   },
-            // )
           ],
         ),
       ),
