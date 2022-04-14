@@ -21,6 +21,7 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   bool isLoggedIn = false;
 
+
   _startPage() {
     if (Hive.box("OwnerSignUp").isNotEmpty ||
         Hive.box("OwnerSignIn").isNotEmpty) {
