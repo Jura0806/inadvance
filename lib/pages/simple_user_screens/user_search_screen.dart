@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:inadvance/services/hive_db_user_service.dart';
@@ -16,6 +18,9 @@ class UserSearchScreen extends StatefulWidget {
 
 class _UserSearchScreenState extends State<UserSearchScreen> {
   late YandexMapController _mapController;
+  Completer<YandexMapController> _completer = Completer();
+  final animation =
+      const MapAnimation(type: MapAnimationType.smooth, duration: 2.0);
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +28,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
       body: Stack(
         children: [
           YandexMap(
-            onMapCreated: (YandexMapController yandexMapController) async {
-              _mapController = yandexMapController;
-              final cameraPosition =
-                  await _mapController.getCameraPosition().then(
-                (value) async {
-                  await _mapController.moveCamera(
-                      CameraUpdate.newCameraPosition(const CameraPosition(
-                          target: Point(latitude: 41.2995, longitude: 69.2401),
-                          zoom: 12.0)));
-                },
-              );
-            },
+            onMapCreated: _onMapCreated,
           ),
           Padding(
             padding: EdgeInsets.only(left: 15, right: 15, top: 45, bottom: 10),
@@ -48,11 +42,8 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white,
-                      border: Border.all(
-                          width: 0.5,
-                          color: MainColors.greenColor
-                      )
-                  ),
+                      border:
+                          Border.all(width: 0.5, color: MainColors.greenColor)),
                   child: Row(
                     children: [
                       Icon(Icons.location_on),
@@ -74,13 +65,10 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                       width: 230,
                       padding: EdgeInsets.only(left: 10),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.white,
-                        border: Border.all(
-                          width: 0.5,
-                          color: MainColors.greenColor
-                        )
-                      ),
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                          border: Border.all(
+                              width: 0.5, color: MainColors.greenColor)),
                       child: TextField(
                         decoration: InputDecoration(
                             hintText: "searchRestWithName".tr(),
@@ -96,15 +84,16 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                       ),
                       child: Center(
                         child: TextButton(
-                          onPressed: (){
-                            print( Hive.box("ClientSignIn").isEmpty);
-                            print(HiveClientSignIn().loadClient().login);
-                            print(HiveClientSignIn().loadClient().login);
-                           // print(HiveToken().loadToken());
-                          },
-                          child: Text("search",
-                          style: TextStyle(color: MainColors.whiteColor),
-                        ).tr()),
+                            onPressed: () {
+                              print(Hive.box("ClientSignIn").isEmpty);
+                              print(HiveClientSignIn().loadClient().login);
+                              print(HiveClientSignIn().loadClient().login);
+                              // print(HiveToken().loadToken());
+                            },
+                            child: Text(
+                              "search",
+                              style: TextStyle(color: MainColors.whiteColor),
+                            ).tr()),
                       ),
                     )
                   ],
@@ -121,7 +110,10 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
           mainAxisSize: MainAxisSize.max,
           children: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                await _mapController.moveCamera(CameraUpdate.zoomIn(),
+                    animation: animation);
+              },
               child: Text(
                 '+',
                 style: TextStyle(
@@ -136,7 +128,10 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
             ),
             SizedBox(height: 15.h),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                await _mapController.moveCamera(CameraUpdate.zoomOut(),
+                    animation: animation);
+              },
               child: Text(
                 '–',
                 style: TextStyle(
@@ -157,6 +152,20 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void _onMapCreated(YandexMapController controller) async {
+    _mapController = controller;
+    _completer.complete(controller);
+
+    final cameraPosition = await _mapController.getCameraPosition().then(
+      (value) async {
+        await _mapController.moveCamera(CameraUpdate.newCameraPosition(
+            const CameraPosition(
+                target: Point(latitude: 41.2995, longitude: 69.2401),
+                zoom: 12.0)));
+      },
     );
   }
 }

@@ -38,14 +38,14 @@ flutter:
   uses-material-design: true
 
   assets:
-     - assets/images/
-     - assets/translations/
-     - assets/fonts/
+    - assets/images/
+    - assets/translations/
+    - assets/fonts/
   fonts:
-     - family: Roboto
-       fonts:
-         - asset: assets/fonts/Roboto-Regular.ttf
-     - family: SFUIText
-       fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+    - family: SFUIText
+      fonts:
         - asset: assets/fonts/SFUIText-Regular.otf
-       # - asset: assets/fonts/SFUIText-ItalicG1.otf
+      # - asset: assets/fonts/SFUIText-ItalicG1.otf
